@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  duckling-nuxt:
+    image: duckling-nuxt
+    container_name: duckling-nuxt
+    build:
+      context: .
+      dockerfile: dockerfile.nuxt
+    ports:
+      - "3000:3000"
+    networks:
+      - duckling-net
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+
+  nginx:
+    image: duckling-nginx
+    container_name: duckling-nginx
+    build:
+      context: .
+      dockerfile: dockerfile.nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt/live/web.duckling.co/fullchain.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
+      - /etc/letsencrypt/live/web.duckling.co/privkey.pem:/etc/ssl/private/ssl-cert-snakeoil.key:ro
+    depends_on:
+      - duckling-nuxt
+    networks:
+      - duckling-net
+
+networks:
+  duckling-net:
+    driver: bridge
