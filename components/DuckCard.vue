@@ -1,6 +1,9 @@
 <template>
-  <div class="card rounded-2xl hover:cursor-pointer">
-    <div class="card-content">
+  <div
+    class="card rounded-2xl hover:cursor-pointer overflow-hidden"
+    @click="onClickCard"
+  >
+    <div class="w-full h-full bg-black bg-opacity-50">
       <div class="text-white flex-col justify-between gap-10 h-full p-6">
         <div id="profile" class="flex gap-2 items-center">
           <img
@@ -31,21 +34,30 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { defineProps } from "vue";
+import { useRouter } from "vue-router";
+
+let router = useRouter();
+
+let props = defineProps<{ duck: number }>();
+let onClickCard = () => {
+  console.log("Clicked card with key:", props.duck);
+  redirectToDuckCoverPage();
+};
+
+let redirectToDuckCoverPage = () => {
+  console.log("Redirecting to duck cover page");
+
+  // This is how you can redirect to a new page using duck id as a part of the url such as /duck/1
+  router.push({ name: "duck-id", params: { id: props.duck } });
+};
+</script>
+
 <style scoped>
 .card {
   background-image: url("https://source.unsplash.com/random/300x200");
   background-size: cover;
   aspect-ratio: 570/400;
-}
-
-.card-image {
-  width: 100%;
-  height: 150px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.card-content {
-  padding: 10px;
 }
 </style>

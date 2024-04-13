@@ -1,6 +1,6 @@
 <template>
-  <carousel :items-to-show="1.5">
-    <slide v-for="slide in 10" :key="slide">
+  <carousel class="" :autoplay="3000" :items-to-show="1">
+    <slide class="" v-for="slide in 10" :key="slide">
       {{ slide }}
     </slide>
 
