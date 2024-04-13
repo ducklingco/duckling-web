@@ -1,12 +1,8 @@
 <template>
-  <div class="absolute h-full w-full bg-beige">
-    <div class="h-full flex justify-center items-center">
-      <img
-        class="size-64"
-        src="~/assets/img/duckling_logo_text_under.png"
-        alt="duckling logo with text"
-      />
-    </div>
+  <div class="fixed h-full w-full bg-beige"></div>
+  <div class="container relative mx-auto px-4 py-14">
+    <OverviewHeader class="pb-10" />
+    <DucksGrid />
   </div>
 </template>
 
