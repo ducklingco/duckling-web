@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center h-screen">
-    <div class="w-[400px] h-[300px]">
+    <div>
       <DuckCarousel :duck="id" />
     </div>
   </div>
