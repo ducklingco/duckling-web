@@ -1,32 +1,86 @@
 <template>
-  <!-- :autoplay="3000" -->
-  <carousel class="relative h-screen w-screen" :items-to-show="1">
-    <slide class="relative h-full w-full grid" v-for="slide in 10" :key="slide">
-      <div class="relative h-screen w-full flex justify-center items-center">
+  <carousel class="relative w-screen h-screen" :items-to-show="1" :autoplay="5000">
+    <slide class="relative grid w-full h-full" v-for="slide in 10" :key="slide">
+      <div class="relative flex items-center justify-center w-full h-screen">
         <div
-          class="w-full h-full bg-cover bg-center flex justify-center items-center"
+          class="flex items-center justify-center w-full h-full bg-center bg-cover"
           style="
             background-image: url('https://source.unsplash.com/random/1600x900');
           "
         >
           {{ slide }}
+          <carousel-drawer>
+            <template #top>
+              <div class="text-xl text">Audio player slot</div>
+            </template>
+            </carousel-drawer>
         </div>
       </div>
     </slide>
 
     <template #addons>
-      <navigation />
+      <navigation>
+        <template #prev>
+          <div
+            class="absolute left-0 w-20 h-20 transform -translate-x-1/2 -translate-y-1/2 bg-black rounded-full opacity-50 top-1/2 hover:cursor-pointer"
+            @click=""
+          >
+            <!-- Chevron previous icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="white"
+              class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 left-1/2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </div>
+        </template>
+        <template
+          #next
+          class="overflow-hidden"
+        >
+        <div class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
+        <div
+            class="absolute top-0 left-0 w-20 h-20 bg-black rounded-full opacity-50 hover:cursor-pointer"
+          @click=""
+          >
+          <!-- Chevron next icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 right-1/2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            ></path>
+          </svg>
+          </div>
+          </div>
+        </template>
+      </navigation>
       <div
-        class="absolute top-0 left-0 header w-full bg-opacity-70 bg-black px-3 sm:px-8 flex flex-col justify-around items-center p-2 gap-2 sm:gap-4"
+        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 p-2 px-3 bg-black header bg-opacity-70 sm:px-8 sm:gap-4"
       >
         <custom-pagination />
         <div class="w-full">
-          <div class="grid grid-cols-3 h-full">
-            <div class="w-full flex justify-start items-center">
+          <div class="grid h-full grid-cols-3">
+            <div class="flex items-center justify-start w-full gap-2 sm:gap-4">
               <!-- Close button -->
               <button
-                class="flex justify-center items-center w-10 h-10 shrink-0"
-                @click="nav.close"
+                class="flex items-center justify-center h-10 shrink-0"
+                @click="onClickCloseCarousel"
               >
                 <svg
                   width="30"
@@ -43,7 +97,7 @@
               </button>
               <!-- Share button -->
               <button
-                class="flex justify-center items-center w-10 h-10 shrink-0"
+                class="flex items-center justify-center h-10 shrink-0"
                 @click="nav.close"
               >
                 <svg
@@ -59,50 +113,38 @@
                   />
                 </svg>
               </button>
-              <!-- <button
-                class="flex justify-center items-center w-10 h-10 bg-white bg-opacity-50 rounded-full p-[2px] sm:p-[7px]"
-                @click="nav.share"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  x="0px"
-                  y="0px"
-                  width="100"
-                  height="100"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M 16.707031 2.2929688 L 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 L 6 18 L 8 18 L 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 L 16.707031 11.707031 L 21.414062 7 L 16.707031 2.2929688 z M 2 8 L 2 9 L 2 22 L 22 22 L 22 18 L 22 17 L 20 17 L 20 18 L 20 20 L 4 20 L 4 9 L 4 8 L 2 8 z"
-                  ></path>
-                </svg>
-              </button> -->
               <div
                 id="profile"
-                class="flex gap-2 items-center row-span-1 text-white pl-1 sm:pl-4"
+                class="flex items-center row-span-1 gap-2 text-white shrink-0"
               >
                 <img
-                  class="rounded-full w-10 h-10 hover:cursor-pointer"
+                  class="w-10 h-10 rounded-full hover:cursor-pointer"
                   src="https://source.unsplash.com/random/100x100"
                   alt="Profile picture"
                 />
-                <div class="flex-col items-start opacity-50 hidden sm:flex">
-                  <span class="text-md font-bold">Name</span>
+                <div class="flex-col items-start hidden opacity-50 sm:flex">
+                  <span class="font-bold text-md">Name</span>
                   <span class="text-sm">@username</span>
                 </div>
               </div>
             </div>
-            <div class="flex justify-center items-center">
+            <div class="flex items-center justify-center">
               <a href="https://duckling.co">
                 <img
-                  class="object-contain h-10"
+                  class="object-contain h-10 md:hidden"
+                  src="assets/img/duckling_logo_white.png"
+                  alt=""
+                />
+                <img
+                  class="hidden object-contain h-10 md:block"
                   src="assets/img/duckling_logo_text_right_white.png"
                   alt=""
                 />
               </a>
             </div>
-            <div class="w-full flex justify-end items-center">
+            <div class="flex items-center justify-end w-full gap-2 sm:gap-4">
               <button
-                class="flex justify-center items-center w-10 h-10 shrink-0"
+                class="flex items-center justify-center h-10 shrink-0"
                 @click="nav.close"
               >
                 <svg
@@ -119,7 +161,7 @@
                 </svg>
               </button>
               <button
-                class="flex justify-center items-center w-10 h-10 shrink-0"
+                class="flex items-center justify-center h-10 shrink-0"
                 @click="nav.close"
               >
                 <svg
@@ -143,21 +185,27 @@
   </carousel>
 </template>
 
-<script>
+<script setup>
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import CustomPagination from "./CustomPagination.vue";
-import { defineComponent } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-export default defineComponent({
-  name: "DuckCarousel",
-  components: {
-    Carousel,
-    Slide,
-    Pagination,
-    CustomPagination,
-    Navigation,
-  },
-});
+const router = useRouter();
+const route = useRoute();
+const id = route.params.id;
+
+const onClickCloseCarousel = () => {
+  console.log("Close carousel");
+  // Redirect from /carousel/:id to /duck/:id
+  router.push(`/duck/${id}`);
+};
 </script>
+
+<style deep lang="css">
+.carousel__prev,
+.carousel__next {
+  margin: 0;
+}
+</style>

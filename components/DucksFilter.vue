@@ -1,24 +1,24 @@
 <template>
   <div class="flex w-max">
     <div
-      class="bg-grey m-auto border-grey border-2 rounded-lg overflow-hidden flex-auto grid grid-cols-3"
+      class="flex-auto m-auto overflow-hidden border-2 rounded-lg bg-grey border-grey grid grid-cols-3"
     >
       <button
-        class="bg-transparent text-white px-4 py-0 hover:bg-white hover:text-grey transition-colors"
+        class="px-4 py-0 text-white bg-transparent hover:bg-white hover:text-grey transition-colors"
         :class="{ selected: selected === 'featured' }"
         @click="onClick('featured')"
       >
         Featured
       </button>
       <button
-        class="bg-transparent text-white px-4 py-0 hover:bg-white hover:text-grey transition-colors"
+        class="px-4 py-0 text-white bg-transparent hover:bg-white hover:text-grey transition-colors"
         @click="onClick('verified')"
         :class="{ selected: selected === 'verified' }"
       >
         Verified
       </button>
       <button
-        class="bg-transparent text-white px-4 py-0 hover:bg-white hover:text-grey transition-colors"
+        class="px-4 py-0 text-white bg-transparent hover:bg-white hover:text-grey transition-colors"
         :class="{ selected: selected === 'all' }"
         @click="onClick('all')"
       >

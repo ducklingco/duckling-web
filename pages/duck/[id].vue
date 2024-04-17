@@ -1,22 +1,22 @@
 <template>
-  <div class="bg-black flex items-center justify-center min-h-screen">
+  <div class="flex items-center justify-center min-h-screen bg-black">
     <div class="relative w-full max-w-[calc(100vh*4/3)] mx-auto">
       <div class="relative pb-[75%]">
         <div class="absolute w-full h-full p-8 sm:p-12">
           <img
-            class="w-full h-full object-cover"
+            class="object-cover w-full h-full"
             src="https://source.unsplash.com/random"
             alt="Random Image"
           />
 
           <div
-            class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 p-8 sm:p-12"
+            class="absolute top-0 left-0 w-full h-full p-8 bg-black bg-opacity-30 sm:p-12"
           >
             <div
-              class="relative w-full h-full grid grid-rows-5 overflow-hidden"
+              class="relative w-full h-full overflow-hidden grid grid-rows-5"
             >
               <div
-                class="absolute right-0 top-1/2 translate-x-1/2 transform -translate-y-1/2 w-20 h-20 md:w-32 md:h-32 xl:w-40 xl:h-40 rounded-full bg-green hover:cursor-pointer"
+                class="absolute right-0 w-20 h-20 rounded-full top-1/2 translate-x-1/2 transform -translate-y-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-green hover:cursor-pointer"
                 @click="onClickChevron"
               >
                 <!-- Chevron next icon -->
@@ -36,12 +36,12 @@
                 </svg>
               </div>
               <div
-                class="grid grid-cols-3 gap-8 lg:grid-rows-1 p-6 row-span-1 z-10"
+                class="z-10 p-6 grid grid-cols-3 gap-8 lg:grid-rows-1 row-span-1"
               >
                 <div class="flex gap-2 sm:gap-4 grid-cols-1">
                   <a
                     href="/"
-                    class="text-xs bg-white text-black rounded-full w-4 h-4 sm:w-8 sm:h-8 flex items-center justify-center"
+                    class="flex items-center justify-center w-4 h-4 text-xs text-black bg-white rounded-full sm:w-8 sm:h-8"
                   >
                     <!-- Cross / exit icon -->
                     <svg
@@ -77,7 +77,7 @@
                     </svg>
                   </button>
                 </div>
-                <div class="flex justify-center items-start grid-cols-2">
+                <div class="flex items-start justify-center grid-cols-2">
                   <a href="https://duckling.co">
                     <img
                       class="h-8 sm:h-12"
@@ -91,32 +91,32 @@
               </div>
 
               <div
-                class="flex justify-center items-center h-full row-span-3 px-3 md:px-14 lg:px-20 xl:p-40"
+                class="flex items-center justify-center h-full px-3 row-span-3 md:px-14 lg:px-20 xl:p-40"
               >
                 <div
-                  class="text-white flex-col justify-center items-center gap-10 p-6"
+                  class="flex-col items-center justify-center p-6 text-white gap-10"
                 >
-                  <div id="profile" class="flex gap-2 items-center row-span-1">
+                  <div id="profile" class="flex items-center gap-2 row-span-1">
                     <img
                       class="rounded-full w-14 h-14"
                       src="https://source.unsplash.com/random/100x100"
                       alt="Profile picture"
                     />
                     <div class="flex flex-col">
-                      <span class="text-md font-bold">Name</span>
+                      <span class="font-bold text-md">Name</span>
                       <span class="text-sm">@username</span>
                     </div>
                   </div>
-                  <div class="py-3 row-span-3 flex items-center">
+                  <div class="flex items-center py-3 row-span-3">
                     <h2
-                      class="text text-xl sm:text-4xl md:text-6xl lg:text-8xl font-bold"
+                      class="text-xl font-bold text sm:text-4xl md:text-6xl lg:text-8xl"
                     >
                       Title of the duck goes on the cover
                     </h2>
                   </div>
                   <div
                     id="tags"
-                    class="text-xs sm:text-sm flex justify-start gap-2 align-baseline flex-wrap row-span-1"
+                    class="flex flex-wrap justify-start text-xs align-baseline sm:text-sm gap-2 row-span-1"
                   >
                     <div v-for="tag of 3" :key="tag">
                       <Tag>Climate change</Tag>

@@ -1,5 +1,5 @@
 <template>
-  <ol class="carousel__pagination w-full mt-0">
+  <ol class="w-full mt-0 carousel__pagination">
     <div
       v-for="slide in maxSlide + 1"
       :key="slide"
@@ -7,7 +7,7 @@
     >
       <div
         type="button"
-        class="carousel__pagination-button hover:bg-red rounded-full"
+        class="rounded-full carousel__pagination-button hover:bg-red"
         :class="{ 'carousel__pagination-button--active': isActive(slide - 1) }"
         :aria-label="`Navigate to slide ${slide + 1}`"
         @click="slideTo(slide - 1)"
@@ -18,6 +18,7 @@
 
 <script>
 import { ref, inject, reactive } from "vue";
+import defaultConfigs from "./defaultConfigs";
 
 function mapNumberToRange({ val, max, min = 0 }) {
   if (val > max) {
@@ -28,33 +29,6 @@ function mapNumberToRange({ val, max, min = 0 }) {
   }
   return val;
 }
-
-const defaultConfigs = {
-  itemsToShow: 1,
-  itemsToScroll: 1,
-  modelValue: 0,
-  transition: 300,
-  autoplay: 0,
-  snapAlign: "center",
-  wrapAround: false,
-  throttle: 16,
-  pauseAutoplayOnHover: false,
-  mouseDrag: true,
-  touchDrag: true,
-  dir: "ltr",
-  breakpoints: undefined,
-  i18n: {
-    ariaNextSlide: "Navigate to next slide",
-    ariaPreviousSlide: "Navigate to previous slide",
-    ariaNavigateToSlide: "Navigate to slide {slideNumber}",
-    ariaGallery: "Gallery",
-    itemXofY: "Item {currentSlide} of {slidesCount}",
-    iconArrowUp: "Arrow pointing upwards",
-    iconArrowDown: "Arrow pointing downwards",
-    iconArrowRight: "Arrow pointing to the right",
-    iconArrowLeft: "Arrow pointing to the left",
-  },
-};
 
 export default {
   name: "CustomPagination",

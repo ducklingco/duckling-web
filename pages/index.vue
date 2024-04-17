@@ -1,6 +1,6 @@
 <template>
-  <div class="fixed h-full w-full bg-beige"></div>
-  <div class="container relative mx-auto px-4 py-14">
+  <div class="fixed w-full h-full bg-beige"></div>
+  <div class="container relative px-4 mx-auto py-14">
     <OverviewHeader class="pb-10" />
     <DucksGrid />
   </div>

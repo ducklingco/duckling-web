@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
+  <div class="flex items-center justify-center h-screen">
     <div>
       <DuckCarousel :duck="id" />
     </div>
