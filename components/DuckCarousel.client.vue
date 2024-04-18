@@ -1,14 +1,17 @@
 <template>
-  <carousel class="relative w-screen h-screen" :items-to-show="1" :autoplay="5000">
-    <slide class="relative grid w-full h-full" v-for="slide in 10" :key="slide">
+  <!-- :autoplay="5000" -->
+  <carousel class="relative w-screen h-screen" :items-to-show="1">
+    <slide class="relative grid w-full h-full" v-for="card in cards" :key="card?.id">
       <div class="relative flex items-center justify-center w-full h-screen">
         <div
           class="flex items-center justify-center w-full h-full bg-center bg-cover"
-          style="
-            background-image: url('https://source.unsplash.com/random/1600x900');
-          "
         >
-          {{ slide }}
+          <!-- style="
+            background-image: url('https://source.unsplash.com/random/1600x900');
+          " -->
+
+          <Component :is="cardComponents[card?.type]" :card="card" />
+
           <carousel-drawer>
             <template #top>
               <div class="text-xl text">Audio player slot</div>
@@ -117,7 +120,7 @@
                 id="profile"
                 class="flex items-center row-span-1 gap-2 text-white shrink-0"
               >
-                <img
+                <!-- <img
                   class="w-10 h-10 rounded-full hover:cursor-pointer"
                   src="https://source.unsplash.com/random/100x100"
                   alt="Profile picture"
@@ -125,6 +128,16 @@
                 <div class="flex-col items-start hidden opacity-50 sm:flex">
                   <span class="font-bold text-md">Name</span>
                   <span class="text-sm">@username</span>
+                </div> -->
+
+                <img
+                class="object-cover w-10 h-10 rounded-full hover:cursor-pointer"
+                :src="duck?.created_by?.profile_picture?.path"
+                alt="Profile picture"
+                />
+                <div class="flex-col items-start hidden opacity-50 sm:flex">
+                  <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
+                  <span class="text-sm">@{{ duck?.created_by?.username }}</span>
                 </div>
               </div>
             </div>
@@ -132,12 +145,12 @@
               <a href="https://duckling.co">
                 <img
                   class="object-contain h-10 md:hidden"
-                  src="assets/img/duckling_logo_white.png"
+                  src="assets/img/duckling_logo_grey.png"
                   alt=""
                 />
                 <img
                   class="hidden object-contain h-10 md:block"
-                  src="assets/img/duckling_logo_text_right_white.png"
+                  src="assets/img/duckling_logo_text_right_grey.png"
                   alt=""
                 />
               </a>
@@ -185,22 +198,50 @@
   </carousel>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
 import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import { Carousel, Slide, Navigation } from "vue3-carousel";
 import CustomPagination from "./CustomPagination.vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 
-const router = useRouter();
+import CardImage from "./CardImage.vue";
+import CardText from "./CardText.vue";
+
 const route = useRoute();
 const id = route.params.id;
 
-const onClickCloseCarousel = () => {
-  console.log("Close carousel");
-  // Redirect from /carousel/:id to /duck/:id
-  router.push(`/duck/${id}`);
+const props = defineProps({
+  duck: Object,
+});
+
+const cardComponents: Record<string, Component> = {
+  image: CardImage,
+  text: CardText
 };
+
+const cards = computed(() => props?.duck?.cards || []);
+
+const onClickCloseCarousel = () => {
+  navigateTo(`/duck/${id}`);
+};
+
+// import { ref } from 'vue';
+
+// const dynamicComponent = ref(null);
+
+// const createComponent = async (componentName: string) => {
+//   try {
+//     // Dynamically import the component
+//     const { default: DynamicComponent } = await import(`@/components/${componentName}.vue`);
+
+//     // Assign the dynamically imported component to dynamicComponent ref
+//     dynamicComponent.value = DynamicComponent;
+//   } catch (error) {
+//     console.error('Error loading dynamic component:', error);
+//   }
+// };
+
 </script>
 
 <style deep lang="css">

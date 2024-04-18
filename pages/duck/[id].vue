@@ -5,7 +5,7 @@
         <div class="absolute w-full h-full p-8 sm:p-12">
           <img
             class="object-cover w-full h-full"
-            src="https://source.unsplash.com/random"
+            :src="duck?.cover_image?.path"
             alt="Random Image"
           />
 
@@ -13,10 +13,10 @@
             class="absolute top-0 left-0 w-full h-full p-8 bg-black bg-opacity-30 sm:p-12"
           >
             <div
-              class="relative w-full h-full overflow-hidden grid grid-rows-5"
+              class="relative grid w-full h-full grid-rows-5 overflow-hidden"
             >
               <div
-                class="absolute right-0 w-20 h-20 rounded-full top-1/2 translate-x-1/2 transform -translate-y-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-green hover:cursor-pointer"
+                class="absolute right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-green hover:cursor-pointer"
                 @click="onClickChevron"
               >
                 <!-- Chevron next icon -->
@@ -36,9 +36,9 @@
                 </svg>
               </div>
               <div
-                class="z-10 p-6 grid grid-cols-3 gap-8 lg:grid-rows-1 row-span-1"
+                class="z-10 grid grid-cols-3 row-span-1 gap-8 p-6 lg:grid-rows-1"
               >
-                <div class="flex gap-2 sm:gap-4 grid-cols-1">
+                <div class="flex grid-cols-1 gap-2 sm:gap-4">
                   <a
                     href="/"
                     class="flex items-center justify-center w-4 h-4 text-xs text-black bg-white rounded-full sm:w-8 sm:h-8"
@@ -80,8 +80,8 @@
                 <div class="flex items-start justify-center grid-cols-2">
                   <a href="https://duckling.co">
                     <img
-                      class="h-8 sm:h-12"
-                      src="assets/img/duckling_logo_text_right.png"
+                      class="object-contain h-8 sm:h-12"
+                      src="assets/img/duckling_logo_text_right_white.png"
                       alt="Logo"
                     />
                   </a>
@@ -91,36 +91,36 @@
               </div>
 
               <div
-                class="flex items-center justify-center h-full px-3 row-span-3 md:px-14 lg:px-20 xl:p-40"
+                class="flex items-center justify-center h-full row-span-3 px-3 md:px-14 lg:px-20 xl:p-40"
               >
                 <div
-                  class="flex-col items-center justify-center p-6 text-white gap-10"
+                  class="flex-col items-center justify-center gap-10 p-6 text-white"
                 >
-                  <div id="profile" class="flex items-center gap-2 row-span-1">
+                  <div id="profile" class="flex items-center row-span-1 gap-2">
                     <img
-                      class="rounded-full w-14 h-14"
-                      src="https://source.unsplash.com/random/100x100"
-                      alt="Profile picture"
-                    />
+            class="object-cover rounded-full w-14 h-14"
+            :src="duck?.created_by?.profile_picture?.path"
+            alt="Profile picture"
+            />
                     <div class="flex flex-col">
-                      <span class="font-bold text-md">Name</span>
-                      <span class="text-sm">@username</span>
+                      <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
+            <span class="text-sm">@{{ duck?.created_by?.username }}</span>
                     </div>
                   </div>
-                  <div class="flex items-center py-3 row-span-3">
+                  <div class="flex items-center row-span-3 py-3">
                     <h2
                       class="text-xl font-bold text sm:text-4xl md:text-6xl lg:text-8xl"
                     >
-                      Title of the duck goes on the cover
-                    </h2>
+                    {{ duck?.title }}
+                  </h2>
                   </div>
                   <div
                     id="tags"
-                    class="flex flex-wrap justify-start text-xs align-baseline sm:text-sm gap-2 row-span-1"
+                    class="flex flex-wrap justify-start row-span-1 gap-2 text-xs align-baseline sm:text-sm"
                   >
-                    <div v-for="tag of 3" :key="tag">
-                      <Tag>Climate change</Tag>
-                    </div>
+                    <div v-for="topic of duck?.latest_topics" :key="topic?.id">
+            <Tag>{{ topic?.name }}</Tag>
+          </div>
                   </div>
                 </div>
               </div>
@@ -132,15 +132,23 @@
   </div>
 </template>
 
-<script setup>
-import { useRoute, useRouter } from "vue-router";
+<script setup lang="ts">
+import { useRoute } from "vue-router";
+import { useDucksStore } from "@/stores/ducks";
 
-const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
 
+const { getDuck } = useDucksStore();
+
+const duck = ref(null);
+getDuck(id as string).then((data: any) => {
+  duck.value = data;
+}).catch((error: any) => {
+  console.error(error);
+})
+
 let onClickChevron = () => {
-  console.log("Clicked chevron");
-  router.push({ name: "carousel-id", params: { id: id } });
+  navigateTo({ name: "carousel-id", params: { id: id }});
 };
 </script>

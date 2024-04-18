@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["nuxt-primevue"],
+  modules: ["nuxt-primevue", '@pinia/nuxt'],
   primevue: {
     components: {
       prefix: "Prime",

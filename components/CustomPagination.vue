@@ -18,7 +18,7 @@
 
 <script>
 import { ref, inject, reactive } from "vue";
-import defaultConfigs from "./defaultConfigs";
+import defaultConfigs from "../utils/defaultConfigs";
 
 function mapNumberToRange({ val, max, min = 0 }) {
   if (val > max) {
@@ -59,15 +59,11 @@ export default {
 </script>
 
 <style scoped>
-/* The Nav should span full width. The active one should be red */
 .carousel__pagination {
   display: flex;
   justify-content: center;
   margin-top: 0;
   gap: 5px;
-}
-
-.carousel__pagination {
 }
 
 .carousel__pagination-item {
@@ -94,10 +90,13 @@ export default {
   background-color: theme("colors.grey");
   border-radius: 9999px;
 }
+
 .carousel__pagination-button--active::after {
   background-color: theme("colors.red");
 }
+
 .carousel__pagination-button:hover::after {
   background-color: theme("colors.red");
 }
 </style>
+../utils/defaultConfigs
