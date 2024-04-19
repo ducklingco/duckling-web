@@ -14,7 +14,14 @@
 
           <carousel-drawer>
             <template #top>
-              <div class="text-xl text">Audio player slot</div>
+              <!-- Create audio player -->
+              <!-- <template v-if="card?.cardable?.audio"> -->
+                <audio
+                  class="w-full h-8 rounded-none"
+                  controls
+                  src="https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav"
+                ></audio>
+              <!-- </template> -->
             </template>
             </carousel-drawer>
         </div>
@@ -207,6 +214,7 @@ import { useRoute } from "vue-router";
 
 import CardImage from "./CardImage.vue";
 import CardText from "./CardText.vue";
+import CardVideo from "./CardVideo.vue";
 
 const route = useRoute();
 const id = route.params.id;
@@ -217,7 +225,8 @@ const props = defineProps({
 
 const cardComponents: Record<string, Component> = {
   image: CardImage,
-  text: CardText
+  text: CardText,
+  video: CardVideo,
 };
 
 const cards = computed(() => props?.duck?.cards || []);

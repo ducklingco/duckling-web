@@ -1,8 +1,8 @@
 <template>
     <div class="absolute bottom-0 left-0 w-full px-4 sm:w-1/2 sm:pl-8">
-        <div class="flex flex-col justify-start w-full h-40 px-4 bg-black bg-opacity-50 rounded-t-xl">
+        <div class="flex flex-col justify-start w-full h-40 px-4 bg-black bg-opacity-50 rounded-t-xl gap-4">
             <!-- Handle -->
-            <div class="flex justify-center w-full h-8 py-3">
+            <div class="flex justify-center w-full h-8 pt-4">
                <div class="w-8 h-1 bg-white rounded-full opacity-50"></div>
             </div>
             <slot name="top"></slot>
