@@ -6,22 +6,11 @@
 </template>
 
 <script setup lang="ts">
-// Use api/ducks to fetch ducks and pass them to DuckCard
-import { ref } from "vue";
 import DuckCard from "./DuckCard.vue";
 import DucksFilter from "./DucksFilter.vue";
 import { useDucksStore } from '@/stores/ducks'
-const { getDucks } = useDucksStore();
-const ducks = ref([]);
-
-getDucks().then((data: any) => {
-  ducks.value = data;
-});
-
-
-
-
-
-
-
+const ducksStore = useDucksStore();
+const { fetchDucks } = ducksStore;
+const { getDucks: ducks } = storeToRefs(ducksStore);
+fetchDucks();
 </script>
