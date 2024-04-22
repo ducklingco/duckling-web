@@ -5,10 +5,12 @@
       {{ text }}
     </div>
   </div>
+  <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
+import useCardNavigation from '@/composables/useCardNavigation';
 
 const props = defineProps({
   card: {
@@ -16,6 +18,9 @@ const props = defineProps({
     required: true
   }
 });
+
+const emit = defineEmits(['prev', 'next']);
+const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
 
 const text = computed(() => {
   console.log(props?.card)

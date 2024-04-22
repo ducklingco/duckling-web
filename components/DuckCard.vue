@@ -6,7 +6,7 @@
         <div id="profile" class="flex items-center flex-grow-0 gap-2">
           <img v-if="props?.duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"
             :src="props?.duck?.created_by?.profile_picture?.path" alt="Profile picture" />
-          <div class="flex flex-col">
+          <div v-if="duck?.created_by" class="flex flex-col">
             <span class="font-bold text-md">{{ props?.duck?.created_by?.first_name }}</span>
             <span class="text-sm">@{{ props?.duck?.created_by?.username }}</span>
           </div>
@@ -44,7 +44,6 @@ let onClickCard = () => {
 
 <style scoped>
 .card {
-  /* background-image: url("https://source.unsplash.com/random/300x200"); */
   background-size: cover;
   aspect-ratio: 570/400;
 }

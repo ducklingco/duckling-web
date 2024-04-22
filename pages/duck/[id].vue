@@ -3,22 +3,24 @@
     <div class="relative w-full max-w-[calc(100vh*4/3)] mx-auto">
       <div class="relative pb-[75%]">
         <div class="absolute w-full h-full p-8 sm:p-12">
-          <img class="object-cover w-full h-full" :src="duck?.cover_image?.path" alt="Random Image" />
+          <img v-show="imageLoaded" class="object-cover w-full h-full" :src="duck?.cover_image?.path" alt="Duck image"
+            @load="imageLoaded = true" />
 
           <div class="absolute top-0 left-0 w-full h-full p-8 bg-black bg-opacity-30 sm:p-12">
             <div class="relative grid w-full h-full grid-rows-5 overflow-hidden">
+              <card-click-areas @next="onClickNext" />
               <div
                 class="absolute right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-green hover:cursor-pointer"
-                @click="onClickChevron">
+                @click="onClickNext">
                 <!-- Chevron next icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
                   class="w-1/2 h-1/2 absolute top-1/2 left-1/2 transform -translate-x-[100%] -translate-y-1/2">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
               </div>
-              <div class="z-10 grid grid-cols-3 row-span-1 gap-8 p-6 lg:grid-rows-1">
+              <div class="z-10 grid grid-cols-3 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
                 <div class="flex grid-cols-1 gap-2 sm:gap-4">
-                  <a class="flex items-center justify-center w-4 h-4 text-xs text-black bg-white rounded-full sm:w-8 sm:h-8 hover:cursor-pointer"
+                  <a class="flex items-center justify-center w-4 h-4 text-xs text-black bg-white rounded-full pointer-events-auto sm:w-8 sm:h-8 hover:cursor-pointer"
                     @click="onClickClose">
                     <!-- Cross / exit icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -28,7 +30,7 @@
                     </svg>
                   </a>
                   <button
-                    class="text-xs bg-white text-black rounded-full w-4 h-4 sm:w-8 sm:h-8 flex items-center justify-center p-[2px] sm:p-[7px]">
+                    class="text-xs bg-white text-black rounded-full w-4 h-4 sm:w-8 sm:h-8 flex items-center justify-center p-[2px] sm:p-[7px] pointer-events-auto">
                     <!-- Share icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
                       viewBox="0 0 24 24">
@@ -38,14 +40,14 @@
                     </svg>
                   </button>
                 </div>
-                <div class="flex items-start justify-center grid-cols-2">
+                <div class="flex items-start justify-center grid-cols-2 pointer-events-auto">
                   <a href="https://duckling.co">
                     <img class="object-contain h-8 sm:h-12" src="assets/img/duckling_logo_text_right_white.png"
                       alt="Logo" />
                   </a>
                 </div>
 
-                <div class="grid-cols-1"></div>
+                <div class="grid-cols-1 pointer-events-none"></div>
               </div>
 
               <div class="flex items-center justify-center h-full row-span-3 px-3 md:px-14 lg:px-20 xl:p-40">
@@ -53,9 +55,12 @@
                   <div id="profile" class="flex items-center row-span-1 gap-2">
                     <img v-if="duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"
                       :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" />
-                    <div class="flex flex-col">
+                    <div v-if="duck?.created_by" class="flex flex-col">
                       <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
                       <span class="text-sm">@{{ duck?.created_by?.username }}</span>
+                    </div>
+                    <!-- Spinner when loading -->
+                    <div v-else class="w-12 h-12 border-t-4 border-white border-solid rounded-full animate-spin-slow">
                     </div>
                   </div>
                   <div class="flex items-center row-span-3 py-3">
@@ -82,6 +87,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { useDucksStore } from "@/stores/ducks";
+import useCardNavigation from '@/composables/useCardNavigation';
 
 const route = useRoute();
 const id = route.params.id;
@@ -95,7 +101,9 @@ getDuck(id as string).then((data: any) => {
   console.error(error);
 })
 
-let onClickChevron = () => {
+const imageLoaded = ref(false);
+
+let onClickNext = () => {
   navigateTo({ name: "carousel-id", params: { id: id } });
 };
 
@@ -103,4 +111,8 @@ const onClickClose = () => {
   // Navigate to index
   navigateTo({ name: "index" });
 };
+
+const emit = defineEmits(['prev', 'next']);
+const { CardClickAreas } = useCardNavigation(emit);
+
 </script>

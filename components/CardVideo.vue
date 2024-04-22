@@ -11,10 +11,12 @@
             <img src="~/assets/img/button-play.png" alt="">
         </button>
     </div>
+    <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
 <script setup lang="ts">
 import usePlayer from '../composables/usePlayer';
+import useCardNavigation from '@/composables/useCardNavigation';
 
 const props = defineProps({
     card: {
@@ -25,6 +27,9 @@ const props = defineProps({
         required: true
     }
 });
+
+const emit = defineEmits(['prev', 'next']);
+const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit, 'video');
 
 const { time, playing, onPlayerPlay, onPlayerPause, onPlayerEnded, onPlayerLoadeddata, onPlayerWaiting, onPlayerPlaying, onPlayerTimeupdate, onPlayerCanplay, onPlayerCanplaythrough, playerStateChanged } = usePlayer(props.time);
 

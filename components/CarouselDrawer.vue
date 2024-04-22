@@ -7,13 +7,13 @@
             </div>
             <div class="flex items-center justify-center w-full gap-4">
                 <button class="w-10 h-10" @click="togglePlay">
-                    <img :src="playing ? imgPlay : imgPause" alt="">
-                    <!-- <img v-if="playing" src="~/assets/img/button-pause.png" alt="">
-                    <img v-else src="~/assets/img/button-play.png" alt=""> -->
+                    <img :src="playing ? imgPause : imgPlay" alt="">
                 </button>
-                <audio ref="player" v-if="audio" class="hidden w-full h-8 rounded-none " controls :src="audio"
-                    @playing="onPlaying" @pause="onPause"></audio>
-                <player-track :percentage="percentagePlayed" @seek="seekToPercentage" class="flex-grow" />
+                <template v-if="audio">
+                    <audio ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio"
+                        @playing="onPlaying" @pause="onPause"></audio>
+                    <player-track :percentage="percentagePlayed" @seek="seekToPercentage" class="flex-grow" />
+                </template>
             </div>
 
             <div class="w-full text-left text-white opacity-100">
@@ -90,7 +90,18 @@ onMounted(() => {
     bindAudioEvent('timeupdate');
 });
 
+// watchEffect(() => {
+//     console.log("player.value")
+//     console.log(player.value)
+//     if (player.value) {
+//         bindAudioEvent('loadeddata');
+//         bindAudioEvent('timeupdate');
+//     }
+// });
+
 function bindAudioEvent (which) {
+    console.log("bindAudioEvent")
+    console.log(player.value)
     player.value.addEventListener(
         which,
         (event) => {

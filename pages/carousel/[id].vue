@@ -1,10 +1,7 @@
-
 <template>
-  <div class="flex items-center justify-center h-screen">
-    <div>
-      <DuckCarousel :duck="duck" />
-    </div>
-  </div>
+  <fullscreen-wrapper class="absolute w-screen h-screen" :fullscreen="fullscreen">
+    <duck-carousel class="h-full" @toggle-fullscreen="toggleFullscreen" :duck="duck" />
+  </fullscreen-wrapper>
 </template>
 
 <script setup lang="ts">
@@ -13,6 +10,12 @@ import { useDucksStore } from "@/stores/ducks";
 
 const route = useRoute();
 const id = route.params.id;
+
+const fullscreen = ref(false);
+
+const toggleFullscreen = () => {
+  fullscreen.value = !fullscreen.value;
+};
 
 const { getDuck } = useDucksStore();
 

@@ -58,6 +58,9 @@ export default {
         "surface-900": "#009c1a",
         "surface-950": "#009c1a",
       },
+      animation: {
+        'spin-slow': 'spin 2s linear infinite',
+      }
     },
   },
   plugins: [],

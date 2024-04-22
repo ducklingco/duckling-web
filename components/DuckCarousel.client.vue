@@ -1,14 +1,17 @@
 <template>
   <!-- :autoplay="5000" -->
-  <carousel v-model="currentSlide" class="relative w-screen h-screen bg-black" :items-to-show="1">
+  <carousel ref="carouselRef" v-model="currentSlide" class="relative w-full h-full bg-black" :items-to-show="1"
+    :mouse-drag="false" :transition="0">
     <template #slides>
       <slide class="relative grid w-full h-full" v-for="card in cards" :key="card?.id">
-        <div class="relative flex items-center justify-center w-full h-screen">
+        <div class="relative flex items-center justify-center w-full h-full">
           <div class="flex items-center justify-center w-full h-full bg-center bg-cover">
-            <card-video v-if="card?.type == 'video'" :card="card" ref="cardVideoSlides" :key="card?.id" :time="0" />
-            <Component v-else :is="cardComponents[card?.type]" :card="card" />
+            <card-cover v-if="card?.type == 'cover'" :card="card" :key="card?.id" @prev="prevSlide" @next="nextSlide" />
+            <card-video v-if="card?.type == 'video'" :card="card" ref="cardVideoSlides" :key="card?.id" :time="0"
+              @prev="prevSlide" @next="nextSlide" />
+            <Component v-else :is="cardComponents[card?.type]" :card="card" @prev="prevSlide" @next="nextSlide" />
 
-            <carousel-drawer v-if="card?.cardable?.caption || card?.cardable?.audio" ref="audioDrawerRefs"
+            <carousel-drawer v-if="card?.cardable?.caption || card?.cardable?.audio" ref="audioDrawerRefs" class="z-10"
               :card="card" />
           </div>
         </div>
@@ -16,19 +19,34 @@
     </template>
     <template #addons>
       <navigation>
-        <template #prev>
+        <!-- <template #prev class="overflow-hidden">
           <div
             class="absolute left-0 w-20 h-20 transform -translate-x-1/2 -translate-y-1/2 bg-black rounded-full opacity-50 top-1/2 hover:cursor-pointer"
             @click="">
-            <!-- Chevron previous icon -->
+            Chevron previous icon
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
               class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 left-1/2">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
           </div>
+        </template> -->
+
+        <template #prev class="overflow-hidden bg-red">
+          <div v-if="currentSlide != 0"
+            class="absolute left-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-black rounded-full opacity-50 hover:cursor-pointer"
+              @click="">
+              <!-- Chevron prev icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
+                class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 left-1/2">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </div>
+          </div>
         </template>
         <template #next class="overflow-hidden">
-          <div class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
+          <div v-if="currentSlide != 0"
+            class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
             <div class="absolute top-0 left-0 w-20 h-20 bg-black rounded-full opacity-50 hover:cursor-pointer"
               @click="">
               <!-- Chevron next icon -->
@@ -40,8 +58,18 @@
           </div>
         </template>
       </navigation>
-      <div
-        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 p-2 px-3 bg-black header bg-opacity-70 sm:px-8 sm:gap-4">
+      <div v-if="visualMode" class="absolute top-0 right-0 pt-8 pr-8 header bg-opacity-70">
+        <button class="w-12 h-12 bg-black border-8 border-black rounded-full opacity-70" @click="toggleVisualMode">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15 29.0283C13.0762 29.0283 11.2695 28.6621 9.58008 27.9297C7.89062 27.1973 6.40137 26.1865 5.1123 24.8975C3.82324 23.6084 2.80762 22.1191 2.06543 20.4297C1.33301 18.7305 0.966797 16.9189 0.966797 14.9951C0.966797 13.0811 1.33301 11.2793 2.06543 9.58984C2.79785 7.89062 3.80859 6.39648 5.09766 5.10742C6.39648 3.80859 7.89062 2.79297 9.58008 2.06055C11.2695 1.32812 13.0713 0.961914 14.9854 0.961914C16.9092 0.961914 18.7158 1.32812 20.4053 2.06055C22.0947 2.79297 23.584 3.80859 24.873 5.10742C26.1719 6.39648 27.1875 7.89062 27.9199 9.58984C28.6621 11.2793 29.0332 13.0811 29.0332 14.9951C29.0332 16.9189 28.667 18.7305 27.9346 20.4297C27.2021 22.1191 26.1865 23.6084 24.8877 24.8975C23.5986 26.1865 22.1094 27.1973 20.4199 27.9297C18.7305 28.6621 16.9238 29.0283 15 29.0283ZM7.71973 11.2012H22.3242C22.6172 11.2012 22.8516 11.1182 23.0273 10.9521C23.2129 10.7861 23.3057 10.5615 23.3057 10.2783C23.3057 10.0049 23.2129 9.78516 23.0273 9.61914C22.8516 9.44336 22.6172 9.35547 22.3242 9.35547H7.71973C7.42676 9.35547 7.1875 9.44336 7.00195 9.61914C6.81641 9.78516 6.72363 10.0049 6.72363 10.2783C6.72363 10.5615 6.81641 10.7861 7.00195 10.9521C7.1875 11.1182 7.42676 11.2012 7.71973 11.2012ZM7.71973 15.9033H22.3242C22.6172 15.9033 22.8516 15.8203 23.0273 15.6543C23.2129 15.4883 23.3057 15.2637 23.3057 14.9805C23.3057 14.6973 23.2129 14.4727 23.0273 14.3066C22.8516 14.1406 22.6172 14.0576 22.3242 14.0576H7.71973C7.42676 14.0576 7.1875 14.1406 7.00195 14.3066C6.81641 14.4727 6.72363 14.6973 6.72363 14.9805C6.72363 15.2637 6.81641 15.4883 7.00195 15.6543C7.1875 15.8203 7.42676 15.9033 7.71973 15.9033ZM7.71973 20.6348H22.3242C22.6172 20.6348 22.8516 20.5518 23.0273 20.3857C23.2129 20.21 23.3057 19.9805 23.3057 19.6973C23.3057 19.4336 23.2129 19.2188 23.0273 19.0527C22.8516 18.877 22.6172 18.7891 22.3242 18.7891H7.71973C7.42676 18.7891 7.1875 18.877 7.00195 19.0527C6.81641 19.2188 6.72363 19.4336 6.72363 19.6973C6.72363 19.9805 6.81641 20.21 7.00195 20.3857C7.1875 20.5518 7.42676 20.6348 7.71973 20.6348Z"
+              fill="#A4A4A4" />
+          </svg>
+
+        </button>
+      </div>
+      <div v-if="!visualMode"
+        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2 bg-black header bg-opacity-70 sm:px-8 sm:gap-4">
         <custom-pagination />
         <div class="w-full">
           <div class="grid h-full grid-cols-3">
@@ -66,7 +94,7 @@
                 <img v-if="duck?.created_by?.profile_picture?.path"
                   class="object-cover w-10 h-10 rounded-full hover:cursor-pointer"
                   :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" />
-                <div class="flex-col items-start hidden opacity-50 sm:flex">
+                <div v-if="duck?.created_by" class="flex-col items-start hidden opacity-50 sm:flex">
                   <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
                   <span class="text-sm">@{{ duck?.created_by?.username }}</span>
                 </div>
@@ -80,14 +108,16 @@
               </a>
             </div>
             <div class="flex items-center justify-end w-full gap-2 sm:gap-4">
-              <button class="flex items-center justify-center h-10 shrink-0" @click="nav.close">
+              <!-- Visual mode -->
+              <button class="flex items-center justify-center h-10 shrink-0" @click="toggleVisualMode">
                 <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M14.4912 29.0283C12.5674 29.0283 10.7607 28.6621 9.07129 27.9297C7.38184 27.1973 5.89258 26.1865 4.60352 24.8975C3.31445 23.6084 2.29883 22.1191 1.55664 20.4297C0.824219 18.7305 0.458008 16.9189 0.458008 14.9951C0.458008 13.0811 0.824219 11.2793 1.55664 9.58984C2.28906 7.89062 3.2998 6.39648 4.58887 5.10742C5.8877 3.80859 7.38184 2.79297 9.07129 2.06055C10.7607 1.32812 12.5625 0.961914 14.4766 0.961914C16.4004 0.961914 18.207 1.32812 19.8965 2.06055C21.5859 2.79297 23.0752 3.80859 24.3643 5.10742C25.6631 6.39648 26.6787 7.89062 27.4111 9.58984C28.1533 11.2793 28.5244 13.0811 28.5244 14.9951C28.5244 16.9189 28.1582 18.7305 27.4258 20.4297C26.6934 22.1191 25.6777 23.6084 24.3789 24.8975C23.0898 26.1865 21.6006 27.1973 19.9111 27.9297C18.2217 28.6621 16.415 29.0283 14.4912 29.0283ZM8.51465 21.2793H20.4238C21.1172 21.2793 21.6396 21.1084 21.9912 20.7666C22.3525 20.415 22.5332 19.8975 22.5332 19.2139V10.8496C22.5332 10.1562 22.3525 9.63867 21.9912 9.29688C21.6396 8.94531 21.1172 8.76953 20.4238 8.76953H8.51465C7.83105 8.76953 7.30859 8.94531 6.94727 9.29688C6.5957 9.63867 6.41992 10.1562 6.41992 10.8496V19.2139C6.41992 19.8975 6.5957 20.415 6.94727 20.7666C7.30859 21.1084 7.83105 21.2793 8.51465 21.2793ZM8.57324 20.0635C8.28027 20.0635 8.05078 19.9805 7.88477 19.8145C7.71875 19.6484 7.63574 19.4287 7.63574 19.1553V18.5254L9.59863 16.8994C9.9209 16.6357 10.2334 16.5039 10.5361 16.5039C10.8682 16.5039 11.1953 16.6406 11.5176 16.9141L12.8213 18.0859L16.0879 15.2002C16.4395 14.8877 16.8105 14.7363 17.2012 14.7461C17.6016 14.7266 17.9727 14.8779 18.3145 15.2002L21.3027 17.9102V19.1553C21.3027 19.4287 21.2197 19.6484 21.0537 19.8145C20.8877 19.9805 20.6533 20.0635 20.3506 20.0635H8.57324ZM11.4736 15.1855C11.0146 15.1855 10.6191 15.0244 10.2871 14.7021C9.95508 14.3701 9.78906 13.9697 9.78906 13.501C9.78906 13.042 9.95508 12.6514 10.2871 12.3291C10.6191 11.9971 11.0146 11.8311 11.4736 11.8311C11.9326 11.8311 12.3281 11.9971 12.6602 12.3291C12.9922 12.6514 13.1582 13.042 13.1582 13.501C13.1582 13.9697 12.9922 14.3701 12.6602 14.7021C12.3281 15.0244 11.9326 15.1855 11.4736 15.1855Z"
                     fill="#A4A4A4" />
                 </svg>
               </button>
-              <button class="flex items-center justify-center h-10 shrink-0" @click="nav.close">
+              <!--  -->
+              <button class="flex items-center justify-center h-10 shrink-0" @click="toggleFullscreen">
                 <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M14.4912 29.0283C12.5674 29.0283 10.7607 28.6621 9.07129 27.9297C7.38184 27.1973 5.89258 26.1865 4.60352 24.8975C3.31445 23.6084 2.29883 22.1191 1.55664 20.4297C0.824219 18.7305 0.458008 16.9189 0.458008 14.9951C0.458008 13.0811 0.824219 11.2793 1.55664 9.58984C2.28906 7.89062 3.2998 6.39648 4.58887 5.10742C5.8877 3.80859 7.38184 2.79297 9.07129 2.06055C10.7607 1.32812 12.5625 0.961914 14.4766 0.961914C16.4004 0.961914 18.207 1.32812 19.8965 2.06055C21.5859 2.79297 23.0752 3.80859 24.3643 5.10742C25.6631 6.39648 26.6787 7.89062 27.4111 9.58984C28.1533 11.2793 28.5244 13.0811 28.5244 14.9951C28.5244 16.9189 28.1582 18.7305 27.4258 20.4297C26.6934 22.1191 25.6777 23.6084 24.3789 24.8975C23.0898 26.1865 21.6006 27.1973 19.9111 27.9297C18.2217 28.6621 16.415 29.0283 14.4912 29.0283ZM8.29492 14.7607H13.1875C13.5293 14.7607 13.793 14.6777 13.9785 14.5117C14.1641 14.3457 14.2568 14.0674 14.2568 13.6768V8.78418C14.2568 8.52051 14.1641 8.30078 13.9785 8.125C13.8027 7.93945 13.5879 7.84668 13.334 7.84668C13.0801 7.84668 12.8604 7.93945 12.6748 8.125C12.499 8.30078 12.4111 8.52051 12.4111 8.78418V9.53125L12.543 11.8311L8.71973 7.86133C8.52441 7.65625 8.29004 7.55371 8.0166 7.55371C7.75293 7.55371 7.52344 7.65625 7.32812 7.86133C7.13281 8.04688 7.04004 8.27637 7.0498 8.5498C7.05957 8.81348 7.15723 9.04297 7.34277 9.23828L11.2832 13.0469L9.07129 12.915H8.29492C8.04102 12.915 7.82129 13.0029 7.63574 13.1787C7.45996 13.3545 7.37207 13.5742 7.37207 13.8379C7.37207 14.0918 7.45996 14.3115 7.63574 14.4971C7.82129 14.6729 8.04102 14.7607 8.29492 14.7607ZM15.6484 22.1289C15.9023 22.1289 16.1172 22.041 16.293 21.8652C16.4785 21.6797 16.5713 21.46 16.5713 21.2061V20.459L16.4395 18.1445L20.2627 22.1143C20.458 22.3193 20.6875 22.4219 20.9512 22.4219C21.2246 22.4219 21.4541 22.3193 21.6396 22.1143C21.8447 21.9287 21.9424 21.7041 21.9326 21.4404C21.9229 21.167 21.8203 20.9326 21.625 20.7373L17.6846 16.9287L19.8965 17.0605H20.6875C20.9414 17.0605 21.1562 16.9727 21.332 16.7969C21.5176 16.6211 21.6104 16.4014 21.6104 16.1377C21.6104 15.8838 21.5176 15.6689 21.332 15.4932C21.1562 15.3076 20.9414 15.2148 20.6875 15.2148H15.7949C15.4531 15.2148 15.1895 15.2979 15.0039 15.4639C14.8184 15.6299 14.7256 15.9082 14.7256 16.2988V21.2061C14.7256 21.46 14.8135 21.6797 14.9893 21.8652C15.165 22.041 15.3848 22.1289 15.6484 22.1289Z"
@@ -124,6 +154,7 @@
         </div>
       </div>
     </template>
+
   </carousel>
 </template>
 
@@ -144,6 +175,8 @@ const props = defineProps({
   duck: Object,
 });
 
+const emit = defineEmits(["toggle-fullscreen"]);
+
 const cardVideoSlides = ref([]);
 const audioDrawerRefs = ref([]);
 
@@ -153,7 +186,7 @@ const cardComponents: Record<string, Component> = {
   video: CardVideo,
 };
 
-const cards = computed(() => props?.duck?.cards || []);
+const cards = computed(() => [{ type: "cover" }, ...props?.duck?.cards] || []);
 
 const onClickCloseCarousel = () => {
   navigateTo(`/duck/${id}`);
@@ -221,9 +254,45 @@ watch(currentCardAudio, (newCurrentCardAudio) => {
   });
 })
 
+
+const visualMode = ref(false);
+
+const toggleVisualMode = () => {
+  visualMode.value = !visualMode.value;
+};
+
+const toggleFullscreen = () => {
+  emit("toggle-fullscreen");
+  nextTick(() => {
+    carouselRef.value?.updateSlideWidth();
+  });
+  // carouselRef.value?.updateSlideWidth();
+};
+
+const carouselRef = ref(null);
+
+
+
+const prevSlide = () => {
+  console.log("prevSlide")
+  carouselRef.value?.prev();
+};
+const nextSlide = () => {
+  carouselRef.value?.next();
+};
+
 </script>
 
 <style deep lang="css">
+.carousel__viewport {
+  height: 100%;
+}
+
+.carousel__track {
+  height: 100%;
+
+}
+
 .carousel__prev,
 .carousel__next {
   margin: 0;
