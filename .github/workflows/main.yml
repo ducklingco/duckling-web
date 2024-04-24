@@ -16,5 +16,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Build images
         run: docker-compose build
+      - name: Stop specific containers
+        run: docker stop $(docker ps -aq -f name=duckling-nginx -f name=duckling-nuxt)
+      - name: Removes nuxt container
+        run: docker rm $(docker ps -aq -f name=duckling-nuxt)
+      - name: Removes nginx container
+        run: docker rm $(docker ps -aq -f name=duckling-nginx)
       - name: Run new containers
-        run: docker-compose up -d --force-recreate
+        run: docker-compose up -d
