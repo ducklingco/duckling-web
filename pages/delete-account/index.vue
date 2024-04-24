@@ -1,12 +1,13 @@
 <template>
-  <div class="absolute h-full w-full bg-duckling_beige">
-    <div class="h-full flex justify-center items-center">
+  <div class="absolute w-full h-full bg-duckling_beige">
+    <div class="flex items-center justify-center h-full">
+
       <div class="flex flex-col w-80">
-        <div v-if="showPhoneNumberInput" class="flex flex-row my-4 w-full">
+        <div v-if="showPhoneNumberInput" class="flex flex-row w-full my-4">
           <select
             name="countryCodes"
             id="country-codes"
-            class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
             v-model="countryCodeSelected"
           >
             <option v-for="countryCode in countryCodes" :value="countryCode">
@@ -16,7 +17,7 @@
 
           <input
             v-model="phoneNumber"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Enter your phone number"
             @keydown.prevent.enter="sendConfirmationCode"
@@ -27,10 +28,10 @@
         <div v-if="accountDeleted">
           Your account has been deleted. You can close this window.
         </div>
-        <div v-if="showVerificationCodeInput" class="flex flex-row my-4 w-full">
+        <div v-if="showVerificationCodeInput" class="flex flex-row w-full my-4">
           <input
             v-model="verificationCode"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Enter your confirmation code"
             @keydown.prevent.enter="verifyPhone"
@@ -38,7 +39,7 @@
         </div>
         <button
           v-if="!showDeleteButton"
-          class="py-2 px-4 bg-duckling_green text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
+          class="px-4 py-2 font-semibold text-duckling_white rounded-lg shadow-md bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="showPhoneNumberInput ? sendConfirmationCode() : verifyPhone()"
@@ -48,9 +49,9 @@
               showPhoneNumberInput ? "Send Confirmation Code" : "Verify Phone"
             }}
           </span>
-          <span v-else class="flex justify-center items-center">
+          <span v-else class="flex items-center justify-center">
             <svg
-              class="animate-spin h-5 w-5 text-white"
+              class="w-5 h-5 text-duckling_white animate-spin"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -73,15 +74,15 @@
         </button>
         <button
           v-if="showDeleteButton"
-          class="py-2 px-4 bg-duckling_red text-white font-semibold rounded-lg shadow-md hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75"
+          class="px-4 py-2 font-semibold text-duckling_white rounded-lg shadow-md bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="deleteAccount"
         >
           <span v-if="!loading"> Delete Account </span>
-          <span v-else class="flex justify-center items-center">
+          <span v-else class="flex items-center justify-center">
             <svg
-              class="animate-spin h-5 w-5 text-white"
+              class="w-5 h-5 text-duckling_white animate-spin"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

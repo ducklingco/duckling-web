@@ -1,5 +1,17 @@
-@config "../../tailwind.config.ts";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@layer tailwind-base, primevue, tailwind-utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+    @tailwind variants;
+}
+
+
+body {
+    font-family: 'Inter', sans-serif;
+}
