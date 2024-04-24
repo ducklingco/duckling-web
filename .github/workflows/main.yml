@@ -13,10 +13,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build images
-        run: docker compose build
+        run: docker-compose build
       - name: Stop specific containers
         run: docker stop $(docker ps -aq -f name=duckling-nginx -f name=duckling-nuxt)
       - name: Run new containers
-        run: docker compose up -d
+        run: docker-compose up -d
