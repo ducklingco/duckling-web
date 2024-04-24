@@ -17,7 +17,11 @@ jobs:
       - name: Build images
         run: docker-compose build
       - name: Stop specific containers
-        run: docker stop $(docker ps -aq -f name=duckling-nginx -f name=duckling-nuxt)
+        run: |
+          containers=$(docker ps -aq -f name=duckling-nginx -f name=duckling-nuxt)
+          if [ -n "$containers" ]; then
+            docker stop $containers
+          fi
       - name: Removes nuxt container
         run: docker rm $(docker ps -aq -f name=duckling-nuxt)
       - name: Removes nginx container
