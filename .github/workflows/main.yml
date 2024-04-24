@@ -23,8 +23,14 @@ jobs:
             docker stop $containers
           fi
       - name: Removes nuxt container
-        run: docker rm $(docker ps -aq -f name=duckling-nuxt)
+        run: |
+          if [[ $(docker ps -aq -f name=duckling-nuxt) ]]; then
+            docker rm $(docker ps -aq -f name=duckling-nuxt)
+          fi
       - name: Removes nginx container
-        run: docker rm $(docker ps -aq -f name=duckling-nginx)
+        run: |
+          if [[ $(docker ps -aq -f name=duckling-nginx) ]]; then
+            docker rm $(docker ps -aq -f name=duckling-nginx)
+          fi
       - name: Run new containers
         run: docker-compose up -d
