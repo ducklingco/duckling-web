@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute h-full w-full bg-beige">
+  <div class="absolute h-full w-full bg-duckling_beige">
     <div class="h-full flex justify-center items-center">
       <div class="flex flex-col w-80">
         <div v-if="showPhoneNumberInput" class="flex flex-row my-4 w-full">
@@ -38,7 +38,7 @@
         </div>
         <button
           v-if="!showDeleteButton"
-          class="py-2 px-4 bg-emerald-500 text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
+          class="py-2 px-4 bg-duckling_green text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="showPhoneNumberInput ? sendConfirmationCode() : verifyPhone()"
@@ -73,7 +73,7 @@
         </button>
         <button
           v-if="showDeleteButton"
-          class="py-2 px-4 bg-emerald-500 text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
+          class="py-2 px-4 bg-duckling_red text-white font-semibold rounded-lg shadow-md hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="deleteAccount"

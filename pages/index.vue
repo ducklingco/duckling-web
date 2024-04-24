@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute h-full w-full bg-beige">
+  <div class="absolute h-full w-full bg-duckling_beige">
     <div class="h-full flex justify-center items-center">
       <img
         class="size-64"
