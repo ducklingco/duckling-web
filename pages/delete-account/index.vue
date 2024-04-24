@@ -73,7 +73,7 @@
         </button>
         <button
           v-if="showDeleteButton"
-          class="py-2 px-4 bg-duckling_red text-white font-semibold rounded-lg shadow-md hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-75"
+          class="py-2 px-4 bg-duckling_red text-white font-semibold rounded-lg shadow-md hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="deleteAccount"
