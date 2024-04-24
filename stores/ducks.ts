@@ -117,9 +117,12 @@ export const useDucksStore = defineStore('ducks', {
             this.addDuck(data as Duck)
         },
         async getDuck (id: string) {
-            if (!this.individualDucks[id]) {
+            if (!this.individualDucks[id])  {
                 // Duck not found in store, fetch it
                 await this.fetchDuck(id)
+            } else {
+                // Don't want to wait for the fetch to complete if the duck is already in the store. However, we can still fetch the duck in the background to update the store
+                this.fetchDuck(id)
             }
             // Get a duck by ID
             return this.individualDucks[id]

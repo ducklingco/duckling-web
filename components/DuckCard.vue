@@ -1,7 +1,10 @@
 <template>
-  <div class="overflow-hidden card rounded-2xl hover:cursor-pointer"
-    :style="{ 'background-image': 'url(' + props?.duck?.cover_image?.path + ')' }" @click="onClickCard">
-    <div class="w-full h-full bg-black bg-opacity-50">
+  <div class="relative overflow-hidden card rounded-2xl hover:cursor-pointer" @click="onClickCard">
+    <img v-show="imageLoaded" class="object-cover w-full h-full " :src="props?.duck?.cover_image?.path" alt="Duck image"
+      @load="imageLoaded = true" />
+    <div v-if="!imageLoaded" class="w-full h-full bg-grey animate-pulse"></div>
+
+    <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50">
       <div class="flex flex-col justify-between h-full p-6 text-white">
         <div id="profile" class="flex items-center flex-grow-0 gap-2">
           <img v-if="props?.duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"
@@ -13,10 +16,7 @@
         </div>
         <div class="flex flex-col items-start justify-center flex-grow w-full">
           <div class="py-3 ">
-            <h2 class="font-bold text" :class="{
-      'text-4xl': props?.duck?.title?.length < 85,
-      'text-3xl': props?.duck?.title?.length >= 85,
-    }">
+            <h2 class="font-bold text" :class="titleFontClass">
               {{ props?.duck?.title }}
             </h2>
           </div>
@@ -38,8 +38,18 @@ import { defineProps } from "vue";
 let props = defineProps<{ duck: any }>();
 
 let onClickCard = () => {
-  navigateTo({ name: "duck-id", params: { id: props.duck.id } });
+  navigateTo({ name: "carousel-id", params: { id: props.duck.id }, query: { redirected: '1' } });
 };
+
+const titleFontClass = computed(() => {
+  if (props?.duck?.latest_topics?.length >= 0 && props?.duck?.title?.length > 60 || props?.duck?.title?.length > 85) {
+    return "text-3xl";
+  }
+  return "text-4xl";
+});
+
+
+const imageLoaded = ref(false);
 </script>
 
 <style scoped>

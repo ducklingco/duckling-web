@@ -2,6 +2,7 @@
 
     <img v-show="imageLoaded" class="object-cover w-full h-full" :src="duck?.cover_image?.path" alt="Duck image"
         @load="imageLoaded = true" />
+    <div v-if="!imageLoaded" class="w-full h-full bg-grey animate-pulse"></div>
 
     <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 ">
         <div class="relative grid w-full h-full grid-rows-5 overflow-hidden">
@@ -14,47 +15,21 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
             </div>
-            <div class="grid grid-cols-3 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
-                <div class="flex grid-cols-1 gap-2 sm:gap-4">
-                    <a class="flex items-center justify-center w-4 h-4 text-xs text-black bg-white rounded-full pointer-events-auto sm:w-8 sm:h-8 hover:cursor-pointer"
-                        @click="onClickClose">
-                        <!-- Cross / exit icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12">
-                            </path>
-                        </svg>
-                    </a>
-                    <button
-                        class="text-xs bg-white text-black rounded-full w-4 h-4 sm:w-8 sm:h-8 flex items-center justify-center p-[2px] sm:p-[7px] pointer-events-auto">
-                        <!-- Share icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M 16.707031 2.2929688 L 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 L 6 18 L 8 18 L 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 L 16.707031 11.707031 L 21.414062 7 L 16.707031 2.2929688 z M 2 8 L 2 9 L 2 22 L 22 22 L 22 18 L 22 17 L 20 17 L 20 18 L 20 20 L 4 20 L 4 9 L 4 8 L 2 8 z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex items-start justify-center grid-cols-2 pointer-events-auto">
-                    <a href="https://duckling.co">
-                        <img class="object-contain h-8 sm:h-12" src="assets/img/duckling_logo_text_right_white.png"
-                            alt="Logo" />
-                    </a>
-                </div>
 
-                <div class="grid-cols-1 pointer-events-none"></div>
-            </div>
+            <!-- Necessary for spacing. Could use grid template however -->
+            <div></div>
 
             <div class="flex items-center justify-center h-full row-span-3 px-3 md:px-14 lg:px-20 xl:p-40">
                 <div class="flex-col items-center justify-center gap-10 p-6 text-white">
                     <div id="profile" class="flex items-center row-span-1 gap-2">
                         <img v-if="duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"
                             :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" />
-                        <div v-if="duck?.created_by" class="flex flex-col">
-                            <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
-                            <span class="text-sm">@{{ duck?.created_by?.username }}</span>
+                        <div v-if="duck?.created_by" class="flex flex-col text-left">
+                            <span class="text-sm font-bold sm:text-md md:text-xl lg:text-2xl">{{
+        duck?.created_by?.first_name
+    }}</span>
+                            <span class="text-xs sm:text-sm md:text-lg lg:text-xl">@{{ duck?.created_by?.username
+                                }}</span>
                         </div>
                         <!-- Spinner when loading -->
                         <div v-else
@@ -62,12 +37,12 @@
                         </div>
                     </div>
                     <div class="flex items-center row-span-3 py-3 text-left">
-                        <h2 class="text-xl font-bold text sm:text-4xl md:text-6xl lg:text-8xl">
+                        <h2 class="text-xl font-bold text sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl">
                             {{ duck?.title }}
                         </h2>
                     </div>
                     <div id="tags"
-                        class="flex flex-wrap justify-start row-span-1 gap-2 text-xs align-baseline sm:text-sm">
+                        class="flex flex-wrap justify-start row-span-1 gap-2 text-sm align-baseline sm:text-sm md:text-md lg:text-lg xl:text-xl">
                         <div v-for="topic of duck?.latest_topics" :key="topic?.id">
                             <Tag>{{ topic?.name }}</Tag>
                         </div>
@@ -85,8 +60,7 @@ import { useDucksStore } from "@/stores/ducks";
 import useCardNavigation from '@/composables/useCardNavigation';
 
 const route = useRoute();
-// const id = route.params.id;
-const id = "duck_2dPEqxYIz7vUqemffOtGi5siud6";
+const id = route.params.id;
 
 const { getDuck } = useDucksStore();
 
@@ -102,11 +76,6 @@ const imageLoaded = ref(false);
 let onClickNext = () => {
     // navigateTo({ name: "carousel-id", params: { id: id } });
     emit('next');
-};
-
-const onClickClose = () => {
-    // Navigate to index
-    navigateTo({ name: "index" });
 };
 
 const emit = defineEmits(['prev', 'next']);

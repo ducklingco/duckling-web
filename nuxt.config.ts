@@ -10,9 +10,8 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["nuxt-primevue", '@pinia/nuxt', 
-    // '@pinia-plugin-persistedstate/nuxt',
-  ],
+  modules: ["nuxt-primevue",
+  '@pinia/nuxt', "@stefanobartoletti/nuxt-social-share"],
   primevue: {
     components: {
       prefix: "Prime",
@@ -22,15 +21,10 @@ export default defineNuxtConfig({
         "DataTable",
       ] /* Used as <PrimeButton /> and <PrimeDataTable /> */,
     },
-    // options: {
-    //   ripple: true,
-    //
   },
-  // options: {
-  //   ripple: true,
-  //   unstyled: true,
-  // },
-  // importPT: { from: path.resolve(__dirname, "./presets/lara/") }, //import and apply preset
+  socialShare: {
+    // module options
+  },
   css: [
     "~/assets/css/main.css",
     // "primevue/resources/themes/md-light-indigo/theme.css",

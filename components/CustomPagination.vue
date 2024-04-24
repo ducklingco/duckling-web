@@ -1,17 +1,9 @@
 <template>
   <ol class="w-full mt-0 carousel__pagination">
-    <div
-      v-for="slide in maxSlide + 1"
-      :key="slide"
-      class="carousel__pagination-item"
-    >
-      <div
-        type="button"
-        class="rounded-full carousel__pagination-button hover:bg-red"
+    <div v-for="slide in maxSlide + 1" :key="slide" class="carousel__pagination-item">
+      <div type="button" class="rounded-full carousel__pagination-button hover:bg-red"
         :class="{ 'carousel__pagination-button--active': isActive(slide - 1) }"
-        :aria-label="`Navigate to slide ${slide + 1}`"
-        @click="slideTo(slide - 1)"
-      ></div>
+        :aria-label="`Navigate to slide ${slide + 1}`" @click="slideTo(slide - 1)"></div>
     </div>
   </ol>
 </template>
@@ -20,7 +12,7 @@
 import { ref, inject, reactive } from "vue";
 import defaultConfigs from "../utils/defaultConfigs";
 
-function mapNumberToRange({ val, max, min = 0 }) {
+function mapNumberToRange ({ val, max, min = 0 }) {
   if (val > max) {
     return mapNumberToRange({ val: val - (max + 1), max, min });
   }
@@ -32,7 +24,7 @@ function mapNumberToRange({ val, max, min = 0 }) {
 
 export default {
   name: "CustomPagination",
-  setup() {
+  setup () {
     const config = inject("config", reactive({ ...defaultConfigs }));
     const maxSlide = inject("maxSlide", ref(1));
     const minSlide = inject("minSlide", ref(1));
@@ -99,4 +91,3 @@ export default {
   background-color: theme("colors.red");
 }
 </style>
-../utils/defaultConfigs

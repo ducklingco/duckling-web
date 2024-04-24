@@ -18,4 +18,5 @@
 import { defineProps } from 'vue';
 
 const props = defineProps<{ fullscreen: boolean }>();
+
 </script>
