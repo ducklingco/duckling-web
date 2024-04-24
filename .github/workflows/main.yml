@@ -1,15 +1,22 @@
 name: Build and deploy the docker images
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
 
 jobs:
   build-and-run-images:
-    runs-on: ["self-hosted"]
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Build and run
+      - name: Build images
+        run: docker compose build
+      - name: Stop specific containers
+        run: docker stop $(docker ps -aq -f name=duckling-nginx -f name=duckling-nuxt)
+      - name: Run new containers
         run: docker compose up -d

@@ -20,10 +20,10 @@ RUN pnpm install
 COPY . .
 
 # Build your Nuxt Application
-RUN pnpm run build
+RUN pnpm build
 
 # Expose the port your app runs on
 EXPOSE 3000
 
 # Define the command to run your app using CMD which defines your runtime
-CMD [ "npm", "start" ]
+CMD [ "node", "./.output/server/index.mjs" ]
