@@ -1,6 +1,6 @@
 <template>
   <!-- :autoplay="5000" -->
-  <carousel ref="carouselRef" v-model="currentSlide" class="relative w-full h-full bg-black" :items-to-show="1"
+  <carousel ref="carouselRef" v-model="currentSlide" class="relative w-full h-full bg-duckling_black" :items-to-show="1"
     :mouse-drag="false" :transition="transitionTime">
     <template #slides>
       <slide class="relative grid w-full h-full" v-for="card in cards" :key="card?.id">
@@ -21,7 +21,7 @@
       <navigation>
         <!-- <template #prev class="overflow-hidden">
           <div
-            class="absolute left-0 w-20 h-20 transform -translate-x-1/2 -translate-y-1/2 bg-black rounded-full opacity-50 top-1/2 hover:cursor-pointer"
+            class="absolute left-0 w-20 h-20 transform -translate-x-1/2 -translate-y-1/2 bg-duckling_black rounded-full opacity-50 top-1/2 hover:cursor-pointer"
             @click="">
             Chevron previous icon
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
@@ -34,7 +34,7 @@
         <template #prev class="overflow-hidden ">
           <div v-if="currentSlide != 0"
             class="absolute left-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
-            <div class="absolute top-0 right-0 w-20 h-20 bg-black rounded-full opacity-50 hover:cursor-pointer"
+            <div class="absolute top-0 right-0 w-20 h-20 bg-duckling_black rounded-full opacity-50 hover:cursor-pointer"
               @click="">
               <!-- Chevron prev icon -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
@@ -47,7 +47,7 @@
         <template #next class="overflow-hidden">
           <div v-if="currentSlide != 0"
             class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
-            <div class="absolute top-0 left-0 w-20 h-20 bg-black rounded-full opacity-50 hover:cursor-pointer"
+            <div class="absolute top-0 left-0 w-20 h-20 bg-duckling_black rounded-full opacity-50 hover:cursor-pointer"
               @click="">
               <!-- Chevron next icon -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
@@ -59,7 +59,7 @@
         </template>
       </navigation>
       <div v-if="visualMode && currentSlide != 0" class="absolute top-0 right-0 pt-8 pr-8 header bg-opacity-70">
-        <button class="w-12 h-12 bg-black border-8 border-black rounded-full opacity-70" @click="toggleVisualMode">
+        <button class="w-12 h-12 bg-duckling_black border-8 border-duckling_black rounded-full opacity-70" @click="toggleVisualMode">
           <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M15 29.0283C13.0762 29.0283 11.2695 28.6621 9.58008 27.9297C7.89062 27.1973 6.40137 26.1865 5.1123 24.8975C3.82324 23.6084 2.80762 22.1191 2.06543 20.4297C1.33301 18.7305 0.966797 16.9189 0.966797 14.9951C0.966797 13.0811 1.33301 11.2793 2.06543 9.58984C2.79785 7.89062 3.80859 6.39648 5.09766 5.10742C6.39648 3.80859 7.89062 2.79297 9.58008 2.06055C11.2695 1.32812 13.0713 0.961914 14.9854 0.961914C16.9092 0.961914 18.7158 1.32812 20.4053 2.06055C22.0947 2.79297 23.584 3.80859 24.873 5.10742C26.1719 6.39648 27.1875 7.89062 27.9199 9.58984C28.6621 11.2793 29.0332 13.0811 29.0332 14.9951C29.0332 16.9189 28.667 18.7305 27.9346 20.4297C27.2021 22.1191 26.1865 23.6084 24.8877 24.8975C23.5986 26.1865 22.1094 27.1973 20.4199 27.9297C18.7305 28.6621 16.9238 29.0283 15 29.0283ZM7.71973 11.2012H22.3242C22.6172 11.2012 22.8516 11.1182 23.0273 10.9521C23.2129 10.7861 23.3057 10.5615 23.3057 10.2783C23.3057 10.0049 23.2129 9.78516 23.0273 9.61914C22.8516 9.44336 22.6172 9.35547 22.3242 9.35547H7.71973C7.42676 9.35547 7.1875 9.44336 7.00195 9.61914C6.81641 9.78516 6.72363 10.0049 6.72363 10.2783C6.72363 10.5615 6.81641 10.7861 7.00195 10.9521C7.1875 11.1182 7.42676 11.2012 7.71973 11.2012ZM7.71973 15.9033H22.3242C22.6172 15.9033 22.8516 15.8203 23.0273 15.6543C23.2129 15.4883 23.3057 15.2637 23.3057 14.9805C23.3057 14.6973 23.2129 14.4727 23.0273 14.3066C22.8516 14.1406 22.6172 14.0576 22.3242 14.0576H7.71973C7.42676 14.0576 7.1875 14.1406 7.00195 14.3066C6.81641 14.4727 6.72363 14.6973 6.72363 14.9805C6.72363 15.2637 6.81641 15.4883 7.00195 15.6543C7.1875 15.8203 7.42676 15.9033 7.71973 15.9033ZM7.71973 20.6348H22.3242C22.6172 20.6348 22.8516 20.5518 23.0273 20.3857C23.2129 20.21 23.3057 19.9805 23.3057 19.6973C23.3057 19.4336 23.2129 19.2188 23.0273 19.0527C22.8516 18.877 22.6172 18.7891 22.3242 18.7891H7.71973C7.42676 18.7891 7.1875 18.877 7.00195 19.0527C6.81641 19.2188 6.72363 19.4336 6.72363 19.6973C6.72363 19.9805 6.81641 20.21 7.00195 20.3857C7.1875 20.5518 7.42676 20.6348 7.71973 20.6348Z"
@@ -70,7 +70,7 @@
       </div>
       <duck-cover-header v-if="currentSlide == 0" :has-close-btn="hasCloseBtn" />
       <div v-if="!visualMode && currentSlide != 0"
-        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2 bg-black header bg-opacity-70 sm:px-8 sm:gap-4">
+        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2 bg-duckling_black header bg-opacity-70 sm:px-8 sm:gap-4">
         <custom-pagination />
         <div class="w-full">
           <div class="grid h-full grid-cols-3">
@@ -94,7 +94,7 @@
                 </svg>
                 <share-dialog v-if="showShareDialog" @close="() => showShareDialog = false" />
               </button>
-              <div id="profile" class="flex items-center row-span-1 gap-2 text-white shrink-0">
+              <div id="profile" class="flex items-center row-span-1 gap-2 text-duckling_white shrink-0">
                 <img v-if="duck?.created_by?.profile_picture?.path"
                   class="object-cover w-10 h-10 rounded-full hover:cursor-pointer"
                   :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" />

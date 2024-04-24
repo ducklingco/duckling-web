@@ -2,9 +2,9 @@
   <div class="relative overflow-hidden card rounded-2xl hover:cursor-pointer" @click="onClickCard">
     <img v-show="imageLoaded" class="object-cover w-full h-full " :src="props?.duck?.cover_image?.path" alt="Duck image"
       @load="imageLoaded = true" />
-    <div v-if="!imageLoaded" class="w-full h-full bg-grey animate-pulse"></div>
+    <div v-if="!imageLoaded" class="w-full h-full bg-duckling_grey animate-pulse"></div>
 
-    <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50">
+    <div class="absolute top-0 left-0 w-full h-full bg-duckling_black bg-opacity-50">
       <div class="flex flex-col justify-between h-full p-6 text-white">
         <div id="profile" class="flex items-center flex-grow-0 gap-2">
           <img v-if="props?.duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"

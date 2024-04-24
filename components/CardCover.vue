@@ -2,12 +2,12 @@
 
     <img v-show="imageLoaded" class="object-cover w-full h-full" :src="duck?.cover_image?.path" alt="Duck image"
         @load="imageLoaded = true" />
-    <div v-if="!imageLoaded" class="w-full h-full bg-grey animate-pulse"></div>
+    <div v-if="!imageLoaded" class="w-full h-full bg-duckling_grey animate-pulse"></div>
 
-    <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 ">
+    <div class="absolute top-0 left-0 w-full h-full bg-duckling_black bg-opacity-30 ">
         <div class="relative grid w-full h-full grid-rows-5 overflow-hidden">
             <card-click-areas @next="onClickNext" />
-            <div class="absolute right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-green hover:cursor-pointer"
+            <div class="absolute right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-duckling_green hover:cursor-pointer"
                 @click="onClickNext">
                 <!-- Chevron next icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
@@ -20,7 +20,7 @@
             <div></div>
 
             <div class="flex items-center justify-center h-full row-span-3 px-3 md:px-14 lg:px-20 xl:p-40">
-                <div class="flex-col items-center justify-center gap-10 p-6 text-white">
+                <div class="flex-col items-center justify-center gap-10 p-6 text-duckling_white">
                     <div id="profile" class="flex items-center row-span-1 gap-2">
                         <img v-if="duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"
                             :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" />
@@ -33,7 +33,7 @@
                         </div>
                         <!-- Spinner when loading -->
                         <div v-else
-                            class="w-12 h-12 border-t-4 border-white border-solid rounded-full animate-spin-slow">
+                            class="w-12 h-12 border-t-4 border-duckling_white border-solid rounded-full animate-spin-slow">
                         </div>
                     </div>
                     <div class="flex items-center row-span-3 py-3 text-left">

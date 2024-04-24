@@ -1,9 +1,9 @@
 <template>
     <div class="absolute bottom-0 left-0 w-full px-4 sm:w-1/2 sm:pl-8">
-        <div class="flex flex-col justify-start w-full h-40 gap-4 px-4 bg-black bg-opacity-50 rounded-t-xl">
+        <div class="flex flex-col justify-start w-full h-40 gap-4 px-4 bg-duckling_black bg-opacity-50 rounded-t-xl">
             <!-- Handle -->
             <div class="flex justify-center w-full h-8 pt-4">
-                <div class="w-8 h-1 bg-white rounded-full opacity-50"></div>
+                <div class="w-8 h-1 bg-duckling_white rounded-full opacity-50"></div>
             </div>
             <div class="flex items-center justify-center w-full gap-4">
                 <button class="w-10 h-10" @click="togglePlay">
@@ -16,7 +16,7 @@
                 </template>
             </div>
 
-            <div class="w-full text-left text-white opacity-100">
+            <div class="w-full text-left text-duckling_white opacity-100">
                 <p class="text-sm text">
                     {{ caption }}
                 </p>

@@ -1,7 +1,7 @@
 <template>
   <ol class="w-full mt-0 carousel__pagination">
     <div v-for="slide in maxSlide + 1" :key="slide" class="carousel__pagination-item">
-      <div type="button" class="rounded-full carousel__pagination-button hover:bg-red"
+      <div type="button" class="rounded-full carousel__pagination-button hover:bg-duckling_red"
         :class="{ 'carousel__pagination-button--active': isActive(slide - 1) }"
         :aria-label="`Navigate to slide ${slide + 1}`" @click="slideTo(slide - 1)"></div>
     </div>
@@ -66,28 +66,28 @@ export default {
 .carousel__pagination-button {
   width: 100%;
   padding: 0;
-  background-color: theme("colors.grey");
+  background-color: theme("colors.duckling_grey");
   opacity: 50%;
 }
 
 .carousel__pagination-button:hover {
-  background-color: theme("colors.red");
+  background-color: theme("colors.duckling_red");
 }
 
 .carousel__pagination-button--active {
-  background-color: theme("colors.red");
+  background-color: theme("colors.duckling_red");
 }
 
 .carousel__pagination-button::after {
-  background-color: theme("colors.grey");
+  background-color: theme("colors.duckling_grey");
   border-radius: 9999px;
 }
 
 .carousel__pagination-button--active::after {
-  background-color: theme("colors.red");
+  background-color: theme("colors.duckling_red");
 }
 
 .carousel__pagination-button:hover::after {
-  background-color: theme("colors.red");
+  background-color: theme("colors.duckling_red");
 }
 </style>

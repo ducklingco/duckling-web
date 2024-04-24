@@ -4,14 +4,14 @@
     <DuckCard v-for="duck in ducks" :key="duck" :duck="duck" />
   </div>
   <div v-if="canFetchMore && !isFetching" class="flex items-center justify-center w-full h-full mt-8 ">
-    <div class="overflow-hidden border-2 rounded-lg bg-grey border-grey">
-      <button class="px-4 py-0 text-lg text-white bg-transparent  text hover:bg-white hover:text-grey transition-colors"
+    <div class="overflow-hidden border-2 rounded-lg bg-duckling_grey border-duckling_grey">
+      <button class="px-4 py-0 text-lg text-duckling_white bg-transparent  text hover:bg-duckling_white hover:text-duckling_grey transition-colors"
         @click="fetchDucks">More ducks</button>
 
     </div>
   </div>
   <div v-if="isFetching" class="flex items-center justify-center w-full h-10 mt-8 ">
-    <div class="w-12 h-12 border-t-4 border-solid rounded-full border-grey animate-spin-slow">
+    <div class="w-12 h-12 border-t-4 border-solid rounded-full border-duckling_grey animate-spin-slow">
     </div>
   </div>
 </template>

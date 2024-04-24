@@ -2,7 +2,7 @@
     <div class="absolute top-0 left-0 grid w-full grid-cols-3 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
         <div class="flex grid-cols-1 gap-2 sm:gap-4">
             <a v-if="props?.hasCloseBtn"
-                class="flex items-center justify-center w-4 h-4 text-xs text-black bg-white rounded-full pointer-events-auto sm:w-8 sm:h-8 hover:cursor-pointer"
+                class="flex items-center justify-center w-4 h-4 text-xs text-duckling_black bg-duckling_white rounded-full pointer-events-auto sm:w-8 sm:h-8 hover:cursor-pointer"
                 @click="onClickClose">
                 <!-- Cross / exit icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -12,7 +12,7 @@
                 </svg>
             </a>
             <button
-                class="relative text-xs bg-white text-black rounded-full w-4 h-4 sm:w-8 sm:h-8 flex items-center justify-center p-[2px] sm:p-[7px] pointer-events-auto"
+                class="relative text-xs bg-duckling_white text-duckling_black rounded-full w-4 h-4 sm:w-8 sm:h-8 flex items-center justify-center p-[2px] sm:p-[7px] pointer-events-auto"
                 @click="() => showShareDialog = true">
                 <!-- Share icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 24 24">

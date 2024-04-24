@@ -6,8 +6,8 @@
 
         <!-- Loader -->
         <div v-if="showSpinner"
-            class="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-            <div class="text-2xl font-bold text-white">Loading...</div>
+            class="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-duckling_black bg-opacity-50">
+            <div class="text-2xl font-bold text-duckling_white">Loading...</div>
         </div>
         <slot name="controls" :play="play" :pause="pause" :toggle-play="togglePlay" :playing="playing"
             :percentage-played="percentagePlayed" :seek-to-percentage="seekToPercentage" :duration="duration"

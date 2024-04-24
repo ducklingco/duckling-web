@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute w-full h-full bg-beige">
+  <div class="absolute w-full h-full bg-duckling_beige">
     <div class="flex items-center justify-center h-full">
       <div class="flex flex-col w-80">
         <div v-if="showPhoneNumberInput" class="flex flex-row w-full my-4">
@@ -38,7 +38,7 @@
         </div>
         <button
           v-if="!showDeleteButton"
-          class="px-4 py-2 font-semibold text-white rounded-lg shadow-md bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
+          class="px-4 py-2 font-semibold text-duckling_white rounded-lg shadow-md bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="showPhoneNumberInput ? sendConfirmationCode() : verifyPhone()"
@@ -50,7 +50,7 @@
           </span>
           <span v-else class="flex items-center justify-center">
             <svg
-              class="w-5 h-5 text-white animate-spin"
+              class="w-5 h-5 text-duckling_white animate-spin"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -73,7 +73,7 @@
         </button>
         <button
           v-if="showDeleteButton"
-          class="px-4 py-2 font-semibold text-white rounded-lg shadow-md bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
+          class="px-4 py-2 font-semibold text-duckling_white rounded-lg shadow-md bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
           type="button"
           :disabled="loading"
           @click="deleteAccount"
@@ -81,7 +81,7 @@
           <span v-if="!loading"> Delete Account </span>
           <span v-else class="flex items-center justify-center">
             <svg
-              class="w-5 h-5 text-white animate-spin"
+              class="w-5 h-5 text-duckling_white animate-spin"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

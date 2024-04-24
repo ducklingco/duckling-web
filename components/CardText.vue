@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center w-full h-full bg-beige ">
+  <div class="flex items-center justify-center w-full h-full bg-duckling_beige ">
     <div class="w-full px-4 font-bold leading-tight text-left xs:px-0 xs:w-3/4 text lg:w-3/4 2xl:max-w-screen-lg"
       :class="fontSizeObj">
       {{ text }}

@@ -1,10 +1,10 @@
 <template>
     <Teleport to="body">
         <!-- Emit closeDialog if click elsewhere -->
-        <div @click="closeDialog" class="fixed inset-0 z-0 bg-black bg-opacity-50"></div>
+        <div @click="closeDialog" class="fixed inset-0 z-0 bg-duckling_black bg-opacity-50"></div>
     </Teleport>
     <div
-        class="absolute left-0 z-10 flex flex-col items-start justify-center gap-1 p-1 m-auto mt-2 text-lg bg-white rounded-sm top-full">
+        class="absolute left-0 z-10 flex flex-col items-start justify-center gap-1 p-1 m-auto mt-2 text-lg bg-duckling_white rounded-sm top-full">
         <div class="text-sm text-left text">Share on Social</div>
         <div v-if="socialShares?.length != 0" class="flex gap-2">
             <SocialShare v-for="social of socialShares" :network="social?.network" :url="social?.url"
