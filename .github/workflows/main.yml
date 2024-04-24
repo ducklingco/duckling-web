@@ -1,0 +1,33 @@
+name: Build and deploy the docker images
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-run-images:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build images
+        run: docker-compose build
+      - name: Stop specific containers
+        run: |
+          containers=$(docker ps -aq -f name=duckling-nginx -f name=duckling-nuxt)
+          if [ -n "$containers" ]; then
+            docker stop $containers
+          fi
+      - name: Removes nuxt container
+        run: |
+          if [[ $(docker ps -aq -f name=duckling-nuxt) ]]; then
+            docker rm $(docker ps -aq -f name=duckling-nuxt)
+          fi
+      - name: Removes nginx container
+        run: |
+          if [[ $(docker ps -aq -f name=duckling-nginx) ]]; then
+            docker rm $(docker ps -aq -f name=duckling-nginx)
+          fi
+      - name: Run new containers
+        run: docker-compose up -d

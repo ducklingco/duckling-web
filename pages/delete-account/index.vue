@@ -1,6 +1,7 @@
 <template>
   <div class="absolute w-full h-full bg-duckling_beige">
     <div class="flex items-center justify-center h-full">
+
       <div class="flex flex-col w-80">
         <div v-if="showPhoneNumberInput" class="flex flex-row w-full my-4">
           <select
