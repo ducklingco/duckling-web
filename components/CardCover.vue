@@ -7,14 +7,14 @@
     <div class="absolute top-0 left-0 w-full h-full bg-duckling_black bg-opacity-30 ">
         <div class="relative grid w-full h-full grid-rows-5 overflow-hidden">
             <card-click-areas @next="onClickNext" />
-            <div class="absolute right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-duckling_green hover:cursor-pointer"
+            <!-- <div class="absolute right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 md:w-32 md:h-32 xl:w-40 xl:h-40 bg-duckling_green hover:cursor-pointer"
                 @click="onClickNext">
-                <!-- Chevron next icon -->
+                Chevron next icon
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
                     class="w-1/2 h-1/2 absolute top-1/2 left-1/2 transform -translate-x-[100%] -translate-y-1/2">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
-            </div>
+            </div> -->
 
             <!-- Necessary for spacing. Could use grid template however -->
             <div></div>

@@ -1,7 +1,7 @@
 <template>
-  <fullscreen-wrapper class="absolute w-screen h-screen" :fullscreen="fullscreen">
+  <div class="absolute w-full h-full">
     <duck-carousel class="h-full" @toggle-fullscreen="toggleFullscreen" :duck="duck" />
-  </fullscreen-wrapper>
+  </div>
 </template>
 
 <script setup lang="ts">
