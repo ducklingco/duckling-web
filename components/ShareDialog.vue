@@ -21,7 +21,6 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(['close']);
 const closeDialog = () => {
-    // Kill component
     emit('close');
 };
 
@@ -65,18 +64,4 @@ const socialShares = [
 ];
 
 socialShares.map((social => useSocialShare(social)));
-
-
-// const shareFacebook = useSocialShare({
-//     network: 'facebook', // Required!
-//     url: 'https://www.example.com', // Optional, defaults to current page URL if not provided
-//     title: 'My Custom Title', // Optional, see the "Supported Networks" table below
-//     user: 'twitter_user', // Optional, see the "Supported Networks" table below
-//     hashtags: 'list,of,hashtags', // Optional, see the "Supported Networks" table below
-//     image: 'https://www.example.com/path/to/image.jpg', // Optional, see the "Supported Networks" table below
-// })
-
-// socialShares.value.push(shareFacebook)
-console.log(socialShares)
-
 </script>

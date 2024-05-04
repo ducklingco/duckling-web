@@ -6,7 +6,7 @@
       <slide class="relative grid w-full h-full" v-for="card in cards" :key="card?.id">
         <div class="relative flex items-center justify-center w-full h-full">
           <div class="flex items-center justify-center w-full h-full bg-center bg-cover">
-            <card-cover v-if="card?.type == 'cover'" :card="card" :key="card?.id" @prev="prevSlide" @next="nextSlide" />
+            <card-cover v-if="card?.type == 'cover'" :key="card?.id" @prev="prevSlide" @next="nextSlide" />
             <card-video v-if="card?.type == 'video'" :card="card" ref="cardVideoSlides" :key="card?.id" :time="0"
               @prev="prevSlide" @next="nextSlide" />
             <Component v-else :is="cardComponents[card?.type]" :card="card" @prev="prevSlide" @next="nextSlide" />

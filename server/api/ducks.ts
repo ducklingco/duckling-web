@@ -25,7 +25,7 @@ async function fetchDucks(filter: string | undefined, page = 1) {
         '': ''
     }
 
-    const url = `https://apiv1.duckling.co/api/v1/ducks?${filterMap[filter]}&page[number]=${page}&page[size]=6&include=coverImage,createdBy.profilePicture,latestTopics`;
+    const url = `https://apiv1.duckling.co/api/v1/ducks?${filterMap[filter]}&page[number]=${page}&page[size]=6&include=coverImage,createdBy.profilePicture,latestTopics&sort=-published_at`;
     const options = {
         method: 'GET',
         headers: {

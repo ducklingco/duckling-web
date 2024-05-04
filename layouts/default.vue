@@ -9,7 +9,7 @@ useSeoMeta({
   title: 'Duckling',
   ogTitle: 'Duckling',
   ogDescription: 'Duckling is documentary stories created by the next generation of journalists and storytellers.',
-  ogImage: 'https://www.duckling.co/assets/img/duckling_logo_text_right.png',
+  ogImage: 'https://web.duckling.co/duckling_logo_text_right.png',
   ogUrl: 'https://web.duckling.co/',
   ogType: 'website',
   ogSiteName: 'Duckling',
