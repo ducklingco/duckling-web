@@ -11,6 +11,13 @@
                 :key="social?.name" :styled="true" :label="false" />
 
         </div>
+        <div class="flex items-center justify-start gap-2">
+            <button :class="{
+            'bg-green-500': didCopy
+        }" @click="onClickCopy">Copy</button>
+            <input type="text" readonly class="text text-xl border-2 border-duckling_grey p-1" aria-expanded="true"
+                v-model="url" />
+        </div>
     </div>
 </template>
 
@@ -64,4 +71,10 @@ const socialShares = [
 ];
 
 socialShares.map((social => useSocialShare(social)));
+
+const didCopy = ref(false)
+const onClickCopy = () => {
+    didCopy.value = navigator.clipboard.writeText(url.value);
+
+};
 </script>

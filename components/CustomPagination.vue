@@ -66,8 +66,8 @@ export default {
 .carousel__pagination-button {
   width: 100%;
   padding: 0;
-  background-color: theme("colors.duckling_grey");
-  opacity: 50%;
+  background-color: theme("colors.duckling_white");
+  opacity: 80%;
 }
 
 .carousel__pagination-button:hover {
@@ -79,7 +79,7 @@ export default {
 }
 
 .carousel__pagination-button::after {
-  background-color: theme("colors.duckling_grey");
+  background-color: theme("colors.duckling_white");
   border-radius: 9999px;
 }
 
