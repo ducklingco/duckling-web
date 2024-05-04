@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full">
         <video :src="src" :muted="muted" :autoplay="autoplay" :controls="controls" :loop="loop"
-            class="object-cover w-full h-full" :poster="poster" :preload="preload" :playsinline="true" ref="player"
+            class="object-contain w-full h-full" :poster="poster" :preload="preload" :playsinline="true" ref="player"
             @click="togglePlay"></video>
 
         <!-- Loader -->

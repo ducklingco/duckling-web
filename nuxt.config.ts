@@ -11,16 +11,6 @@ export default defineNuxtConfig({
     },
   },
   modules: ['@pinia/nuxt', "@stefanobartoletti/nuxt-social-share"],
-  primevue: {
-    components: {
-      prefix: "Prime",
-      include: [
-        "Button",
-        "ButtonGroup",
-        "DataTable",
-      ] /* Used as <PrimeButton /> and <PrimeDataTable /> */,
-    },
-  },
   socialShare: {
     // module options
   },

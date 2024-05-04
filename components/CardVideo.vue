@@ -7,7 +7,7 @@
     </video-player>
 
     <div @click="play" v-if="!playing" class="absolute top-0 left-0 flex items-center justify-center w-full h-full">
-        <button class="w-12 h-12">
+        <button class="w-12 h-12 opacity-80">
             <img src="~/assets/img/button-play.png" alt="">
         </button>
     </div>

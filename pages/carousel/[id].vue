@@ -1,58 +1,49 @@
 <template>
   <div class="absolute w-full h-full">
-    <duck-carousel class="h-full" @toggle-fullscreen="toggleFullscreen" :duck="duck" />
+    <duck-carousel class="h-full" @toggle-fullscreen="toggle" :duck="duck" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { useDucksStore } from "@/stores/ducks";
+import { useFullscreen } from '@vueuse/core'
+
+const { toggle } = useFullscreen()
 
 const route = useRoute();
 const id = route.params.id;
 
-const fullscreen = ref(false);
-
 const { getDuck } = useDucksStore();
 
 const duck = ref(null);
-getDuck(id as string).then((data: any) => {
+const data = getDuck(id as string).then((data: any) => {
   duck.value = data;
-}).catch((error: any) => {
-  console.error(error);
+}).catch((error: any) => { })
+
+const url = computed(() => {
+  if (window === undefined) return;
+  const baseUrl = window.location.origin;
+  const fullUrl = `${baseUrl}${route.path}`;
+  return fullUrl;
+});
+
+const createTitle = () => {
+  const title = duck?.value?.title ? duck?.value?.title : null;
+  const author = duck?.value?.created_by?.first_name ? ` - by ${duck?.value?.created_by?.first_name}` : null;
+  return (title && author) ? title + author : "Duckling";
+}
+useSeoMeta({
+  title: createTitle,
+  ogTitle: createTitle,
+  ogDescription: () => duck?.value?.description,
+  ogImage: () => duck?.value?.cover_image?.path,
+  ogUrl: () => url.value,
+  ogType: 'article',
+  ogSiteName: 'Duckling',
+  ogLocale: 'en_US',
+  twitterCard: 'summary_large_image',
 })
 
-const requestFullscreen = () => {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-    document.documentElement.mozRequestFullScreen();
-  } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-    document.documentElement.webkitRequestFullscreen();
-  } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-    document.documentElement.msRequestFullscreen();
-  }
-};
 
-const exitFullscreen = () => {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.mozCancelFullScreen) { // Firefox
-    document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) { // IE/Edge
-    document.msExitFullscreen();
-  }
-};
-
-
-const toggleFullscreen = () => {
-  fullscreen.value = !fullscreen.value;
-  if (fullscreen.value) {
-    requestFullscreen();
-  } else {
-    exitFullscreen();
-  }
-};
 </script>

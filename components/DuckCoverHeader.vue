@@ -25,8 +25,7 @@
         </div>
         <div class="flex items-start justify-center grid-cols-2 pointer-events-auto">
             <a href="https://duckling.co">
-                <img class="object-contain h-8 sm:h-12" src="assets/img/duckling_logo_text_right_white.png"
-                    alt="Logo" />
+                <DucklingLogo class="object-contain h-8 sm:h-12" fill="#ffffff" fill-opacity="80%" text-right />
             </a>
         </div>
 
@@ -35,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import DucklingLogo from './DucklingLogo.vue';
+
 const props = defineProps<{ hasCloseBtn: Boolean }>();
 const onClickClose = () => {
     // Navigate to index
