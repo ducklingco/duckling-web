@@ -10,6 +10,11 @@ import { useRoute } from "vue-router";
 import { useDucksStore } from "@/stores/ducks";
 import { useFullscreen } from '@vueuse/core'
 
+console.log("process.client")
+console.log(process.client)
+console.log("process.server")
+console.log(process.server)
+
 const { toggle } = useFullscreen()
 
 const route = useRoute();
@@ -17,10 +22,17 @@ const id = route.params.id;
 
 const { getDuck } = useDucksStore();
 
-const duck = ref(null);
-getDuck(id as string).then((data: any) => {
-  duck.value = data;
-}).catch((error: any) => { })
+
+
+const { data: duck, pending, error, refresh } = await useAsyncData(
+  'duck',
+  () => getDuck(id as string)
+)
+
+// const duck = ref(null);
+// getDuck(id as string).then((data: any) => {
+//   duck.value = data;
+// }).catch((error: any) => { })
 
 const url = computed(() => {
   if (window === undefined) return;
