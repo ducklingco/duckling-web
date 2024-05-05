@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 import useCardNavigation from '@/composables/useCardNavigation';
 
 const props = defineProps({
@@ -23,7 +22,6 @@ const emit = defineEmits(['prev', 'next']);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
 
 const text = computed(() => {
-  console.log(props?.card)
   return props?.card?.cardable?.content
 });
 

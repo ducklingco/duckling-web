@@ -98,10 +98,9 @@ export const useDucksStore = defineStore('ducks', {
             
             this.meta[this.filter].is_fetching = true
             // Fetch ducks from the API
-            const response = await fetch(`/api/ducks?${new URLSearchParams(params)}`)
-            const { data: ducksList, meta } = await response.json()
+            const {data, meta} = await $fetch(`/api/ducks?${new URLSearchParams(params)}`)
             // Add the ducks to the store
-            this.ducks[this.filter] = [...this.ducks[this.filter], ...ducksList as Duck[]]
+            this.ducks[this.filter] = [...this.ducks[this.filter], ...data as Duck[]]
             this.meta[this.filter] = meta
             this.meta[this.filter].is_fetching = false
         },
@@ -111,8 +110,7 @@ export const useDucksStore = defineStore('ducks', {
         },
         async fetchDuck (id: string) {
             // Fetch a single duck from the API
-            const response = await fetch(`/api/ducks/${id}`)
-            const { data } = await response.json()
+            const { data } = await $fetch(`/api/ducks/${id}`)
             // Add the duck to the store
             this.addDuck(data as Duck)
         },

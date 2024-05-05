@@ -1,13 +1,4 @@
-
-
-// Filter should be of type: verified, featured or all
-
-// Create type / interface
-
 type Filter = 'verified' | 'featured' | 'all';
-
-
-
 
 export default defineEventHandler(async (event) => {
     const {filter, page} = getQuery(event)
@@ -45,5 +36,3 @@ async function fetchDucks(filter: string | undefined, page = 1) {
         console.error('An error occurred while fetching the ducks:', error);
     }
 }
-
-// export default fetchDucks;

@@ -1,10 +1,10 @@
 <template>
-  <div class="relative overflow-hidden card rounded-lg md:rounded-2xl hover:cursor-pointer" @click="onClickCard">
+  <div class="relative overflow-hidden rounded-lg card md:rounded-2xl hover:cursor-pointer" @click="onClickCard">
     <img v-show="imageLoaded" class="object-cover w-full h-full " :src="props?.duck?.cover_image?.path" alt="Duck image"
       @load="imageLoaded = true" />
     <div v-if="!imageLoaded" class="w-full h-full bg-duckling_grey animate-pulse"></div>
 
-    <div class="absolute top-0 left-0 w-full h-full bg-duckling_black bg-opacity-50">
+    <div class="absolute top-0 left-0 w-full h-full bg-opacity-50 bg-duckling_black">
       <div class="flex flex-col justify-between h-full p-6 text-white">
         <div id="profile" class="flex items-center flex-grow-0 gap-2">
           <img v-if="props?.duck?.created_by?.profile_picture?.path" class="object-cover rounded-full w-14 h-14"
@@ -33,8 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
-
 let props = defineProps<{ duck: any }>();
 
 let onClickCard = () => {

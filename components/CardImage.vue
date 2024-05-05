@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import useCardNavigation from '@/composables/useCardNavigation';
 
 const props = defineProps({
@@ -33,8 +32,4 @@ const objectFit = computed(() => {
 
 const emit = defineEmits(['prev', 'next']);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
-
-watchEffect(() => {
-    console.log('CardImage.vue: objectFit', objectFit.value);
-});
 </script>
