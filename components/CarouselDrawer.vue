@@ -1,24 +1,24 @@
 <template>
     <div class="absolute bottom-0 left-0 w-full px-4 sm:w-1/2 sm:pl-8">
         <div ref="drawerRef"
-            class="flex flex-col justify-start w-full h-40 max-40 gap-4 px-4 bg-duckling_black bg-opacity-50 rounded-t-xl">
+            class="flex flex-col justify-start w-full h-40 gap-4 px-4 bg-opacity-50 max-40 bg-duckling_black rounded-t-xl">
             <!-- Handle -->
             <div class="flex justify-center w-full h-8 pt-4 cursor-pointer" @mousedown="onMouseDown"
                 @mouseup="onMouseUp">
-                <div class="w-8 h-1 bg-duckling_white rounded-full opacity-50"></div>
+                <div class="w-8 h-1 rounded-full opacity-50 bg-duckling_white"></div>
             </div>
-            <div class="flex items-center justify-center w-full gap-4">
+            <div v-if="audio" class="flex items-center justify-center w-full gap-4">
                 <button class="w-10 h-10" @click="togglePlay">
                     <img :src="playing ? imgPause : imgPlay" alt="">
                 </button>
-                <template v-if="audio">
+                <template>
                     <audio ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio"
                         @playing="onPlaying" @pause="onPause"></audio>
                     <player-track :percentage="percentagePlayed" @seek="seekToPercentage" class="flex-grow" />
                 </template>
             </div>
 
-            <div class="w-full text-left text-duckling_white opacity-100">
+            <div class="w-full text-left opacity-100 text-duckling_white">
                 <p class="text-sm text">
                     {{ caption }}
                 </p>
@@ -43,7 +43,7 @@ const props = defineProps({
 const player = ref(null);
 
 const caption = computed(() => {
-    return props?.card?.cardable?.caption || 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad exercitationem odio rerum corrupti doloremque autem, sequi deserunt voluptate nisi, voluptatum ducimus quibusdam quos, labore beatae in minus facere! Aliquam numquam pariatur placeat nostrum maiores dolores, harum omnis quo esse ea qui eaque ad sapiente deleniti atque ipsum minima. Mollitia libero soluta debitis omnis excepturi, aut provident ratione sunt explicabo? Placeat voluptate eveniet minima dolores, provident maiores temporibus illum velit suscipit iusto doloribus at ea eos vitae reiciendis magni reprehenderit harum? At laborum voluptates error enim reiciendis culpa. Eius voluptas voluptatibus itaque libero ipsam doloremque, unde maxime quae assumenda quos reiciendis! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad exercitationem odio rerum corrupti doloremque autem, sequi deserunt voluptate nisi, voluptatum ducimus quibusdam quos, labore beatae in minus facere! Aliquam numquam pariatur placeat nostrum maiores dolores, harum omnis quo esse ea qui eaque ad sapiente deleniti atque ipsum minima. Mollitia libero soluta debitis omnis excepturi, aut provident ratione sunt explicabo? Placeat voluptate eveniet minima dolores, provident maiores temporibus illum velit suscipit iusto doloribus at ea eos vitae reiciendis magni reprehenderit harum? At laborum voluptates error enim reiciendis culpa. Eius voluptas voluptatibus itaque libero ipsam doloremque, unde maxime quae assumenda quos reiciendis!';
+    return props?.card?.cardable?.caption || '';
 });
 
 const audio = computed(() => {
@@ -95,6 +95,7 @@ onMounted(() => {
 function bindAudioEvent (which) {
     console.log("bindAudioEvent")
     console.log(player.value)
+    if (!player.value) return null;
     player.value.addEventListener(
         which,
         (event) => {

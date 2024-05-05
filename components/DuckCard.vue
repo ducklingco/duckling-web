@@ -1,5 +1,5 @@
 <template>
-  <div class="relative overflow-hidden card rounded-2xl hover:cursor-pointer" @click="onClickCard">
+  <div class="relative overflow-hidden card rounded-lg md:rounded-2xl hover:cursor-pointer" @click="onClickCard">
     <img v-show="imageLoaded" class="object-cover w-full h-full " :src="props?.duck?.cover_image?.path" alt="Duck image"
       @load="imageLoaded = true" />
     <div v-if="!imageLoaded" class="w-full h-full bg-duckling_grey animate-pulse"></div>
@@ -43,11 +43,10 @@ let onClickCard = () => {
 
 const titleFontClass = computed(() => {
   if (props?.duck?.latest_topics?.length >= 0 && props?.duck?.title?.length > 60 || props?.duck?.title?.length > 85) {
-    return "text-3xl";
+    return "text-xl sm:text-2xl md:text-3xl";
   }
-  return "text-4xl";
+  return "text-2xl sm:text-3xl md:text-4xl";
 });
-
 
 const imageLoaded = ref(false);
 </script>

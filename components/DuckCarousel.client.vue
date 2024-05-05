@@ -22,7 +22,7 @@
         <template #prev class="overflow-hidden ">
           <div v-if="currentSlide != 0"
             class="absolute left-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
-            <div class="absolute top-0 right-0 w-20 h-20 bg-duckling_black rounded-full opacity-50 hover:cursor-pointer"
+            <div class="absolute top-0 right-0 w-20 h-20 rounded-full opacity-50 bg-duckling_black hover:cursor-pointer"
               @click="">
               <!-- Chevron prev icon -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
@@ -34,7 +34,7 @@
         </template>
         <template #next class="overflow-hidden">
           <div class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
-            <div class="absolute top-0 left-0 w-20 h-20  rounded-full hover:cursor-pointer" :class="{
+            <div class="absolute top-0 left-0 w-20 h-20 rounded-full hover:cursor-pointer" :class="{
     'opacity-50': currentSlide != 0,
     'bg-duckling_black': currentSlide != 0,
     'bg-duckling_green': currentSlide == 0
@@ -60,7 +60,7 @@
       </div>
       <duck-cover-header v-if="currentSlide == 0" :has-close-btn="hasCloseBtn" />
       <div v-if="!visualMode && currentSlide != 0"
-        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2  header sm:px-8 sm:gap-4">
+        class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2 header sm:px-8 sm:gap-4">
         <custom-pagination :dark="currentCard?.type === 'text'" />
         <div class="w-full">
           <div class="grid h-full grid-cols-3">
@@ -84,7 +84,7 @@
                 </svg>
                 <share-dialog v-if="showShareDialog" @close="() => showShareDialog = false" />
               </button>
-              <div id="profile" class="flex items-center row-span-1 gap-2  shrink-0"
+              <div id="profile" class="flex items-center row-span-1 gap-2 shrink-0"
                 :class="{ 'text-duckling_white': currentCard?.type != 'text', 'text-duckling_black': currentCard?.type == 'text' }">
                 <img v-if="duck?.created_by?.profile_picture?.path"
                   class="object-cover w-10 h-10 rounded-full hover:cursor-pointer"
@@ -164,7 +164,14 @@ const cardComponents: Record<string, Component> = {
   video: CardVideo,
 };
 
-const cards = computed(() => [{ type: "cover" }, ...props?.duck?.cards] || []);
+const cards = computed(() => {
+  if (props?.duck?.cards) {
+    return [{ type: "cover" }, ...props?.duck?.cards];
+  } else {
+    return [];
+  }
+}
+)
 
 const onClickCloseCarousel = () => {
   navigateTo({ name: "index" });

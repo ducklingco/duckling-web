@@ -1,4 +1,9 @@
 <template>
+
+  <!-- <Head>
+    <Meta name="description" :content="title ? title : '123'">
+    </Meta>
+  </Head> -->
   <div class="absolute w-full h-full">
     <duck-carousel class="h-full" @toggle-fullscreen="toggle" :duck="duck" />
   </div>
@@ -33,6 +38,11 @@ const createTitle = () => {
   const author = duck?.value?.created_by?.first_name ? ` - by ${duck?.value?.created_by?.first_name}` : null;
   return (title && author) ? title + author : "Duckling";
 }
+
+const title = computed(() => {
+  return createTitle();
+
+})
 useSeoMeta({
   title: createTitle,
   ogTitle: createTitle,
