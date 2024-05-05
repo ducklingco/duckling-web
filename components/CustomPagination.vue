@@ -2,7 +2,7 @@
   <ol class="w-full mt-0 carousel__pagination">
     <div v-for="slide in maxSlide + 1" :key="slide" class="carousel__pagination-item">
       <div type="button" class="rounded-full carousel__pagination-button hover:bg-duckling_red"
-        :class="{ 'carousel__pagination-button--active': isActive(slide - 1) }"
+        :class="{ 'carousel__pagination-button--active': isActive(slide - 1), 'dark': dark }"
         :aria-label="`Navigate to slide ${slide + 1}`" @click="slideTo(slide - 1)"></div>
     </div>
   </ol>
@@ -24,6 +24,12 @@ function mapNumberToRange ({ val, max, min = 0 }) {
 
 export default {
   name: "CustomPagination",
+  props: {
+    dark: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup () {
     const config = inject("config", reactive({ ...defaultConfigs }));
     const maxSlide = inject("maxSlide", ref(1));
@@ -70,6 +76,10 @@ export default {
   opacity: 80%;
 }
 
+.carousel__pagination-button.dark {
+  background-color: theme("colors.duckling_black");
+}
+
 .carousel__pagination-button:hover {
   background-color: theme("colors.duckling_red");
 }
@@ -81,6 +91,10 @@ export default {
 .carousel__pagination-button::after {
   background-color: theme("colors.duckling_white");
   border-radius: 9999px;
+}
+
+.carousel__pagination-button.dark::after {
+  background-color: theme("colors.duckling_black");
 }
 
 .carousel__pagination-button--active::after {
