@@ -1,8 +1,10 @@
 <template>
     <div class="absolute bottom-0 left-0 w-full px-4 sm:w-1/2 sm:pl-8">
-        <div class="flex flex-col justify-start w-full h-40 gap-4 px-4 bg-duckling_black bg-opacity-50 rounded-t-xl">
+        <div ref="drawerRef"
+            class="flex flex-col justify-start w-full h-40 max-40 gap-4 px-4 bg-duckling_black bg-opacity-50 rounded-t-xl">
             <!-- Handle -->
-            <div class="flex justify-center w-full h-8 pt-4">
+            <div class="flex justify-center w-full h-8 pt-4 cursor-pointer" @mousedown="onMouseDown"
+                @mouseup="onMouseUp">
                 <div class="w-8 h-1 bg-duckling_white rounded-full opacity-50"></div>
             </div>
             <div class="flex items-center justify-center w-full gap-4">
@@ -41,7 +43,7 @@ const props = defineProps({
 const player = ref(null);
 
 const caption = computed(() => {
-    return props?.card?.cardable?.caption || '';
+    return props?.card?.cardable?.caption || 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad exercitationem odio rerum corrupti doloremque autem, sequi deserunt voluptate nisi, voluptatum ducimus quibusdam quos, labore beatae in minus facere! Aliquam numquam pariatur placeat nostrum maiores dolores, harum omnis quo esse ea qui eaque ad sapiente deleniti atque ipsum minima. Mollitia libero soluta debitis omnis excepturi, aut provident ratione sunt explicabo? Placeat voluptate eveniet minima dolores, provident maiores temporibus illum velit suscipit iusto doloribus at ea eos vitae reiciendis magni reprehenderit harum? At laborum voluptates error enim reiciendis culpa. Eius voluptas voluptatibus itaque libero ipsam doloremque, unde maxime quae assumenda quos reiciendis! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad exercitationem odio rerum corrupti doloremque autem, sequi deserunt voluptate nisi, voluptatum ducimus quibusdam quos, labore beatae in minus facere! Aliquam numquam pariatur placeat nostrum maiores dolores, harum omnis quo esse ea qui eaque ad sapiente deleniti atque ipsum minima. Mollitia libero soluta debitis omnis excepturi, aut provident ratione sunt explicabo? Placeat voluptate eveniet minima dolores, provident maiores temporibus illum velit suscipit iusto doloribus at ea eos vitae reiciendis magni reprehenderit harum? At laborum voluptates error enim reiciendis culpa. Eius voluptas voluptatibus itaque libero ipsam doloremque, unde maxime quae assumenda quos reiciendis!';
 });
 
 const audio = computed(() => {
@@ -90,15 +92,6 @@ onMounted(() => {
     bindAudioEvent('timeupdate');
 });
 
-// watchEffect(() => {
-//     console.log("player.value")
-//     console.log(player.value)
-//     if (player.value) {
-//         bindAudioEvent('loadeddata');
-//         bindAudioEvent('timeupdate');
-//     }
-// });
-
 function bindAudioEvent (which) {
     console.log("bindAudioEvent")
     console.log(player.value)
@@ -125,6 +118,28 @@ const onPlaying = () => {
 const onPause = () => {
     playing.value = false
 }
+
+
+const drawerRef = ref(null);
+
+
+// When mouse is down, make so that the drawer can be dragged up and down
+const onMouseDown = (e) => {
+    const startY = e.clientY;
+    const startHeight = drawerRef.value.clientHeight;
+    const onMouseMove = (e) => {
+        const diff = e.clientY - startY;
+        if (startHeight - diff < 40) return;
+        if (startHeight - diff > window.innerHeight * 0.8) return;
+        drawerRef.value.style.height = `${startHeight - diff}px`;
+    };
+    const onMouseUp = () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+};
 
 defineExpose({
     play,
