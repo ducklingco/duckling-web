@@ -3,8 +3,8 @@ import path from "path";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
-  debug: false,
   devtools: { enabled: true },
+  ssr: true,
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -15,6 +15,11 @@ export default defineNuxtConfig({
   socialShare: {
     // module options
   },
+  routeRules: [
+    {
+      '/carousel/**': { swr: 60 },
+    }
+  ],
   css: [
     "~/assets/css/main.css",
   ],
