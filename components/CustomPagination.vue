@@ -84,7 +84,8 @@ export default {
   background-color: theme("colors.duckling_red");
 }
 
-.carousel__pagination-button--active {
+.carousel__pagination-button--active,
+.carousel__pagination-button--active.dark {
   background-color: theme("colors.duckling_red");
 }
 
@@ -97,7 +98,8 @@ export default {
   background-color: theme("colors.duckling_black");
 }
 
-.carousel__pagination-button--active::after {
+.carousel__pagination-button--active::after,
+.carousel__pagination-button--active.dark::after {
   background-color: theme("colors.duckling_red");
 }
 

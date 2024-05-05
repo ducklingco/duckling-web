@@ -15,7 +15,7 @@
             <button :class="{
             'bg-green-500': didCopy
         }" @click="onClickCopy">Copy</button>
-            <input type="text" readonly class="text text-xl border-2 border-duckling_grey p-1" aria-expanded="true"
+            <input type="text" readonly class="p-1 text-xl border-2 text border-duckling_grey" aria-expanded="true"
                 v-model="url" />
         </div>
     </div>

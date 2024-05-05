@@ -16,7 +16,7 @@
 const props = withDefaults(defineProps<{
     fill: string;
     fillOpacity: string;
-    textRight: boolean;
+    textRight?: boolean;
 }>(), {
     fill: "#ffffff",
     fillOpacity: "80%",
