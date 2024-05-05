@@ -42,7 +42,7 @@ useSeoMeta({
   ogImage: () => duck?.value?.cover_image?.path,
   ogUrl: () => url.value,
   ogType: 'website',
-  // ogSiteName: 'Duckling',
+  ogSiteName: 'Duckling',
   ogLocale: 'en_US',
   twitterCard: 'summary_large_image',
 })
