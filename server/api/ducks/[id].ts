@@ -1,4 +1,4 @@
-export default async (event: any) => {
+export default defineEventHandler(async (event: any) => {
   const id = event.context.params.id
 
   // Do what you need to do with the id
@@ -31,4 +31,4 @@ export default async (event: any) => {
 
     
   return id
-}
+});

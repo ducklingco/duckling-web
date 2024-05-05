@@ -1,12 +1,11 @@
 <template>
-  <!-- :autoplay="5000" -->
   <carousel ref="carouselRef" v-model="currentSlide" class="relative w-full h-full bg-duckling_black" :items-to-show="1"
     :mouse-drag="false" :transition="500">
     <template #slides>
       <slide class="relative grid w-full h-full" v-for="card in cards" :key="card?.id">
         <div class="relative flex items-center justify-center w-full h-full">
           <div class="flex items-center justify-center w-full h-full bg-center bg-cover">
-            <card-cover v-if="card?.type == 'cover'" :key="card?.id" @prev="prevSlide" @next="nextSlide" />
+            <card-cover v-if="card?.type == 'cover'" :duck="duck" :key="card?.id" @prev="prevSlide" @next="nextSlide" />
             <card-video v-if="card?.type == 'video'" :card="card" ref="cardVideoSlides" :key="card?.id" :time="0"
               @prev="prevSlide" @next="nextSlide" />
             <Component v-else :is="cardComponents[card?.type]" :card="card" @prev="prevSlide" @next="nextSlide" />
@@ -132,7 +131,6 @@
         </div>
       </div>
     </template>
-
   </carousel>
 </template>
 
@@ -166,7 +164,7 @@ const cardComponents: Record<string, Component> = {
 
 const cards = computed(() => {
   if (props?.duck?.cards) {
-    return [{ type: "cover" }, ...props?.duck?.cards];
+    return [{ type: "cover", }, ...props?.duck?.cards];
   } else {
     return [];
   }
@@ -179,22 +177,15 @@ const onClickCloseCarousel = () => {
 
 const currentSlide = ref(0);
 
-watchEffect(() => {
-  console.log(currentSlide.value)
-})
-
 const currentCard = computed(() => {
   return cards.value[unref(currentSlide)]
 });
 
 const currentCardVideo = computed(() => {
-  console.log(cardVideoSlides.value)
   return cardVideoSlides.value?.find((card) => card?.id === unref(unref(currentCard))?.id);
 });
 
 watch(currentCardVideo, (newCurrentCardVideo) => {
-  console.log("Play video")
-  console.log(newCurrentCardVideo)
   newCurrentCardVideo?.play();
 
   // turn off other videos
@@ -203,10 +194,6 @@ watch(currentCardVideo, (newCurrentCardVideo) => {
       card?.pause();
     }
   });
-})
-
-watchEffect(() => {
-  console.log(currentCardVideo.value)
 })
 
 const navFillColor = computed(() => {
@@ -230,8 +217,6 @@ const currentCardAudio = computed(() => {
 });
 
 watch(currentCardAudio, (newCurrentCardAudio) => {
-  console.log("Play audio")
-  console.log(newCurrentCardAudio)
   newCurrentCardAudio?.play();
 
   // turn off other audios

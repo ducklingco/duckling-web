@@ -73,10 +73,6 @@ const playing = ref(true);
 
 const seekToPercentage = (percentage) => {
     if (!player?.value?.duration) return null;
-    console.log(player.value)
-    console.log(player.value.duration)
-    console.log(percentage)
-    console.log(player.value.duration * percentage)
     player.value.currentTime = player.value.duration * percentage / 100;
     play()
 };
@@ -93,8 +89,6 @@ onMounted(() => {
 });
 
 function bindAudioEvent (which) {
-    console.log("bindAudioEvent")
-    console.log(player.value)
     if (!player.value) return null;
     player.value.addEventListener(
         which,

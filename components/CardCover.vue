@@ -1,8 +1,8 @@
 <template>
 
+    <div v-if="!imageLoaded" class="w-full h-full bg-duckling_black animate-pulse"></div>
     <img v-show="imageLoaded" class="object-cover w-full h-full" :src="duck?.cover_image?.path" alt="Duck image"
-        @load="imageLoaded = true" />
-    <div v-if="!imageLoaded" class="w-full h-full bg-duckling_grey animate-pulse"></div>
+        @load="() => imageLoaded = true" />
 
     <div class="absolute top-0 left-0 w-full h-full bg-duckling_black bg-opacity-30 ">
         <div class="relative grid w-full h-full grid-rows-5 overflow-hidden">
@@ -45,21 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { useDucksStore } from "@/stores/ducks";
 import useCardNavigation from '@/composables/useCardNavigation';
 
-const route = useRoute();
-const id = route.params.id;
-
-const { getDuck } = useDucksStore();
-
-const duck = ref(null);
-getDuck(id as string).then((data: any) => {
-    duck.value = data;
-}).catch((error: any) => {
-    console.error(error);
-})
+defineProps({
+    duck: Object
+});
 
 const imageLoaded = ref(false);
 

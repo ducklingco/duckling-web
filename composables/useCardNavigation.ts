@@ -1,11 +1,9 @@
 export default function useCardNavigation(emit: any, cardType: string = 'regular') {
     const onClickPrev = () => {
-        console.log("prev")
         emit('prev');
       };
       
       const onClickNext = () => {
-      console.log("next")
         emit('next');
     };
 

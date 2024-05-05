@@ -1,11 +1,7 @@
 <template>
-
-  <!-- <Head>
-    <Meta name="description" :content="title ? title : '123'">
-    </Meta>
-  </Head> -->
   <div class="absolute w-full h-full">
-    <duck-carousel class="h-full" @toggle-fullscreen="toggle" :duck="duck" />
+    <div v-if="!duck" class="absolute w-full h-full t-0 l-0 bg-duckling_black animate-pulse"></div>
+    <duck-carousel v-if="duck" @toggle-fullscreen="toggle" :duck="duck" />
   </div>
 </template>
 
@@ -22,7 +18,7 @@ const id = route.params.id;
 const { getDuck } = useDucksStore();
 
 const duck = ref(null);
-const data = getDuck(id as string).then((data: any) => {
+getDuck(id as string).then((data: any) => {
   duck.value = data;
 }).catch((error: any) => { })
 
@@ -39,10 +35,6 @@ const createTitle = () => {
   return (title && author) ? title + author : "Duckling";
 }
 
-const title = computed(() => {
-  return createTitle();
-
-})
 useSeoMeta({
   title: createTitle,
   ogTitle: createTitle,

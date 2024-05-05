@@ -29,7 +29,6 @@ onUnmounted(() => {
 const scrollComponent = ref(null)
 
 watch(ducks, () => {
-  console.log("ducks changed")
   fetchIfPossible()
 })
 
