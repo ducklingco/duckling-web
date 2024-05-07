@@ -21,7 +21,7 @@ const options = {
     image: "https://images.squarespace-cdn.com/content/v1/62ff7317b7cfe25402e6d9b0/64247817-40c7-4277-a936-a9344da9511e/Logo.png?format=1500w",
     dotsOptions: {
         color: "#000",
-        type: "rounded"
+        type: "classy"
     },
     backgroundOptions: {
         color: "#fff",
@@ -54,11 +54,5 @@ watch(() => props.data, (newValue: string) => {
 svg {
     width: 100%;
     height: 100%;
-}
-</style>
-<style>
-img {
-    width: 100%;
-    height: auto;
 }
 </style>
