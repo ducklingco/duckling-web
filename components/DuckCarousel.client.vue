@@ -10,8 +10,8 @@
               @prev="prevSlide" @next="nextSlide" />
             <Component v-else :is="cardComponents[card?.type]" :card="card" @prev="prevSlide" @next="nextSlide" />
 
-            <carousel-drawer v-if="card?.cardable?.caption || card?.cardable?.audio" ref="audioDrawerRefs" class="z-10"
-              :card="card" />
+            <carousel-drawer v-if="card?.cardable?.caption || card?.cardable?.audio?.path" ref="audioDrawerRefs"
+              class="z-10" :card="card" />
           </div>
         </div>
       </slide>

@@ -1,8 +1,11 @@
 <template>
-  <div class="flex items-center justify-center w-full h-full bg-duckling_beige ">
-    <div class="w-full px-4 font-bold leading-tight text-left xs:px-0 xs:w-3/4 text lg:w-3/4 2xl:max-w-screen-lg"
-      :class="fontSizeObj">
-      {{ text }}
+  <div class="w-full h-full py-20 sm:py-30 md:py-40 lg:py-40 bg-duckling_beige">
+    <div ref="parent" class="flex items-center justify-center w-full h-full">
+      <div ref="textElement"
+        class="w-full px-4 font-bold leading-tight text-left xs:px-0 xs:w-3/4 text lg:w-3/4 2xl:max-w-screen-lg"
+        :class="fontSizeObj" :style="{ fontSize: `${fontSize}px` }">
+        {{ text }}
+      </div>
     </div>
   </div>
   <card-click-areas @prev="onClickPrev" @next="onClickNext" />
@@ -25,7 +28,7 @@ const text = computed(() => {
   return props?.card?.cardable?.content
 });
 
-const fontSize = computed(() => {
+const fontSizeOld = computed(() => {
   // Typically around 30px
   return props?.card?.cardable?.font_size || 30;
 });
@@ -64,9 +67,9 @@ const breakpointToScale = {
   '2xl:': 2.4,
 };
 // Translate fontSize to tailwind text size text-sm, text-lg, etc.
-const textSizeClass = (fontSize, breakpoint = '') => {
+const textSizeClass = (fontSizeOld, breakpoint = '') => {
   const scale = breakpointToScale[breakpoint];
-  const scaledFontSize = fontSize * scale
+  const scaledFontSize = fontSizeOld * scale
   const sizeClass = intervalMap.find((interval) => interval.size > scaledFontSize).class;
   return sizeClass
 };
@@ -81,6 +84,41 @@ const fontSizeObj = computed(() => {
   }
   return toReturn;
 });
+
+
+let textElement = ref(null);
+let parent = ref(null);
+let fontSize = ref(1); // Start with a small font size
+
+onMounted(() => {
+  let observer = new ResizeObserver(() => {
+    adjustFontSize();
+  });
+
+  observer.observe(parent.value);
+
+  onUnmounted(() => {
+    observer.disconnect();
+  });
+});
+
+let adjustFontSize = async () => {
+  fontSize.value = 1; // Reset to the initial small font size
+  const maxFontSize = 500; // Set a maximum limit for the font size
+
+  // Increase font size until the text no longer fits or the maximum limit is reached
+  while (fontSize.value < maxFontSize) {
+    fontSize.value++;
+    await nextTick();
+
+    if (textElement.value.offsetWidth > parent.value.offsetWidth || textElement.value.offsetHeight > parent.value.offsetHeight) {
+      break;
+    }
+  }
+
+  // Decrease font size by one step to ensure the text fits
+  fontSize.value--;
+};
 
 </script>
 <!-- w-3/4 font-bold leading-tight text-left text lg:w-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-8xl 2xl:text-9xl -->
