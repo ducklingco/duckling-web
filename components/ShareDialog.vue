@@ -26,25 +26,6 @@
             </div>
         </div>
     </Teleport>
-    <!-- <div
-        class="absolute left-0 z-10 flex flex-col items-start justify-center gap-1 p-1 m-auto mt-2 text-lg bg-white rounded-sm top-full">
-        <div class="text-sm text-left text">Share on Social</div>
-        <div v-if="socialShares?.length != 0" class="flex gap-2">
-            <QRCode :data="url" />
-            <button @click="downloadQRCode()">Download</button>
-            <SocialShare v-for="social of socialShares" :network="social?.network" :url="social?.url"
-                :key="social?.name" :styled="false" :label="false">
-            </SocialShare>
-
-        </div>
-        <div class="flex items-center justify-start gap-2">
-            <button :class="{
-            'bg-green-500': didCopy
-        }" @click="onClickCopy">Copy</button>
-            <input type="text" readonly class="p-1 text-xl border-2 text border-duckling_grey" aria-expanded="true"
-                v-model="url" />
-        </div>
-    </div> -->
 </template>
 
 <script setup lang="ts">
