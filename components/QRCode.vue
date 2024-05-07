@@ -17,8 +17,8 @@ const options = {
     width: 640,
     height: 640,
     // type: "svg",
+    image: "../duckling_logo_text_under.png",
     data: props.data,
-    image: "https://images.squarespace-cdn.com/content/v1/62ff7317b7cfe25402e6d9b0/64247817-40c7-4277-a936-a9344da9511e/Logo.png?format=1500w",
     dotsOptions: {
         color: "#000",
         type: "classy"
@@ -28,7 +28,7 @@ const options = {
     },
     imageOptions: {
         crossOrigin: "anonymous",
-        margin: 3
+        margin: 5
     }
 };
 

@@ -3,19 +3,17 @@
         <div ref="drawerRef"
             class="flex flex-col justify-start w-full h-40 gap-4 px-4 bg-opacity-50 max-40 bg-duckling_black rounded-t-xl">
             <!-- Handle -->
-            <div class="flex justify-center w-full h-8 pt-4 cursor-pointer" @mousedown="onMouseDown"
-                @mouseup="onMouseUp">
+            <div class="flex justify-center w-full h-8 pt-4 cursor-pointer" @touchstart="onMouseDown"
+                @mousedown="onMouseDown">
                 <div class="w-8 h-1 rounded-full opacity-50 bg-duckling_white"></div>
             </div>
             <div v-if="audio" class="flex items-center justify-center w-full gap-4">
                 <button class="w-10 h-10" @click="togglePlay">
                     <img :src="playing ? imgPause : imgPlay" alt="">
                 </button>
-                <template>
-                    <audio ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio"
-                        @playing="onPlaying" @pause="onPause"></audio>
-                    <player-track :percentage="percentagePlayed" @seek="seekToPercentage" class="flex-grow" />
-                </template>
+                <audio ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio" @playing="onPlaying"
+                    @pause="onPause"></audio>
+                <player-track :percentage="percentagePlayed" @seek="seekToPercentage" class="flex-grow" />
             </div>
 
             <div class="w-full text-left opacity-100 text-duckling_white">
@@ -74,9 +72,7 @@ const playing = ref(true);
 const seekToPercentage = (percentage) => {
     if (!player?.value?.duration) return null;
     player.value.currentTime = player.value.duration * percentage / 100;
-    play()
 };
-
 
 const emit = defineEmits(['loadeddata', 'timeupdate']);
 
@@ -120,19 +116,23 @@ const drawerRef = ref(null);
 
 // When mouse is down, make so that the drawer can be dragged up and down
 const onMouseDown = (e) => {
-    const startY = e.clientY;
+    if (!drawerRef.value) return;
+    const startY = e.clientY || e.touches[0].clientY;
     const startHeight = drawerRef.value.clientHeight;
     const onMouseMove = (e) => {
-        const diff = e.clientY - startY;
+        if (!drawerRef.value) return;
+        const diff = (e.clientY || e.touches[0].clientY) - startY;
         if (startHeight - diff < 40) return;
         if (startHeight - diff > window.innerHeight * 0.8) return;
         drawerRef.value.style.height = `${startHeight - diff}px`;
     };
     const onMouseUp = () => {
         window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('touchmove', onMouseMove);
         window.removeEventListener('mouseup', onMouseUp);
     };
     window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchmove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
 };
 
