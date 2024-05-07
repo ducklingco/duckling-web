@@ -16,7 +16,7 @@ const qrCode = ref<HTMLElement | null>(null);
 const options = {
     width: 640,
     height: 640,
-    // type: "svg",
+    type: "canvas",
     image: "../duckling_logo_text_under.png",
     data: props.data,
     dotsOptions: {
