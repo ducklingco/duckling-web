@@ -5,7 +5,7 @@
         </div>
         <div class="absolute top-0 left-0 flex items-center justify-center w-full h-full p-10 pointer-events-none ">
             <div
-                class="container flex flex-col items-stretch justify-center max-h-screen gap-3 sm:gap-5 md:gap-8 md:max-w-screen-sm">
+                class="container flex flex-col items-stretch justify-center max-h-full gap-3 mx-auto sm:gap-5 md:gap-8 md:max-w-screen-sm md:m-10">
                 <div class="grid grid-cols-4 grid-rows-1 gap-2 sm:gap-3 md:gap-4 grow ">
                     <div v-for="social of socialShares"
                         class="flex items-stretch justify-center overflow-hidden rounded-md cursor-pointer pointer-events-auto aspect-square">
@@ -26,8 +26,10 @@
                     <input type="text" readonly
                         class="min-w-0 p-1 text-sm rounded-md sm:text-base md:p-2 md:text-lg text grow" v-model="url" />
                 </div>
-                <div class="flex flex-col items-stretch justify-center w-full overflow-hidden rounded-md">
-                    <QRCode class="flex flex-col items-stretch justify-center w-full pointer-events-auto" :data="url" />
+                <div class="flex flex-col items-stretch justify-center w-full h-full rounded-md">
+                    <QRCode
+                        class="flex flex-col items-stretch justify-center object-contain w-full h-full pointer-events-auto"
+                        :data="url" />
                 </div>
             </div>
         </div>
