@@ -1,5 +1,5 @@
 <template>
-    <div ref="qrCode" class="svg-container" />
+    <div :data="props.data" ref="qrCode" class="svg-container" />
 </template>
 
 <script setup lang="ts">
