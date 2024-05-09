@@ -1,5 +1,5 @@
 <template>
-    <div ref="qrCode"></div>
+    <div class="svg-container" ref="qrCode"></div>
 </template>
 
 <script setup lang="ts">
@@ -16,7 +16,7 @@ const qrCode = ref<HTMLElement | null>(null);
 const options = {
     width: 640,
     height: 640,
-    type: "canvas",
+    type: "svg",
     image: "../duckling_logo_text_under.png",
     data: props.data,
     dotsOptions: {
@@ -38,7 +38,9 @@ onMounted(() => {
     // Append QR code to DOM element
     qrCodeStyling.append(qrCode.value);
     // Add viewbox to make it resizable
-    qrCode.value!.firstChild!.setAttribute('viewBox', '0 0 300 300');
+    qrCode.value!.firstChild!.setAttribute('viewBox', '0 0 640 640');
+    qrCode.value!.firstChild!.removeAttribute('width');
+    qrCode.value!.firstChild!.removeAttribute('height');
 });
 
 watch(() => props.data, (newValue: string) => {
@@ -46,12 +48,24 @@ watch(() => props.data, (newValue: string) => {
     options.data = newValue;
     qrCodeStyling.update(options);
     // Add viewbox to make it resizable
-    qrCode.value!.firstChild!.setAttribute('viewBox', '0 0 300 300');
+    qrCode.value!.firstChild!.setAttribute('viewBox', '0 0 640 640');
+    qrCode.value!.firstChild!.removeAttribute('width');
+    qrCode.value!.firstChild!.removeAttribute('height');
 });
 </script>
 
 <style scoped>
 svg {
+    width: 100%;
+    height: 100%;
+}
+
+.svg-container {
+    width: 100%;
+    height: 100%;
+}
+
+.svg-container svg {
     width: 100%;
     height: 100%;
 }
