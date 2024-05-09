@@ -1,12 +1,5 @@
 export default defineEventHandler(async (event: any) => {
-  const id = event.context.params.id
-
-  // Do what you need to do with the id
-  // e.g.
-  
-    // Fetch a single duck from the API
-    // https://apiv1.duckling.co/api/v1/ducks/duck_2dP1paWf37QAEJ0fxe7A1eoiOQZ/cards
-
+    const id = event.context.params.id;
     // Fetch a single duck from the API
     const url = `https://apiv1.duckling.co/api/v1/ducks/${id}`;
 
@@ -29,6 +22,5 @@ export default defineEventHandler(async (event: any) => {
         console.error('An error occurred while fetching the ducks:', error);
     }
 
-    
-  return id
+    return id;
 });

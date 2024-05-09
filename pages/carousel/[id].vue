@@ -1,7 +1,7 @@
 <template>
   <div class="absolute w-full h-full">
-    <div v-if="!duck" class="absolute w-full h-full t-0 l-0 bg-duckling_black animate-pulse"></div>
-    <duck-carousel v-if="duck" @toggle-fullscreen="toggle" :duck="duck" />
+    <div v-if="!duck" class="absolute w-full h-full t-0 l-0 bg-duckling_black animate-pulse" />
+    <duck-carousel v-if="duck" :duck="duck" @toggle-fullscreen="toggle" />
   </div>
 </template>
 
@@ -50,6 +50,5 @@ useSeoMeta({
   ogLocale: 'en_US',
   twitterCard: 'summary_large_image',
 })
-
 
 </script>

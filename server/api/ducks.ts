@@ -1,14 +1,12 @@
-type Filter = 'verified' | 'featured' | 'all';
+import type { Filter } from '~/types/Filter';
 
 export default defineEventHandler(async (event) => {
     const {filter, page} = getQuery(event)
-    const ducks = await fetchDucks(filter, page);
+    const ducks = await fetchDucks(filter, Number(page) || 1);
     return ducks;
 })
 
-
-async function fetchDucks(filter: string | undefined, page = 1) {
-
+async function fetchDucks(filter: Filter, page = 1) {
     const filterMap: { [key: string]: string } = {
         verified: 'filter[isVerified]=true',
         featured: 'filter[isFeatured]=true',

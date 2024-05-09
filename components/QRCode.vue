@@ -1,5 +1,5 @@
 <template>
-    <div class="svg-container" ref="qrCode"></div>
+    <div ref="qrCode" class="svg-container" />
 </template>
 
 <script setup lang="ts">
@@ -35,7 +35,9 @@ const options = {
 const qrCodeStyling: QRCodeStyling = $qrCodeStyling(options);
 
 onMounted(() => {
+
     // Append QR code to DOM element
+    if (!qrCode.value) return;
     qrCodeStyling.append(qrCode.value);
     // Add viewbox to make it resizable
     qrCode.value!.firstChild!.setAttribute('viewBox', '0 0 640 640');
@@ -55,11 +57,6 @@ watch(() => props.data, (newValue: string) => {
 </script>
 
 <style scoped>
-svg {
-    width: 100%;
-    height: 100%;
-}
-
 .svg-container {
     width: 100%;
     height: 100%;

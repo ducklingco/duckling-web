@@ -1,7 +1,9 @@
 <template>
     <div class="flex items-center w-full">
-        <input type="range" min="0" max="100" step="1" :value="percentage.toFixed(1)" @input="onInput"
-            class="top-[-1px] w-full rounded-full overflow-hidden appearance-none bg-duckling_white bg-opacity-80 focus:outline-none hover:cursor-ew-resize" />
+        <input
+type="range" min="0" max="100" step="1" :value="percentage.toFixed(1)"
+            class="top-[-1px] w-full rounded-full overflow-hidden appearance-none bg-duckling_white bg-opacity-80 focus:outline-none hover:cursor-ew-resize"
+            @input="onInput">
     </div>
 </template>
 
@@ -20,32 +22,12 @@ export default {
 </script>
 
 <style lang="css">
-/* input[type="range"] {
-    position: relative;
-    top: -1px;
-    overflow: hidden;
-    width: 245px;
-    appearance: none;
-    -webkit-appearance: none;
-    background-color: #adadad;
-    border-radius: 5px;
-} */
-
-/* input[type="range"]:focus {
-    outline: none;
-} */
-
 input[type="range"]::-webkit-slider-runnable-track {
     /* TODO: Access this color from tailwind config instead of hardcoding */
     color: #c62322;
     height: 4px;
     -webkit-appearance: none;
-    /* margin-top: -1px; */
 }
-
-/* input[type="range"]:hover {
-    cursor: ew-resize;
-} */
 
 input[type="range"]::-webkit-slider-thumb {
     width: 8px;
@@ -53,9 +35,6 @@ input[type="range"]::-webkit-slider-thumb {
     height: 4px;
     cursor: ew-resize;
     background: #c62322;
-    box-shadow: -1000px 0 0 1000px #c62322;
-    /* Make the box-shadow 100% of parent width */
-
     box-shadow: -100vw 0 0 100vw #c62322;
 }
 </style>

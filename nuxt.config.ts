@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ['@pinia/nuxt', "@stefanobartoletti/nuxt-social-share"],
+  modules: ['@pinia/nuxt', "@stefanobartoletti/nuxt-social-share", "@nuxt/eslint"],
   socialShare: {
     // module options
   },

@@ -8,9 +8,12 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "start": "nuxt start",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@nuxt/eslint": "^0.3.10",
     "@pinia/nuxt": "^0.5.1",
     "@stefanobartoletti/nuxt-social-share": "^0.6.1",
     "@vueuse/core": "^10.9.0",
@@ -22,7 +25,9 @@
     "vue3-carousel": "^0.3.3"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "autoprefixer": "^10.4.18",
+    "eslint": "^9.2.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1"
   }

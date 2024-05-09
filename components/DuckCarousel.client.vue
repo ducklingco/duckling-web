@@ -1,16 +1,19 @@
 <template>
-  <carousel ref="carouselRef" v-model="currentSlide" class="relative w-full h-full bg-duckling_black" :items-to-show="1"
+  <carousel
+ref="carouselRef" v-model="currentSlide" class="relative w-full h-full bg-duckling_black" :items-to-show="1"
     :mouse-drag="false" :transition="500">
     <template #slides>
-      <slide class="relative grid w-full h-full" v-for="card in cards" :key="card?.id">
+      <slide v-for="card in cards" :key="card?.id" class="relative grid w-full h-full">
         <div class="relative flex items-center justify-center w-full h-full">
           <div class="flex items-center justify-center w-full h-full bg-center bg-cover">
-            <card-cover v-if="card?.type == 'cover'" :duck="duck" :key="card?.id" @prev="prevSlide" @next="nextSlide" />
-            <card-video v-if="card?.type == 'video'" :card="card" ref="cardVideoSlides" :key="card?.id" :time="0"
+            <card-cover v-if="card?.type == 'cover'" :key="card?.id" :duck="duck" @prev="prevSlide" @next="nextSlide" />
+            <card-video
+v-if="card?.type == 'video'" ref="cardVideoSlides" :key="card?.id" :card="card" :time="0"
               @prev="prevSlide" @next="nextSlide" />
-            <Component v-else :is="cardComponents[card?.type]" :card="card" @prev="prevSlide" @next="nextSlide" />
+            <Component :is="cardComponents[card?.type]" v-else :card="card" @prev="prevSlide" @next="nextSlide" />
 
-            <carousel-drawer v-if="card?.cardable?.caption || card?.cardable?.audio?.path" ref="audioDrawerRefs"
+            <carousel-drawer
+v-if="card?.cardable?.caption || card?.cardable?.audio?.path" ref="audioDrawerRefs"
               class="z-10" :card="card" />
           </div>
         </div>
@@ -18,30 +21,34 @@
     </template>
     <template #addons>
       <navigation>
-        <template #prev class="overflow-hidden ">
-          <div v-if="currentSlide != 0"
+        <template #prev>
+          <div
+v-if="currentSlide != 0"
             class="absolute left-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
-            <div class="absolute top-0 right-0 w-20 h-20 rounded-full opacity-50 bg-duckling_black hover:cursor-pointer"
-              @click="">
+            <div
+              class="absolute top-0 right-0 w-20 h-20 rounded-full opacity-50 bg-duckling_black hover:cursor-pointer">
               <!-- Chevron prev icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
+              <svg
+xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
                 class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 left-1/2">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
               </svg>
             </div>
           </div>
         </template>
-        <template #next class="overflow-hidden">
+        <template #next>
           <div class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
-            <div class="absolute top-0 left-0 w-20 h-20 rounded-full hover:cursor-pointer" :class="{
+            <div
+class="absolute top-0 left-0 w-20 h-20 rounded-full hover:cursor-pointer" :class="{
     'opacity-50': currentSlide != 0,
     'bg-duckling_black': currentSlide != 0,
     'bg-duckling_green': currentSlide == 0
-  }" @click="">
+  }">
               <!-- Chevron next icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
+              <svg
+xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
                 class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 right-1/2">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </div>
           </div>
@@ -58,14 +65,16 @@
         </button>
       </div>
       <duck-cover-header v-if="currentSlide == 0" :has-close-btn="hasCloseBtn" :card="currentCard" />
-      <div v-if="!visualMode && currentSlide != 0"
+      <div
+v-if="!visualMode && currentSlide != 0"
         class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2 header sm:px-8 sm:gap-4">
         <custom-pagination :dark="currentCard?.type === 'text'" />
         <div class="w-full">
           <div class="grid h-full grid-cols-3">
             <div class="flex items-center justify-start w-full gap-2 sm:gap-4">
               <!-- Close button -->
-              <button v-if="hasCloseBtn" class="flex items-center justify-center h-10 shrink-0"
+              <button
+v-if="hasCloseBtn" class="flex items-center justify-center h-10 shrink-0"
                 @click="onClickCloseCarousel">
                 <svg width="30" height="29" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -74,20 +83,23 @@
                 </svg>
               </button>
               <!-- Share button -->
-              <button class="relative flex items-center justify-center h-10 shrink-0"
+              <button
+class="relative flex items-center justify-center h-10 shrink-0"
                 @click="() => showShareDialog = true">
                 <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M14.5 28.3945C12.5762 28.3945 10.7695 28.0283 9.08008 27.2959C7.39062 26.5635 5.90137 25.5527 4.6123 24.2637C3.32324 22.9746 2.30762 21.4854 1.56543 19.7959C0.833008 18.0967 0.466797 16.2852 0.466797 14.3613C0.466797 12.4473 0.833008 10.6455 1.56543 8.95605C2.29785 7.25684 3.30859 5.7627 4.59766 4.47363C5.89648 3.1748 7.39062 2.15918 9.08008 1.42676C10.7695 0.694336 12.5713 0.328125 14.4854 0.328125C16.4092 0.328125 18.2158 0.694336 19.9053 1.42676C21.5947 2.15918 23.084 3.1748 24.373 4.47363C25.6719 5.7627 26.6875 7.25684 27.4199 8.95605C28.1621 10.6455 28.5332 12.4473 28.5332 14.3613C28.5332 16.2852 28.167 18.0967 27.4346 19.7959C26.7021 21.4854 25.6865 22.9746 24.3877 24.2637C23.0986 25.5527 21.6094 26.5635 19.9199 27.2959C18.2305 28.0283 16.4238 28.3945 14.5 28.3945ZM10.2812 21.334H18.3818C19.1338 21.334 19.71 21.1436 20.1104 20.7627C20.5107 20.3721 20.7109 19.7959 20.7109 19.0342V11.9297C20.7109 11.168 20.5107 10.5967 20.1104 10.2158C19.7197 9.8252 19.1436 9.62988 18.3818 9.62988L16.2432 9.64453V10.9922H18.3672C19.0215 10.9922 19.3486 11.3242 19.3486 11.9883V18.9902C19.3486 19.6641 19.0215 20.001 18.3672 20.001H10.2959C9.63184 20.001 9.2998 19.6641 9.2998 18.9902V11.9883C9.2998 11.3242 9.63184 10.9922 10.2959 10.9922H12.4346V9.64453L10.2812 9.62988C9.51953 9.62988 8.94336 9.8252 8.55273 10.2158C8.16211 10.6064 7.9668 11.1777 7.9668 11.9297V19.0342C7.9668 19.7861 8.16211 20.3574 8.55273 20.748C8.94336 21.1387 9.51953 21.334 10.2812 21.334ZM14.3242 15.7236C14.5098 15.7236 14.666 15.6602 14.793 15.5332C14.9297 15.4062 14.998 15.25 14.998 15.0645V7.71094L14.9688 7.03711L15.584 7.71094L16.3311 8.4873C16.458 8.62402 16.6143 8.69238 16.7998 8.69238C16.9854 8.69238 17.1367 8.63867 17.2539 8.53125C17.3711 8.41406 17.4297 8.26758 17.4297 8.0918C17.4297 8.00391 17.415 7.92578 17.3857 7.85742C17.3564 7.7793 17.2979 7.71094 17.21 7.65234L14.793 5.2793C14.6465 5.13281 14.4902 5.05957 14.3242 5.05957C14.1484 5.05957 13.9922 5.13281 13.8555 5.2793L11.4238 7.65234C11.2969 7.75977 11.2334 7.90625 11.2334 8.0918C11.2334 8.26758 11.2871 8.40918 11.3945 8.5166C11.5117 8.62402 11.6582 8.67773 11.834 8.67773C12.0293 8.67773 12.1855 8.61426 12.3027 8.4873L13.0498 7.71094L13.6797 7.03711V7.71094V15.0645C13.6797 15.25 13.7432 15.4062 13.8701 15.5332C13.9971 15.6602 14.1484 15.7236 14.3242 15.7236Z"
                     :fill="navFillColor" :fill-opacity="navFillOpacity" />
                 </svg>
-                <share-dialog v-if="showShareDialog" @close="() => showShareDialog = false" :card="currentCard" />
+                <share-dialog v-if="showShareDialog" :card="currentCard" @close="() => showShareDialog = false" />
               </button>
-              <div id="profile" class="flex items-center row-span-1 gap-2 shrink-0"
+              <div
+id="profile" class="flex items-center row-span-1 gap-2 shrink-0"
                 :class="{ 'text-duckling_white': currentCard?.type != 'text', 'text-duckling_black': currentCard?.type == 'text' }">
-                <img v-if="duck?.created_by?.profile_picture?.path"
+                <img
+v-if="duck?.created_by?.profile_picture?.path"
                   class="object-cover w-10 h-10 rounded-full hover:cursor-pointer"
-                  :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" />
+                  :src="duck?.created_by?.profile_picture?.path" alt="Profile picture">
                 <div v-if="duck?.created_by" class="flex-col items-start hidden opacity-80 sm:flex">
                   <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
                   <span class="text-sm">@{{ duck?.created_by?.username }}</span>
@@ -96,9 +108,11 @@
             </div>
             <div class="flex items-center justify-center">
               <a href="https://duckling.co">
-                <duckling-logo class="object-contain h-10 md:hidden" :fill="navFillColor"
+                <duckling-logo
+class="object-contain h-10 md:hidden" :fill="navFillColor"
                   :fill-opacity="navFillOpacity" />
-                <duckling-logo class="hidden object-contain h-10 md:block" :fill="navFillColor"
+                <duckling-logo
+class="hidden object-contain h-10 md:block" :fill="navFillColor"
                   :fill-opacity="navFillOpacity" text-right />
               </a>
             </div>
@@ -123,10 +137,12 @@
           </div>
         </div>
         <div class="flex flex-col w-full">
-          <div v-if="currentCardVideo && currentCard?.type == 'video'"
+          <div
+v-if="currentCardVideo && currentCard?.type == 'video'"
             class="flex items-center justify-center w-full h-full">
-            <player-track :percentage="currentCardVideo?.percentagePlayed" @seek="currentCardVideo?.seekToPercentage"
-              class="flex-grow" />
+            <player-track
+:percentage="currentCardVideo?.percentagePlayed" class="flex-grow"
+              @seek="currentCardVideo?.seekToPercentage" />
           </div>
         </div>
       </div>
@@ -143,12 +159,16 @@ import { useRoute } from "vue-router";
 import CardImage from "./CardImage.vue";
 import CardText from "./CardText.vue";
 import CardVideo from "./CardVideo.vue";
+import type CarouselType from "../types/Carousel";
 
 const route = useRoute();
-const id = route.params.id;
 
 const props = defineProps({
-  duck: Object,
+  duck: {
+    type: Object,
+    required: true,
+    default: () => ({}),
+  },
 });
 
 const emit = defineEmits(["toggle-fullscreen"]);
@@ -241,7 +261,7 @@ const toggleFullscreen = () => {
   });
 };
 
-const carouselRef = ref(null);
+const carouselRef = ref<CarouselType | null>(null);
 
 const hasCloseBtn = computed(() => {
   return route.query.redirected

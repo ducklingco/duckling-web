@@ -1,12 +1,12 @@
 <template>
-    <video-player ref="videoPlayerRef" class="w-full h-full" :src="card?.cardable?.video?.path" :muted="false"
+    <video-player
+ref="videoPlayerRef" class="w-full h-full" :src="card?.cardable?.video?.path" :muted="false"
         :autoplay="false" :controls="false" :loop="false" @play="onPlayerPlay" @pause="onPlayerPause"
         @ended="onPlayerEnded" @loadeddata="onPlayerLoadeddata" @waiting="onPlayerWaiting" @playing="onPlayerPlaying"
         @timeupdate="onPlayerTimeupdate" @canplay="onPlayerCanplay" @canplaythrough="onPlayerCanplaythrough"
-        @statechanged="playerStateChanged">
-    </video-player>
+        @statechanged="playerStateChanged" />
 
-    <div @click="play" v-if="!playing" class="absolute top-0 left-0 flex items-center justify-center w-full h-full">
+    <div v-if="!playing" class="absolute top-0 left-0 flex items-center justify-center w-full h-full" @click="play">
         <button class="w-12 h-12 opacity-80">
             <img src="~/assets/img/button-play.png" alt="">
         </button>
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import usePlayer from '../composables/usePlayer';
 import useCardNavigation from '@/composables/useCardNavigation';
+import type VideoPlayer from '../types/VideoPlayer'
 
 const props = defineProps({
     card: {
@@ -33,57 +34,57 @@ const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit, 'vi
 
 const { time, playing, onPlayerPlay, onPlayerPause, onPlayerEnded, onPlayerLoadeddata, onPlayerWaiting, onPlayerPlaying, onPlayerTimeupdate, onPlayerCanplay, onPlayerCanplaythrough, playerStateChanged } = usePlayer(props.time);
 
-const videoPlayerRef = ref(null);
+const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
 
 function togglePlay () {
-    videoPlayerRef.value.togglePlay();
+    videoPlayerRef.value!.togglePlay();
 };
 
 function play () {
-    videoPlayerRef.value.play();
+    videoPlayerRef.value!.play();
 };
 
 function pause () {
-    videoPlayerRef.value.pause();
+    videoPlayerRef.value!.pause();
 };
 
 const percentagePlayed = computed(() => {
-    return videoPlayerRef.value.percentagePlayed;
+    return videoPlayerRef.value!.percentagePlayed;
 });
 
-const seekToPercentage = computed(() => (percentage) => {
-    videoPlayerRef.value.seekToPercentage(percentage);
+const seekToPercentage = computed(() => (percentage: number) => {
+    videoPlayerRef.value!.seekToPercentage(percentage);
 });
 
 const duration = computed(() => {
-    return videoPlayerRef.value.duration;
+    return videoPlayerRef.value!.duration;
 });
 
-const convertTimeToDuration = (time) => {
-    return videoPlayerRef.value.convertTimeToDuration(time);
+const convertTimeToDuration = (time: number) => {
+    return videoPlayerRef.value!.convertTimeToDuration(time);
 };
 
 const videoMuted = computed(() => {
-    return videoPlayerRef.value.videoMuted;
+    return videoPlayerRef.value!.videoMuted;
 });
 
 const toggleMute = () => {
-    videoPlayerRef.value.toggleMute();
+    videoPlayerRef.value!.toggleMute();
 };
 
 defineExpose({
-    togglePlay,
-    play,
-    pause,
+    id: props.card.id,
+    time: time,
     playing,
     percentagePlayed,
     seekToPercentage,
     duration,
-    convertTimeToDuration,
     videoMuted,
-    toggleMute,
-    time: time,
-    id: props.card.id
+    togglePlay,
+    play,
+    pause,
+    convertTimeToDuration,
+    toggleMute
 });
 
 </script>

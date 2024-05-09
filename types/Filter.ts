@@ -1,0 +1,1 @@
+export type Filter = 'featured' | 'verified' | 'all' extends string? 'featured' | 'verified' | 'all' : never;
