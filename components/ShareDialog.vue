@@ -37,7 +37,7 @@
                                         class="relative max-w-full w-full h-full pointer-events-auto pb-[100%] object-contain mb-8">
 
                                         <div class="absolute top-0 left-0 object-contain w-full h-full aspect-square">
-                                            <QRCode class="relative w-full h-full" :data="url" />
+                                            <QRCode :key="url" class="relative w-full h-full" :data="url" />
                                         </div>
                                     </div>
                                 </div>
