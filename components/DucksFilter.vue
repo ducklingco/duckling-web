@@ -9,7 +9,7 @@
       </button>
       <button
         class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        @click="onClick('verified')" :class="{ selected: selected.value === 'verified' }">
+        :class="{ selected: selected.value === 'verified' }" @click="onClick('verified')">
         Verified
       </button>
       <button

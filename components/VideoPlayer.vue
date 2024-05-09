@@ -1,18 +1,20 @@
 <template>
     <div class="w-full h-full">
-        <video :src="src" :muted="muted" :autoplay="autoplay" :controls="controls" :loop="loop"
-            class="object-contain w-full h-full" :poster="poster" :preload="preload" :playsinline="true" ref="player"
-            @click="togglePlay"></video>
+        <video
+ref="player" :src="src" :muted="muted" :autoplay="autoplay" :controls="controls"
+            :loop="loop" class="object-contain w-full h-full" :poster="poster" :preload="preload" :playsinline="true"
+            @click="togglePlay"/>
 
         <!-- Loader -->
-        <div v-if="showSpinner"
+        <div
+v-if="showSpinner"
             class="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-duckling_black bg-opacity-50">
             <div class="text-2xl font-bold text-duckling_white">Loading...</div>
         </div>
-        <slot name="controls" :play="play" :pause="pause" :toggle-play="togglePlay" :playing="playing"
+        <slot
+name="controls" :play="play" :pause="pause" :toggle-play="togglePlay" :playing="playing"
             :percentage-played="percentagePlayed" :seek-to-percentage="seekToPercentage" :duration="duration"
-            :convert-time-to-duration="convertTimeToDuration" :video-muted="videoMuted" :toggle-mute="toggleMute">
-        </slot>
+            :convert-time-to-duration="convertTimeToDuration" :video-muted="videoMuted" :toggle-mute="toggleMute"/>
     </div>
 </template>
 

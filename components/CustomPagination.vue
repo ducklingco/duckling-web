@@ -1,9 +1,10 @@
 <template>
   <ol class="w-full mt-0 carousel__pagination">
     <div v-for="slide in maxSlide + 1" :key="slide" class="carousel__pagination-item">
-      <div type="button" class="rounded-full carousel__pagination-button hover:bg-duckling_red"
+      <div
+type="button" class="rounded-full carousel__pagination-button hover:bg-duckling_red"
         :class="{ 'carousel__pagination-button--active': isActive(slide - 1), 'dark': dark }"
-        :aria-label="`Navigate to slide ${slide + 1}`" @click="slideTo(slide - 1)"></div>
+        :aria-label="`Navigate to slide ${slide + 1}`" @click="slideTo(slide - 1)"/>
     </div>
   </ol>
 </template>

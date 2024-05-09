@@ -1,19 +1,22 @@
 <template>
     <div class="absolute bottom-0 left-0 w-full px-4 sm:w-1/2 sm:pl-8">
-        <div ref="drawerRef"
+        <div
+ref="drawerRef"
             class="flex flex-col justify-start w-full h-40 gap-4 px-4 bg-opacity-50 max-40 bg-duckling_black rounded-t-xl">
             <!-- Handle -->
-            <div class="flex justify-center w-full h-8 pt-4 cursor-pointer" @touchstart="onMouseDown"
+            <div
+class="flex justify-center w-full h-8 pt-4 cursor-pointer" @touchstart="onMouseDown"
                 @mousedown="onMouseDown">
-                <div class="w-8 h-1 rounded-full opacity-50 bg-duckling_white"></div>
+                <div class="w-8 h-1 rounded-full opacity-50 bg-duckling_white"/>
             </div>
             <div v-if="audio" class="flex items-center justify-center w-full gap-4">
                 <button class="w-10 h-10" @click="togglePlay">
                     <img :src="playing ? imgPause : imgPlay" alt="">
                 </button>
-                <audio ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio" @playing="onPlaying"
-                    @pause="onPause"></audio>
-                <player-track :percentage="percentagePlayed" @seek="seekToPercentage" class="flex-grow" />
+                <audio
+ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio" @playing="onPlaying"
+                    @pause="onPause"/>
+                <player-track :percentage="percentagePlayed" class="flex-grow" @seek="seekToPercentage" />
             </div>
 
             <div class="w-full text-left opacity-100 text-duckling_white">
@@ -76,8 +79,8 @@ const seekToPercentage = (percentage) => {
 
 const emit = defineEmits(['loadeddata', 'timeupdate']);
 
-let duration = ref(0);
-let percentagePlayed = ref(0);
+const duration = ref(0);
+const percentagePlayed = ref(0);
 
 onMounted(() => {
     bindAudioEvent('loadeddata');

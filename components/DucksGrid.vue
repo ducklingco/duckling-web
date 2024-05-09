@@ -4,8 +4,7 @@
     <DuckCard v-for="duck in ducks" :key="duck" :duck="duck" />
   </div>
   <div v-if="isFetching" class="flex items-center justify-center w-full mt-4 ">
-    <div class="w-8 h-8 border-t-4 border-solid rounded-full border-duckling_grey animate-spin-slow">
-    </div>
+    <div class="w-8 h-8 border-t-4 border-solid rounded-full border-duckling_grey animate-spin-slow"/>
   </div>
 </template>
 
@@ -33,7 +32,7 @@ watch(ducks, () => {
 })
 
 const fetchIfPossible = () => {
-  let element = scrollComponent.value
+  const element = scrollComponent.value
   if (element.getBoundingClientRect().bottom < window.innerHeight) {
     if (canFetchMore.value && !isFetching.value) {
       fetchDucks()

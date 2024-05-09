@@ -1,12 +1,12 @@
 <template>
-    <video-player ref="videoPlayerRef" class="w-full h-full" :src="card?.cardable?.video?.path" :muted="false"
+    <video-player
+ref="videoPlayerRef" class="w-full h-full" :src="card?.cardable?.video?.path" :muted="false"
         :autoplay="false" :controls="false" :loop="false" @play="onPlayerPlay" @pause="onPlayerPause"
         @ended="onPlayerEnded" @loadeddata="onPlayerLoadeddata" @waiting="onPlayerWaiting" @playing="onPlayerPlaying"
         @timeupdate="onPlayerTimeupdate" @canplay="onPlayerCanplay" @canplaythrough="onPlayerCanplaythrough"
-        @statechanged="playerStateChanged">
-    </video-player>
+        @statechanged="playerStateChanged"/>
 
-    <div @click="play" v-if="!playing" class="absolute top-0 left-0 flex items-center justify-center w-full h-full">
+    <div v-if="!playing" class="absolute top-0 left-0 flex items-center justify-center w-full h-full" @click="play">
         <button class="w-12 h-12 opacity-80">
             <img src="~/assets/img/button-play.png" alt="">
         </button>
@@ -72,18 +72,18 @@ const toggleMute = () => {
 };
 
 defineExpose({
-    togglePlay,
-    play,
-    pause,
+    id: props.card.id,
+    time: time,
     playing,
     percentagePlayed,
     seekToPercentage,
     duration,
-    convertTimeToDuration,
     videoMuted,
-    toggleMute,
-    time: time,
-    id: props.card.id
+    togglePlay,
+    play,
+    pause,
+    convertTimeToDuration,
+    toggleMute
 });
 
 </script>

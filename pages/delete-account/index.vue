@@ -5,10 +5,10 @@
       <div class="flex flex-col w-80">
         <div v-if="showPhoneNumberInput" class="flex flex-row w-full my-4">
           <select
-            name="countryCodes"
             id="country-codes"
-            class="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
             v-model="countryCodeSelected"
+            name="countryCodes"
+            class="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
           >
             <option v-for="countryCode in countryCodes" :value="countryCode">
               {{ countryCode.code }} {{ countryCode.emoji }}
@@ -21,7 +21,7 @@
             type="text"
             placeholder="Enter your phone number"
             @keydown.prevent.enter="sendConfirmationCode"
-          />
+          >
         </div>
         <div v-if="invalidAccount">Your account doesn't exist.</div>
         <div v-if="invalidCode">The code you entered is invalid.</div>
@@ -35,7 +35,7 @@
             type="text"
             placeholder="Enter your confirmation code"
             @keydown.prevent.enter="verifyPhone"
-          />
+          >
         </div>
         <button
           v-if="!showDeleteButton"
