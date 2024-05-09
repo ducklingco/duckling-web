@@ -1,7 +1,7 @@
 // plugins/qrcode.client.ts
 import QRCodeStyling, { type Options } from 'qr-code-styling';
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((_) => {
     let qrCodeStyling: QRCodeStyling;
     return {
         provide: {
@@ -11,8 +11,6 @@ export default defineNuxtPlugin((nuxtApp) => {
                 qrCodeStyling = new QRCodeStyling(options);
                 return qrCodeStyling;
             },
-            // Provide here other helpers you may need
-            // ...
         }
     }
 });

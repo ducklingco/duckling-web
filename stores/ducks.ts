@@ -1,56 +1,7 @@
 import { defineStore } from 'pinia'
 import { useStorage, type RemovableRef } from '@vueuse/core'
-
-// define type for a duck
-export interface Duck {
-    id: string
-    title: string
-    description: string
-    cover_image: {
-        id: string
-        path: string
-        created_at: string
-        updated_at: string
-    }
-    total_cards: number
-    created_by: {
-        id: string
-        profile_picture: {
-            id: string
-            path: string
-            created_at: string
-            updated_at: string
-        }
-        first_name: string
-        last_name: string
-        username: string
-        bio: string
-        birthday: string
-        register_completed_at: string
-        created_at: string
-        updated_at: string
-    }
-    latest_topics: [{
-        id: string
-        name: string
-    }]
-    published_at: string
-    verified_at: string
-    featured_at: string
-    created_at: string
-    updated_at: string
-}
-
-export interface Meta {
-    pagination?: {
-        total: number
-        count: number
-        per_page: number
-        current_page: number
-        total_pages: number
-    },
-    is_fetching: boolean
-}
+import type Duck from '~/types/Duck'
+import type Meta from '~/types/Meta'
 
 const defaultMeta: Meta = {
     pagination: {
@@ -87,7 +38,7 @@ export const useDucksStore = defineStore('ducks', {
                 page: '1'
             }
             if (this?.meta[this.filter]?.pagination) {
-                const { current_page, total_pages } = this.meta[this.filter].pagination
+                const { current_page, total_pages } = this.meta[this.filter].pagination!
 
                 if (current_page && current_page < total_pages) {
                     params['page'] = String(current_page + 1)
@@ -95,10 +46,10 @@ export const useDucksStore = defineStore('ducks', {
                     shouldFetch = false
                 }
             }
-            
+
             this.meta[this.filter].is_fetching = true
             // Fetch ducks from the API
-            const {data, meta} = await $fetch(`/api/ducks?${new URLSearchParams(params)}`)
+            const { data, meta } = await $fetch(`/api/ducks?${new URLSearchParams(params)}`)
             // Add the ducks to the store
             this.ducks[this.filter] = [...this.ducks[this.filter], ...data as Duck[]]
             this.meta[this.filter] = meta
@@ -115,7 +66,7 @@ export const useDucksStore = defineStore('ducks', {
             this.addDuck(data as Duck)
         },
         async getDuck (id: string) {
-            if (!this.individualDucks[id])  {
+            if (!this.individualDucks[id]) {
                 // Duck not found in store, fetch it
                 await this.fetchDuck(id)
             } else {
@@ -145,10 +96,10 @@ export const useDucksStore = defineStore('ducks', {
         getFilter: (state) => state.filter,
         getDucks: (state) => Object.values(state.ducks[state.filter]),
         canFetchMore: (state) => {
-            const { current_page, total_pages } = state.meta[state.filter].pagination
+            if (!state?.meta[state.filter]?.pagination) return false;
+            const { current_page, total_pages } = state.meta[state.filter].pagination!
             return current_page < total_pages
         },
         isFetching: (state) => state.meta[state.filter].is_fetching
     },
-    // persist: true,
 })

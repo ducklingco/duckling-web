@@ -4,17 +4,17 @@
       class="grid flex-auto grid-cols-3 m-auto overflow-hidden border-2 rounded-lg bg-duckling_grey border-duckling_grey">
       <button
         class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        :class="{ selected: selected.value === 'featured' }" @click="onClick('featured')">
+        :class="isSelected('featured')" @click="onClick('featured')">
         Featured
       </button>
       <button
         class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        :class="{ selected: selected.value === 'verified' }" @click="onClick('verified')">
+        :class="isSelected('verified')" @click="onClick('verified')">
         Verified
       </button>
       <button
         class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        :class="{ selected: selected.value === 'all' }" @click="onClick('all')">
+        :class="isSelected('all')" @click="onClick('all')">
         All
       </button>
     </div>
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { useDucksStore } from "@/stores/ducks";
+import type { Filter } from "../types/Filter";
 
 const ducksStore = useDucksStore();
 const { setFilter } = ducksStore;
@@ -30,9 +31,11 @@ const { getFilter } = storeToRefs(ducksStore)
 
 const emit = defineEmits(["filter"]);
 
-const selected = computed(() => getFilter);
+const isSelected = (value: Filter) => {
+  return { selected: getFilter.value === value };
+};
 
-const onClick = (value: string) => {
+const onClick = (value: Filter) => {
   setFilter(value);
 };
 </script>

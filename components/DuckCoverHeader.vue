@@ -28,7 +28,7 @@ class="relative flex items-center justify-center h-10 pointer-events-auto shrink
             </a>
         </div>
 
-        <div class="grid-cols-1 pointer-events-none"/>
+        <div class="grid-cols-1 pointer-events-none" />
     </div>
 </template>
 

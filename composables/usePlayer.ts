@@ -28,26 +28,26 @@ export default function usePlayer(startTime = 0) {
     player.setPlaying(false);
   };
   
-  const onPlayerLoadeddata = ({ event }: EventParams) => {
+  const onPlayerLoadeddata = (_: EventParams) => {
   };
   
-  const onPlayerWaiting = ({ event }: EventParams) => {
+  const onPlayerWaiting = (_: EventParams) => {
   };
   
-  const onPlayerPlaying = ({ event }: EventParams) => {
+  const onPlayerPlaying = (_: EventParams) => {
   };
   
-  const onPlayerTimeupdate = ({ event }: EventParams) => {
+  const onPlayerTimeupdate = ({event }: EventParams) => {
     time.value = event.target.currentTime;
   };
   
-  const onPlayerCanplay = ({ event }: EventParams) => {
+  const onPlayerCanplay = (_: EventParams) => {
   };
   
-  const onPlayerCanplaythrough = ({ event }: EventParams) => {
+  const onPlayerCanplaythrough = (_: EventParams) => {
   };
   
-  const playerStateChanged = ({ event }: EventParams) => {
+  const playerStateChanged = (_: EventParams) => {
   };
   
   return {

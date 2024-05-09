@@ -7,7 +7,7 @@ ref="drawerRef"
             <div
 class="flex justify-center w-full h-8 pt-4 cursor-pointer" @touchstart="onMouseDown"
                 @mousedown="onMouseDown">
-                <div class="w-8 h-1 rounded-full opacity-50 bg-duckling_white"/>
+                <div class="w-8 h-1 rounded-full opacity-50 bg-duckling_white" />
             </div>
             <div v-if="audio" class="flex items-center justify-center w-full gap-4">
                 <button class="w-10 h-10" @click="togglePlay">
@@ -15,7 +15,7 @@ class="flex justify-center w-full h-8 pt-4 cursor-pointer" @touchstart="onMouseD
                 </button>
                 <audio
 ref="player" class="hidden w-full h-8 rounded-none " controls :src="audio" @playing="onPlaying"
-                    @pause="onPause"/>
+                    @pause="onPause" />
                 <player-track :percentage="percentagePlayed" class="flex-grow" @seek="seekToPercentage" />
             </div>
 

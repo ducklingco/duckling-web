@@ -21,35 +21,34 @@ v-if="card?.cardable?.caption || card?.cardable?.audio?.path" ref="audioDrawerRe
     </template>
     <template #addons>
       <navigation>
-        <template #prev class="overflow-hidden ">
+        <template #prev>
           <div
 v-if="currentSlide != 0"
             class="absolute left-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
             <div
-class="absolute top-0 right-0 w-20 h-20 rounded-full opacity-50 bg-duckling_black hover:cursor-pointer"
-              @click="">
+              class="absolute top-0 right-0 w-20 h-20 rounded-full opacity-50 bg-duckling_black hover:cursor-pointer">
               <!-- Chevron prev icon -->
               <svg
 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
                 class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 left-1/2">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
               </svg>
             </div>
           </div>
         </template>
-        <template #next class="overflow-hidden">
+        <template #next>
           <div class="absolute right-0 w-10 h-20 overflow-hidden transform -translate-y-1/2 top-1/2">
             <div
 class="absolute top-0 left-0 w-20 h-20 rounded-full hover:cursor-pointer" :class="{
     'opacity-50': currentSlide != 0,
     'bg-duckling_black': currentSlide != 0,
     'bg-duckling_green': currentSlide == 0
-  }" @click="">
+  }">
               <!-- Chevron next icon -->
               <svg
 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white"
                 class="absolute w-1/2 transform -translate-y-1/2 h-1/2 top-1/2 right-1/2">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </div>
           </div>
@@ -100,7 +99,7 @@ id="profile" class="flex items-center row-span-1 gap-2 shrink-0"
                 <img
 v-if="duck?.created_by?.profile_picture?.path"
                   class="object-cover w-10 h-10 rounded-full hover:cursor-pointer"
-                  :src="duck?.created_by?.profile_picture?.path" alt="Profile picture" >
+                  :src="duck?.created_by?.profile_picture?.path" alt="Profile picture">
                 <div v-if="duck?.created_by" class="flex-col items-start hidden opacity-80 sm:flex">
                   <span class="font-bold text-md">{{ duck?.created_by?.first_name }}</span>
                   <span class="text-sm">@{{ duck?.created_by?.username }}</span>
@@ -160,12 +159,16 @@ import { useRoute } from "vue-router";
 import CardImage from "./CardImage.vue";
 import CardText from "./CardText.vue";
 import CardVideo from "./CardVideo.vue";
+import type CarouselType from "../types/Carousel";
 
 const route = useRoute();
-const id = route.params.id;
 
 const props = defineProps({
-  duck: Object,
+  duck: {
+    type: Object,
+    required: true,
+    default: () => ({}),
+  },
 });
 
 const emit = defineEmits(["toggle-fullscreen"]);
@@ -258,7 +261,7 @@ const toggleFullscreen = () => {
   });
 };
 
-const carouselRef = ref(null);
+const carouselRef = ref<CarouselType | null>(null);
 
 const hasCloseBtn = computed(() => {
   return route.query.redirected

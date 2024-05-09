@@ -1,7 +1,7 @@
 <template>
     <Teleport to="body">
         <!-- Emit closeDialog if click elsewhere -->
-        <div class="fixed inset-0 z-0 flex items-center justify-center bg-black bg-opacity-50" @click="closeDialog"/>
+        <div class="fixed inset-0 z-0 flex items-center justify-center bg-black bg-opacity-50" @click="closeDialog" />
 
         <div
             class="absolute top-0 left-0 items-center justify-center w-full h-full overflow-y-scroll pointer-events-none">
@@ -16,9 +16,9 @@
 v-for="social of socialShares"
                                             class="flex items-stretch justify-center overflow-hidden rounded-md cursor-pointer pointer-events-auto aspect-square">
                                             <SocialShare
-:key="social?.name" :network="social?.network"
+:key="social?.network" :network="social?.network"
                                                 :url="social?.url" :styled="true"
-                                                class="flex items-center justify-center grow " :label="false"/>
+                                                class="flex items-center justify-center grow " :label="false" />
                                         </div>
                                     </div>
                                     <div class="flex items-stretch justify-center w-full gap-2 pointer-events-auto">
@@ -34,9 +34,8 @@ width="31" height="38" viewBox="0 0 31 38" fill="none"
                                             </svg>
                                         </button>
                                         <input
-v-model="url" type="text"
-                                            readonly
-                                            class="min-w-0 p-1 text-sm rounded-md sm:text-base md:p-2 md:text-lg text grow" >
+v-model="url" type="text" readonly
+                                            class="min-w-0 p-1 text-sm rounded-md sm:text-base md:p-2 md:text-lg text grow">
                                     </div>
                                     <div
                                         class="relative max-w-full w-full h-full pointer-events-auto pb-[100%] object-contain mb-8">
@@ -66,7 +65,6 @@ const closeDialog = () => {
 };
 
 const route = useRoute();
-
 
 const title = computed(() => props.card?.title);
 // Extract route for sharing
@@ -99,13 +97,6 @@ const socialShares = [
         hashtags: 'duckling,duck',
         image: coverImg.value,
     },
-    // {
-    //     network: 'messenger',
-    //     url: url.value,
-    //     title: title.value,
-    //     hashtags: 'duckling,duck',
-    //     image: coverImg.value,
-    // },
     {
         network: 'reddit',
         url: url.value,
@@ -119,39 +110,11 @@ socialShares.map((social => useSocialShare(social)));
 
 const didCopy = ref(false)
 const onClickCopy = () => {
-    didCopy.value = navigator.clipboard.writeText(url.value);
+    navigator.clipboard.writeText(url.value).then(() => {
+        didCopy.value = true;
+    }).catch(() => {
+        console.error('Failed to copy');
+    });
 
 };
-
-// Function to download the QR Code
-function downloadQRCode () {
-    const { $qrCodeStyling } = useNuxtApp();
-    $qrCodeStyling.download();
-}
 </script>
-
-<style>
-.social-share-button__icon {
-    margin: 20%;
-    width: 100%;
-    height: 100%;
-}
-</style>
-<style scoped>
-#share-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 75%;
-    /* Adjust this value to change the aspect ratio */
-    overflow: hidden;
-}
-
-#share {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-</style>

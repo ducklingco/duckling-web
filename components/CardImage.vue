@@ -1,9 +1,9 @@
 <template>
-    <img :src="image" alt="Card image" class="w-full h-full " :class="objectFitClass" >
+    <img :src="image" alt="Card image" class="w-full h-full " :class="objectFitClass">
     <div class="absolute top-0 left-0 grid w-full h-full grid-cols-3 opacity-50 pointer-events-none">
-        <div class="w-full h-full pointer-events-auto " @click="onClickPrev"/>
-        <div class="w-full h-full pointer-events-none"/>
-        <div class="w-full h-full pointer-events-auto " @click="onClickNext"/>
+        <div class="w-full h-full pointer-events-auto " @click="onClickPrev" />
+        <div class="w-full h-full pointer-events-none" />
+        <div class="w-full h-full pointer-events-auto " @click="onClickNext" />
     </div>
 
     <card-click-areas @prev="onClickPrev" @next="onClickNext" />

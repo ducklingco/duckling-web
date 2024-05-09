@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <NuxtPage />
-  </div>
+  <NuxtPage />
 </template>
 
 <script setup lang="ts">
@@ -17,5 +15,3 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 </script>
-
-<style scoped></style>
