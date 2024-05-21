@@ -6,7 +6,7 @@ export default defineEventHandler(async (event: any) => {
     const options = {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer 1387|w0TPGTeadqVVU2ZN8thMZCLJAaqTFVMRPu2ug9Oa',
+            'Authorization': 'Bearer 51851|Vhz7JKBxH2olMUWDE72d4n3ALG1U2wwxln2ABU2n',
             'Content-Type': 'application/json'
         }
     };
