@@ -1,0 +1,10 @@
+[
+    {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target" : { 
+        "namespace": "android_app", 
+        "package_name": "com.duckling.duckling",
+        "sha256_cert_fingerprints": ["B3:64:42:8A:3F:A5:CE:B9:6B:4A:4F:BE:66:7A:B5:80:69:F1:6A:A6:CF:D4:88:99:CE:B7:C8:DA:4B:3C:F6:28"]
+        }
+    }
+]
