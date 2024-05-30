@@ -23,4 +23,11 @@ export default defineNuxtConfig({
   css: [
     "~/assets/css/main.css",
   ],
+  routeRules: {
+    '.well-known/assetlinks.json':{
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }
+  }
 });
