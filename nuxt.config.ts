@@ -28,6 +28,11 @@ export default defineNuxtConfig({
       headers: {
         "Content-Type": "application/json",
       }
+    },
+    '.well-known/apple-app-site-association':{
+      headers: {
+        "Content-Type": "application/json",
+      }
     }
   }
 });

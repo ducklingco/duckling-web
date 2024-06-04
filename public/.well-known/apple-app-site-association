@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "CN5XW8T7A8.com.duckling.Duckling",
+        "paths": [ "/carousel/*" ]
+      }
+    ]
+  }
+}
