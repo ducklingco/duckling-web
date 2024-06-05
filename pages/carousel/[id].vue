@@ -10,6 +10,16 @@ import { useRoute } from "vue-router";
 import { useDucksStore } from "@/stores/ducks";
 import { useFullscreen } from '@vueuse/core'
 
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+})
+
+onUnmounted(() => {
+  document.body.style.overflow = 'auto';
+})
+
+
 const { toggle } = useFullscreen()
 
 const route = useRoute();
