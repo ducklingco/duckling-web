@@ -64,7 +64,7 @@ xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white
 
         </button>
       </div>
-      <duck-cover-header v-if="currentSlide == 0" :has-close-btn="hasCloseBtn" :card="currentCard" />
+      <duck-cover-header v-if="currentSlide == 0" :has-close-btn="Boolean(hasCloseBtn)" :card="currentCard" />
       <div
 v-if="!visualMode && currentSlide != 0"
         class="absolute top-0 left-0 flex flex-col items-center justify-around w-full gap-2 px-3 pt-2 header sm:px-8 sm:gap-4">

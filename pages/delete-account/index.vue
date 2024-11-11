@@ -10,7 +10,7 @@
             name="countryCodes"
             class="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
           >
-            <option v-for="countryCode in countryCodes" :value="countryCode">
+            <option v-for="countryCode in countryCodes"  :key="countryCode.code" :value="countryCode">
               {{ countryCode.code }} {{ countryCode.emoji }}
             </option>
           </select>

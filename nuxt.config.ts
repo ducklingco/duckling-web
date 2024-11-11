@@ -1,29 +1,24 @@
-import path from "path";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   devtools: { enabled: true },
   ssr: true,
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   modules: ['@pinia/nuxt', "@stefanobartoletti/nuxt-social-share", "@nuxt/eslint"],
+
   socialShare: {
     // module options
   },
-  routeRules: [
-    {
-      '/carousel/**': { swr: 60 },
-    }
-  ],
-  css: [
-    "~/assets/css/main.css",
-  ],
+
   routeRules: {
+    '/carousel/**': { swr: 60 },
     '.well-known/assetlinks.json':{
       headers: {
         "Content-Type": "application/json",
@@ -34,5 +29,7 @@ export default defineNuxtConfig({
         "Content-Type": "application/json",
       }
     }
-  }
+  },
+
+  compatibilityDate: "2024-10-24"
 });

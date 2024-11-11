@@ -35,7 +35,7 @@ class="relative flex items-center justify-center h-10 pointer-events-auto shrink
 <script setup lang="ts">
 import DucklingLogo from './DucklingLogo.vue';
 
-defineProps<{ hasCloseBtn: boolean, card: any }>();
+defineProps<{ hasCloseBtn: boolean, card: unknown }>();
 const onClickClose = () => {
     // Navigate to index
     navigateTo({ name: "index" });
