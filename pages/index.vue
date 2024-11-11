@@ -6,7 +6,7 @@
     </div> -->
     <div class="flex flex-col items-center justify-center align-middle p-4">
       <img src="~/assets/img/duckling_logo_text_under.png" alt="Duckling logo with text">
-      <div class="text-black pt-12 text-xl">We are currently rebuilding some stuff, please come back later.</div>
+      <div class="text-black pt-12 text-xl">We are currently rebuilding some of the inner workings, please come back later.</div>
     </div>
   </div>
 </template>
