@@ -21,7 +21,6 @@ async function fetchDucks(filter: Filter, page = 1, accessToken: string) {
 
   const url = `${config.public.backendURL}/ducks?${filterMap[filter]}&page=${page}&page_size=6&sort_by=-publishedAt`;
 
-  console.log(url);
   const options: RequestInit = {
     method: "GET",
     headers: {

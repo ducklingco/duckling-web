@@ -5,19 +5,24 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: "Duck not found" });
   }
   const id = event.context.params.id;
+  const { accessToken } = getQuery(event);
   // Fetch a single duck from the API
   const url = `${config.public.backendURL}/duck/${id}`;
 
   const options = {
     method: "GET",
     headers: {
-      Authorization: "Bearer 51851|Vhz7JKBxH2olMUWDE72d4n3ALG1U2wwxln2ABU2n",
+      Authorization: `Bearer ${String(accessToken)}`,
       "Content-Type": "application/json",
     },
   };
 
+  const params = new URLSearchParams({
+    detailed: "true",
+  });
+
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(`${url}?${params.toString()}`, options);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

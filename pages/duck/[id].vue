@@ -12,23 +12,38 @@
 import { useRoute } from "vue-router";
 import { useDucksStore } from "@/stores/ducks";
 import { useFullscreen } from "@vueuse/core";
+import type { PublicUser } from "~/types/User";
+import type { DuckWithContentDetailed } from "~/types/Duck";
+import { MediaType } from "~/types/MediaType";
 
-onMounted(() => {
+const { toggle } = useFullscreen();
+const route = useRoute();
+const id: string = route.params.id as string;
+const authorDetails: PublicUser | null = route.params.authorDetails
+  ? JSON.parse(route.params.authorDetails as string)
+  : null;
+const duck = ref<DuckWithContentDetailed | undefined>();
+const coverImageBlob = ref<Blob | null>(null);
+
+const { getDuck } = useDucksStore();
+const userStore = useUserStore();
+const { accessToken } = storeToRefs(userStore);
+const { setAccessToken } = userStore;
+
+onMounted(async () => {
+  await setAccessToken();
+  duck.value = await getDuck(id, accessToken.value);
+  coverImageBlob.value = await getMedia(
+    duck.value.mediaId,
+    MediaType.COVER_IMAGE,
+    accessToken.value,
+  );
   document.body.style.overflow = "hidden";
 });
 
 onUnmounted(() => {
   document.body.style.overflow = "auto";
 });
-
-const { toggle } = useFullscreen();
-
-const route = useRoute();
-const id = route.params.id;
-
-const { getDuck } = useDucksStore();
-
-const { data: duck } = await useAsyncData("duck", () => getDuck(id as string));
 
 const url = computed(() => {
   if (window === undefined) return;
@@ -39,9 +54,7 @@ const url = computed(() => {
 
 const createTitle = () => {
   const title = duck?.value?.title ? duck?.value?.title : null;
-  const author = duck?.value?.authorDetails?.name
-    ? ` - by ${duck?.value?.authorDetails?.name}`
-    : null;
+  const author = authorDetails?.name ? ` - by ${authorDetails?.name}` : null;
 
   if (title && author) return title + author;
   else if (title) return title;
@@ -49,13 +62,18 @@ const createTitle = () => {
   else return "Duckling";
 };
 
-const imageUrl = URL.createObjectURL(duck?.value?.mediaImage ?? new Blob());
+const coverImage = computed((): string | undefined => {
+  if (coverImageBlob.value) {
+    return URL.createObjectURL(coverImageBlob.value);
+  }
+  return undefined;
+});
 
 useSeoMeta({
   title: createTitle,
   ogTitle: createTitle,
   ogDescription: () => duck?.value?.title,
-  ogImage: () => imageUrl,
+  ogImage: () => coverImage.value,
   ogUrl: () => url.value,
   ogType: "website",
   ogSiteName: "Duckling",

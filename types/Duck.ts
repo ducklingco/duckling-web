@@ -1,5 +1,4 @@
-import type { DucklingCard } from "./Duckling";
-import type { PublicUser } from "./User";
+import type { DucklingCard, DucklingCardDetailed } from "~/types/Duckling";
 
 export interface Duck {
   id: string;
@@ -16,11 +15,10 @@ export interface Duck {
   nests: null;
 }
 
-export interface DuckDetailed extends Duck {
-  authorDetails?: PublicUser;
-  mediaImage?: Blob;
+export interface DuckWithContent extends Duck {
+  ducklings: DucklingCard[];
 }
 
-export interface DuckWithContent extends DuckDetailed {
-  ducklings: DucklingCard[];
+export interface DuckWithContentDetailed extends Duck {
+  ducklings: DucklingCardDetailed[];
 }

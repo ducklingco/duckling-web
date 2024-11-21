@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { useStorage, type RemovableRef } from "@vueuse/core";
-import type { Duck, DuckDetailed } from "~/types/Duck";
+import type { Duck, DuckWithContentDetailed } from "~/types/Duck";
 import type Meta from "~/types/Meta";
 
 const defaultMeta: Meta = {
@@ -23,7 +23,7 @@ export const useDucksStore = defineStore("ducks", {
       all: useStorage("all", []) as RemovableRef<Duck[]>,
     },
     individualDucks: useStorage("individualDucks", {}) as RemovableRef<
-      Record<string, Duck>
+      Record<string, DuckWithContentDetailed>
     >,
     filter: useStorage("filter", "featured") as RemovableRef<
       "all" | "verified" | "featured"
@@ -68,26 +68,35 @@ export const useDucksStore = defineStore("ducks", {
       this.meta[this.filter].pagination = meta;
       this.meta[this.filter].is_fetching = false;
     },
-    addDuck(duck: Duck) {
+    addDuck(duck: DuckWithContentDetailed) {
       // Add a duck to the store
       this.individualDucks[duck.id] = duck;
     },
-    async fetchDuck(id: string) {
+    async fetchDuck(id: string, accessToken: string) {
+      const params = {
+        accessToken,
+      };
       // Fetch a single duck from the API
-      const { data } = await $fetch(`/api/ducks/${id}`);
+      const data = await $fetch(
+        `/api/duck/${id}?${new URLSearchParams(params)}`,
+      );
+      console.log(data);
       // Add the duck to the store
-      this.addDuck(data as Duck);
+      this.addDuck(data as DuckWithContentDetailed);
     },
-    async getDuck(id: string): Promise<DuckDetailed> {
+    async getDuck(
+      id: string,
+      accessToken: string,
+    ): Promise<DuckWithContentDetailed> {
       if (!this.individualDucks[id]) {
         // Duck not found in store, fetch it
-        await this.fetchDuck(id);
+        await this.fetchDuck(id, accessToken);
       } else {
         // Don't want to wait for the fetch to complete if the duck is already in the store. However, we can still fetch the duck in the background to update the store
-        this.fetchDuck(id);
+        this.fetchDuck(id, accessToken);
       }
       // Get a duck by ID
-      const detailedDuck: DuckDetailed = {
+      const detailedDuck: DuckWithContentDetailed = {
         ...this.individualDucks[id],
       };
       return detailedDuck;

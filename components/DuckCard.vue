@@ -45,15 +45,14 @@
 
 <script setup lang="ts">
 import { MediaType } from "~/types/MediaType";
-import type { Duck, DuckDetailed } from "../types/Duck";
+import type { Duck } from "~/types/Duck";
 import { useUserStore } from "~/stores/user";
 import type { PublicUser } from "~/types/User";
 
 const props = defineProps<{ duck: Duck }>();
-const detailedDuck = ref<DuckDetailed>({
-  ...props.duck,
-  mediaImage: new Blob(),
-});
+const coverImageBlob = ref<Blob | null>(null);
+const profilePictureBlob = ref<Blob | null>(null);
+const authorDetailsObject = ref<PublicUser | null>(null);
 
 const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
@@ -62,7 +61,10 @@ const { setAccessToken } = userStore;
 const onClickCard = () => {
   navigateTo({
     name: "duck-id",
-    params: { id: props.duck.id },
+    params: {
+      id: props.duck.id,
+      authorDetails: JSON.stringify(authorDetailsObject.value ?? {}),
+    },
     query: { redirected: "1" },
   });
 };
@@ -73,19 +75,19 @@ const titleFontClass = computed(() => {
 
 onMounted(async () => {
   await setAccessToken();
-  detailedDuck.value.mediaImage = await getMedia(
+  coverImageBlob.value = await getMedia(
     props.duck.mediaId,
     MediaType.COVER_IMAGE,
     accessToken.value,
   );
   imageLoaded.value = true;
-  detailedDuck.value.authorDetails = await getAuthorDetails(
+  authorDetailsObject.value = await getAuthorDetails(
     props.duck.author,
     accessToken.value,
   );
-  if (detailedDuck.value.authorDetails.imageId) {
-    detailedDuck.value.authorDetails.imageData = await getMedia(
-      detailedDuck.value.authorDetails.imageId,
+  if (authorDetailsObject.value.imageId) {
+    profilePictureBlob.value = await getMedia(
+      authorDetailsObject.value.imageId,
       MediaType.PFP,
       accessToken.value,
     );
@@ -95,26 +97,18 @@ onMounted(async () => {
 const imageLoaded = ref(false);
 
 const coverImage = computed((): string | undefined => {
-  if (detailedDuck.value.mediaImage) {
-    return URL.createObjectURL(detailedDuck.value.mediaImage);
-  }
-  return undefined;
+  if (!coverImageBlob.value) return undefined;
+  return URL.createObjectURL(coverImageBlob.value);
 });
 
-const profilePicture = computed((): string | undefined => {
-  if (detailedDuck.value.authorDetails?.imageData) {
-    console.log("there is a pfp");
-    return URL.createObjectURL(detailedDuck.value.authorDetails.imageData);
-  }
-  console.log("no pfp");
-  return undefined;
+const profilePicture = computed((): string => {
+  if (!profilePictureBlob.value) return "/duckling_logo_solo.png";
+  return URL.createObjectURL(profilePictureBlob.value);
 });
 
 const authorDetails = computed((): PublicUser | undefined => {
-  if (detailedDuck.value.authorDetails) {
-    return detailedDuck.value.authorDetails;
-  }
-  return undefined;
+  if (!authorDetailsObject.value) return undefined;
+  return authorDetailsObject.value;
 });
 </script>
 

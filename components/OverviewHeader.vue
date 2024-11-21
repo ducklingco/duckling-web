@@ -1,9 +1,15 @@
 <template>
-  <header class="relative w-full overview-header">
+  <header class="overview-header relative w-full">
     <!-- Small screens -->
-    <div class="flex flex-col justify-between w-full gap-4 sm:hidden lg:flex-row lg:items-center md:gap-10">
+    <div
+      class="flex w-full flex-col justify-between gap-4 sm:hidden md:gap-10 lg:flex-row lg:items-center"
+    >
       <a href="https://www.duckling.co/">
-        <img class="w-32 m-auto md:w-56" src="~/assets/img/duckling_logo_text_right.png" alt="duckling logo with text">
+        <img
+          class="m-auto w-32 md:w-56"
+          src="~/assets/img/duckling_logo_text_right.png"
+          alt="duckling logo with text"
+        />
       </a>
       <div class="flex items-center">
         <h1 class="text-lg font-bold leading-7 md:text-2xl">
@@ -20,11 +26,13 @@
           journalists and storytellers.
         </h1>
       </div>
-      <div class="flex justify-end w-full">
+      <div class="flex w-full justify-end">
         <a href="https://www.duckling.co/">
           <img
-class="object-contain w-56" src="~/assets/img/duckling_logo_text_right.png"
-            alt="duckling logo with text">
+            class="w-56 object-contain"
+            src="~/assets/img/duckling_logo_text_right.png"
+            alt="duckling logo with text"
+          />
         </a>
       </div>
     </div>
