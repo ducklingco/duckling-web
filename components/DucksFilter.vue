@@ -1,20 +1,27 @@
 <template>
   <div class="flex w-full sm:w-max">
     <div
-      class="grid flex-auto grid-cols-3 m-auto overflow-hidden border-2 rounded-lg bg-duckling_grey border-duckling_grey">
+      class="m-auto grid flex-auto grid-cols-3 overflow-hidden rounded-lg border-2 border-duckling_grey bg-duckling_grey"
+    >
       <button
-        class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        :class="isSelected('featured')" @click="onClick('featured')">
+        class="bg-transparent px-4 py-0 text-duckling_white transition-colors hover:bg-duckling_white hover:text-duckling_grey"
+        :class="isSelected('featured')"
+        @click="onClick('featured')"
+      >
         Featured
       </button>
       <button
-        class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        :class="isSelected('verified')" @click="onClick('verified')">
+        class="bg-transparent px-4 py-0 text-duckling_white transition-colors hover:bg-duckling_white hover:text-duckling_grey"
+        :class="isSelected('verified')"
+        @click="onClick('verified')"
+      >
         Verified
       </button>
       <button
-        class="px-4 py-0 transition-colors bg-transparent text-duckling_white hover:bg-duckling_white hover:text-duckling_grey"
-        :class="isSelected('all')" @click="onClick('all')">
+        class="bg-transparent px-4 py-0 text-duckling_white transition-colors hover:bg-duckling_white hover:text-duckling_grey"
+        :class="isSelected('all')"
+        @click="onClick('all')"
+      >
         All
       </button>
     </div>
@@ -24,19 +31,25 @@
 <script setup lang="ts">
 import { useDucksStore } from "@/stores/ducks";
 import type { Filter } from "../types/Filter";
+import { useUserStore } from "~/stores/user";
 
 const ducksStore = useDucksStore();
+const userStore = useUserStore();
 const { setFilter } = ducksStore;
-const { getFilter } = storeToRefs(ducksStore)
-
-const emit = defineEmits(["filter"]);
+const { getFilter } = storeToRefs(ducksStore);
+const { accessToken } = storeToRefs(userStore);
+const { setAccessToken } = userStore;
 
 const isSelected = (value: Filter) => {
   return { selected: getFilter.value === value };
 };
 
+onMounted(async () => {
+  await setAccessToken();
+});
+
 const onClick = (value: Filter) => {
-  setFilter(value);
+  setFilter(value, accessToken.value);
 };
 </script>
 

@@ -10,26 +10,36 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  runtimeConfig: {
+    public: {
+      backendURL: process.env.backend_URL,
+    },
+  },
 
-  modules: ['@pinia/nuxt', "@stefanobartoletti/nuxt-social-share", "@nuxt/eslint"],
+  modules: [
+    "@pinia/nuxt",
+    "@stefanobartoletti/nuxt-social-share",
+    "@nuxt/eslint",
+  ],
 
   socialShare: {
     // module options
   },
 
   routeRules: {
-    '/carousel/**': { swr: 60 },
-    '.well-known/assetlinks.json':{
+    "/duck/**": { swr: 60 },
+    ".well-known/assetlinks.json": {
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     },
-    '.well-known/apple-app-site-association':{
+    ".well-known/apple-app-site-association": {
       headers: {
         "Content-Type": "application/json",
-      }
-    }
+      },
+    },
   },
+  serverHandlers: [{ route: "/api/proxy", handler: "~/server/api/proxy.ts" }],
 
-  compatibilityDate: "2024-10-24"
+  compatibilityDate: "2024-10-24",
 });

@@ -1,36 +1,47 @@
-import type { Filter } from '~/types/Filter';
+import type { Filter } from "~/types/Filter";
+const config = useRuntimeConfig();
 
 export default defineEventHandler(async (event) => {
-    const {filter, page} = getQuery(event)
-    const ducks = await fetchDucks(filter, Number(page) || 1);
-    return ducks;
-})
+  const { filter, page, accessToken } = getQuery(event);
+  const filterTyped = filter as Filter;
+  const ducks = await fetchDucks(
+    filterTyped,
+    Number(page),
+    String(accessToken),
+  );
+  return ducks;
+});
 
-async function fetchDucks(filter: Filter, page = 1) {
-    const filterMap: { [key: string]: string } = {
-        verified: 'filter[isVerified]=true',
-        featured: 'filter[isFeatured]=true',
-        all: '',
-        '': ''
+async function fetchDucks(filter: Filter, page = 1, accessToken: string) {
+  const filterMap: { [key: string]: string } = {
+    verified: "isVerified=true",
+    featured: "isFeatured=true",
+    all: "",
+  };
+
+  const url = `${config.public.backendURL}/ducks?${filterMap[filter]}&page=${page}&page_size=6&sort_by=-publishedAt`;
+
+  console.log(url);
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    const url = `https://apiv1.duckling.co/api/v1/ducks?${filterMap[filter]}&page[number]=${page}&page[size]=6&include=coverImage,createdBy.profilePicture,latestTopics&sort=-published_at`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer 51851|Vhz7JKBxH2olMUWDE72d4n3ALG1U2wwxln2ABU2n',
-            'Content-Type': 'application/json'
-        }
-    };
-
-    try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('An error occurred while fetching the ducks:', error);
-    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred while fetching the ducks:", error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Internal Server Error",
+    });
+  }
 }
