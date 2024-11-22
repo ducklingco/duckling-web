@@ -55,6 +55,11 @@ export default defineEventHandler(async (event) => {
       getMimeTypeFromMediaType(mediaType as MediaType),
     );
 
+    event.node.res.setHeader(
+      "Content-Disposition",
+      `inline; filename="media.${mimeType.split("/")[1]}"`,
+    );
+
     // Convert ArrayBuffer to Buffer
     const buffer = Buffer.from(response);
 
