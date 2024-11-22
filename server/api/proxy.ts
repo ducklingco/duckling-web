@@ -32,8 +32,22 @@ export default defineEventHandler(async (event) => {
       responseType: "arrayBuffer",
     });
 
-    // Set CORS headers for the actual response
+    // Set appropriate CORS headers
     event.node.res.setHeader("Access-Control-Allow-Origin", "*");
+    event.node.res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS",
+    );
+    event.node.res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization",
+    );
+
+    event.node.res.setHeader(
+      "Cache-Control",
+      "no-store, must-revalidate, max-age=0",
+    );
+    event.node.res.setHeader("Pragma", "no-cache");
 
     // Set the correct Content-Type header
     event.node.res.setHeader(
