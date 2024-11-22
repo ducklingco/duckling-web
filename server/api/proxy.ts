@@ -30,6 +30,9 @@ export default defineEventHandler(async (event) => {
       responseType: "arrayBuffer",
     });
 
+    // Set CORS headers for the actual response
+    event.node.res.setHeader("Access-Control-Allow-Origin", "*");
+
     // Set the correct Content-Type header
     event.node.res.setHeader("Content-Type", "application/octet-stream");
 
