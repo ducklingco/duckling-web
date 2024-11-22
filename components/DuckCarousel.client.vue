@@ -9,6 +9,21 @@
     :transition="500"
   >
     <template #slides>
+      <!-- Cover slide -->
+      <slide key="cover" class="relative grid h-full w-full">
+        <div class="relative flex h-full w-full items-center justify-center">
+          <div
+            class="flex h-full w-full items-center justify-center bg-cover bg-center"
+          >
+            <card-cover
+              :duck="duck"
+              :author-details="authorDetails"
+              @prev="prevSlide"
+              @next="nextSlide"
+            />
+          </div>
+        </div>
+      </slide>
       <slide
         v-for="ducklingCard in ducklings"
         :key="ducklingCard?.duckling.id"
@@ -18,13 +33,6 @@
           <div
             class="flex h-full w-full items-center justify-center bg-cover bg-center"
           >
-            <card-cover
-              v-if="duckling?.type == 'cover'"
-              :key="duckling?.id"
-              :duck="duck"
-              @prev="prevSlide"
-              @next="nextSlide"
-            />
             <card-video
               v-if="ducklingCard?.type == 'videoCard'"
               ref="cardVideoSlides"
@@ -273,17 +281,17 @@
             </div>
           </div>
         </div>
-        <div class="flex w-full flex-col">
-          <div
-            v-if="currentCardVideo && currentCard.type === 'videoCard'"
-            class="flex h-full w-full items-center justify-center"
-          >
-            <player-track
-              :percentage="currentCardVideo?.percentagePlayed"
-              class="flex-grow"
-              @seek="currentCardVideo?.seekToPercentage"
-            />
-          </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full p-6">
+        <div
+          v-if="currentCardVideo && currentCard.type === 'videoCard'"
+          class="flex h-full w-full items-center justify-center"
+        >
+          <player-track
+            :percentage="currentCardVideo?.percentagePlayed"
+            class="flex-grow"
+            @seek="currentCardVideo?.seekToPercentage"
+          />
         </div>
       </div>
     </template>
@@ -359,14 +367,19 @@ const onClickCloseCarousel = () => {
 const currentSlide = ref(0);
 
 const currentCard = computed(() => {
-  return ducklings.value[unref(currentSlide)];
+  return ducklings.value[unref(currentSlide) - 1];
 });
 
 const currentCardVideo = computed(() => {
-  cardVideoSlides.value?.find((card) => console.log(card));
-  return cardVideoSlides.value?.find(
-    (card) => card?.id === unref(unref(currentCard))?.id,
+  console.log("cardVideoSlides:", cardVideoSlides.value);
+  console.log("currentCard:", unref(currentCard));
+
+  const found = cardVideoSlides.value?.find(
+    (card) => card?.id === unref(currentCard)?.duckling?.id,
   );
+  console.log("Found card:", found);
+
+  return found;
 });
 
 watch(currentCardVideo, (newCurrentCardVideo) => {

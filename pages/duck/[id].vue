@@ -1,10 +1,15 @@
 <template>
   <div class="absolute h-full w-full">
     <div
-      v-if="!duck"
-      class="t-0 l-0 absolute h-full w-full animate-pulse bg-duckling_black"
+      v-if="!duck && !authorDetails"
+      class="t-0 l-0 absolute h-full w-full animate-pulse bg-duckling_grey"
     />
-    <duck-carousel v-if="duck" :duck="duck" @toggle-fullscreen="toggle" />
+    <duck-carousel
+      v-if="duck && authorDetails"
+      :duck="duck"
+      :author-details="authorDetails"
+      @toggle-fullscreen="toggle"
+    />
   </div>
 </template>
 
@@ -19,9 +24,8 @@ import { MediaType } from "~/types/MediaType";
 const { toggle } = useFullscreen();
 const route = useRoute();
 const id: string = route.params.id as string;
-const authorDetails: PublicUser | null = route.params.authorDetails
-  ? JSON.parse(route.params.authorDetails as string)
-  : null;
+const authorDetails = ref<PublicUser | undefined>();
+
 const duck = ref<DuckWithContentDetailed | undefined>();
 const coverImageBlob = ref<Blob | null>(null);
 
@@ -36,6 +40,10 @@ onMounted(async () => {
   coverImageBlob.value = await getMedia(
     duck.value.mediaId,
     MediaType.COVER_IMAGE,
+    accessToken.value,
+  );
+  authorDetails.value = await getAuthorDetails(
+    duck.value.author,
     accessToken.value,
   );
   document.body.style.overflow = "hidden";

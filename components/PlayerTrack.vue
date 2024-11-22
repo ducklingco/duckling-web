@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center w-full">
         <input
-type="range" min="0" max="100" step="1" :value="percentage.toFixed(1)"
+type="range" min="0" max="100" step="1" :value="(percentage).toFixed(1)"
             class="top-[-1px] w-full rounded-full overflow-hidden appearance-none bg-duckling_white bg-opacity-80 focus:outline-none hover:cursor-ew-resize"
             @input="onInput">
     </div>

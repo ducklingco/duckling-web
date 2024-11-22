@@ -27,6 +27,7 @@
           :src="audio"
           @playing="onPlaying"
           @pause="onPause"
+          @timeupdate="onTimeUpdate"
         />
         <player-track
           :percentage="percentagePlayed"
@@ -34,9 +35,7 @@
           @seek="seekToPercentage"
         />
       </div>
-      <div class="text-white">
-        {{ percentagePlayed }}
-      </div>
+      <div class="text-white"></div>
 
       <div class="w-full text-left text-duckling_white opacity-100">
         <p class="text text-sm">
@@ -54,7 +53,7 @@ import { MediaType } from "~/types/MediaType";
 const props = defineProps<{ card: DucklingImage }>();
 const imgPlay = new URL("~/assets/img/button-play.png", import.meta.url).href;
 const imgPause = new URL("~/assets/img/button-pause.png", import.meta.url).href;
-const player = ref(null);
+const player = ref<HTMLAudioElement | null>(null);
 const audioBlob = ref<Blob | null>(null);
 const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
@@ -103,7 +102,7 @@ const togglePlay = () => {
 
 const playing = ref(false);
 
-const seekToPercentage = (percentage) => {
+const seekToPercentage = (percentage: number) => {
   if (!player?.value?.duration) return null;
   player.value.currentTime = (player.value.duration * percentage) / 100;
 };
@@ -118,18 +117,13 @@ onMounted(() => {
   bindAudioEvent("timeupdate");
 });
 
-function bindAudioEvent(which) {
+function bindAudioEvent(which: "loadeddata" | "timeupdate") {
   if (!player.value) return null;
   player.value.addEventListener(
     which,
     (event) => {
       if (which === "loadeddata") {
-        duration.value = player.value.duration;
-      }
-
-      if (which === "timeupdate") {
-        percentagePlayed.value =
-          (player.value.currentTime / player.value.duration) * 100;
+        duration.value = player?.value?.duration ?? 0;
       }
 
       emit(which, { event, player: player.value });
@@ -142,6 +136,13 @@ const onPlaying = () => {
 };
 const onPause = () => {
   playing.value = false;
+};
+
+const onTimeUpdate = () => {
+  if (player.value) {
+    percentagePlayed.value =
+      (player.value.currentTime / player.value.duration) * 100;
+  }
 };
 
 const drawerRef = ref(null);

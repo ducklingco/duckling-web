@@ -63,9 +63,10 @@ const onClickCard = () => {
     name: "duck-id",
     params: {
       id: props.duck.id,
-      authorDetails: JSON.stringify(authorDetailsObject.value ?? {}),
     },
-    query: { redirected: "1" },
+    query: {
+      redirected: "1",
+    },
   });
 };
 

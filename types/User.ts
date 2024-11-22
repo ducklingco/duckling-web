@@ -3,7 +3,6 @@ export interface PublicUser {
   username: string;
   name: string;
   surname: string;
-  bio?: string;
   imageId?: string;
   imageData?: Blob;
 }
