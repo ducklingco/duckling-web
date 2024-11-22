@@ -1,43 +1,37 @@
 <template>
-  <div class="w-full h-full py-20 sm:py-30 md:py-40 lg:py-40 bg-duckling_beige">
-    <div ref="parent" class="flex items-center justify-center w-full h-full">
+  <div class="sm:py-30 h-full w-full bg-duckling_beige py-20 md:py-40 lg:py-40">
+    <div ref="parent" class="flex h-full w-full items-center justify-center">
       <div
-ref="textElement"
-        class="w-full px-4 font-bold leading-tight text-left xs:px-0 xs:w-3/4 text lg:w-3/4 2xl:max-w-screen-lg"
-        :style="{ fontSize: `${fontSize}px` }">
-        {{ text }}
+        ref="textElement"
+        class="xs:px-0 xs:w-3/4 text w-full px-4 text-left font-bold leading-tight lg:w-3/4 2xl:max-w-screen-lg"
+        :style="{ fontSize: `${fontSize}px` }"
+      >
+        {{ props.card.content }}
       </div>
     </div>
   </div>
   <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
-<script setup>
-import useCardNavigation from '@/composables/useCardNavigation';
+<script setup lang="ts">
+import useCardNavigation from "@/composables/useCardNavigation";
+import type { VNodeRef } from "vue";
+import type { DucklingText } from "~/types/Duckling";
 
-const props = defineProps({
-  card: {
-    type: Object,
-    required: true
-  }
-});
+const props = defineProps<{ card: DucklingText }>();
 
-const emit = defineEmits(['prev', 'next']);
+const emit = defineEmits(["prev", "next"]);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
 
-const text = computed(() => {
-  return props?.card?.cardable?.content
-});
-
-const textElement = ref(null);
-const parent = ref(null);
-const fontSize = ref(1); // Start with a small font size
+const textElement = ref<VNodeRef | null>(null);
+const parent = ref<VNodeRef | null>(null);
+const fontSize = ref(1);
 
 onMounted(() => {
+  console.log(props.card);
   const observer = new ResizeObserver(() => {
     adjustFontSize();
   });
-
   observer.observe(parent.value);
 
   onUnmounted(() => {
@@ -47,14 +41,17 @@ onMounted(() => {
 
 const adjustFontSize = async () => {
   fontSize.value = 1; // Reset to the initial small font size
-  const maxFontSize = 500; // Set a maximum limit for the font size
+  const maxFontSize = 100; // Set a maximum limit for the font size (down from a former value of 500)
 
   // Increase font size until the text no longer fits or the maximum limit is reached
   while (fontSize.value < maxFontSize) {
     fontSize.value++;
     await nextTick();
 
-    if (textElement.value.offsetWidth > parent.value.offsetWidth || textElement.value.offsetHeight > parent.value.offsetHeight) {
+    if (
+      textElement.value.offsetWidth > parent.value.offsetWidth ||
+      textElement.value.offsetHeight > parent.value.offsetHeight
+    ) {
       break;
     }
   }
@@ -62,5 +59,4 @@ const adjustFontSize = async () => {
   // Decrease font size by one step to ensure the text fits
   fontSize.value--;
 };
-
 </script>

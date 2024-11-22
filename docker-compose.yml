@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
   duckling-nuxt:
+    environment:
+      - NUXT_PUBLIC_BACKEND_URL=${NUXT_PUBLIC_BACKEND_URL}
     image: duckling-nuxt
     container_name: duckling-nuxt
     build:
@@ -11,9 +13,6 @@ services:
       - "3000:3000"
     networks:
       - duckling-net
-    environment:
-      - HOST=0.0.0.0
-      - PORT=3000
 
   nginx:
     image: duckling-nginx

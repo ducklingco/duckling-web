@@ -1,38 +1,59 @@
 <template>
-    <img :src="image" alt="Card image" class="w-full h-full " :class="objectFitClass">
-    <div class="absolute top-0 left-0 grid w-full h-full grid-cols-3 opacity-50 pointer-events-none">
-        <div class="w-full h-full pointer-events-auto " @click="onClickPrev" />
-        <div class="w-full h-full pointer-events-none" />
-        <div class="w-full h-full pointer-events-auto " @click="onClickNext" />
-    </div>
+  <img
+    :src="image"
+    alt="Card image"
+    class="h-full w-full"
+    :class="imageCoverFitClass"
+  />
+  <div
+    class="pointer-events-none absolute left-0 top-0 grid h-full w-full grid-cols-3 opacity-50"
+  >
+    <div class="pointer-events-auto h-full w-full" @click="onClickPrev" />
+    <div class="pointer-events-none h-full w-full" />
+    <div class="pointer-events-auto h-full w-full" @click="onClickNext" />
+  </div>
 
-    <card-click-areas @prev="onClickPrev" @next="onClickNext" />
+  <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
 <script setup lang="ts">
-import useCardNavigation from '@/composables/useCardNavigation';
+import useCardNavigation from "@/composables/useCardNavigation";
+import type { DucklingImage } from "~/types/Duckling";
+import { MediaType } from "~/types/MediaType";
 
-const props = defineProps({
-    card: {
-        type: Object,
-        required: true
-    }
+const props = defineProps<{
+  card: DucklingImage;
+}>();
+
+const userStore = useUserStore();
+const { accessToken } = storeToRefs(userStore);
+const { setAccessToken } = userStore;
+
+const imageBlob = ref<Blob | null>(null);
+
+onMounted(async () => {
+  await setAccessToken();
+  imageBlob.value = await getMedia(
+    props.card.imageId,
+    MediaType.IMAGE,
+    accessToken.value,
+  );
 });
 
-const emit = defineEmits(['prev', 'next']);
+const emit = defineEmits(["prev", "next"]);
 
-const image = computed(() => {
-    return props?.card?.cardable?.image?.path
+const image = computed((): string | undefined => {
+  if (!imageBlob.value) return undefined;
+  return URL.createObjectURL(imageBlob.value);
 });
 
-const objectFit = computed(() => {
-    return props?.card?.cardable?.image_fit
+const imageCoverFit = computed(() => {
+  return props?.card?.imageCoverFit;
 });
 
-const objectFitClass = computed(() => {
-    return objectFit.value === 'cover' ? 'object-cover' : 'object-contain';
+const imageCoverFitClass = computed(() => {
+  return imageCoverFit.value ? "object-cover" : "object-contain";
 });
 
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
-
 </script>
