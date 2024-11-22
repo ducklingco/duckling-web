@@ -1,5 +1,7 @@
 import { defineEventHandler, getQuery, sendError, createError } from "h3";
 import { $fetch } from "ofetch";
+import type { MediaType } from "~/types/MediaType";
+import { getMimeTypeFromMediaType } from "~/utils/mimeTypes";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -18,7 +20,7 @@ export default defineEventHandler(async (event) => {
       return;
     }
 
-    const { proxyUrl } = getQuery(event);
+    const { proxyUrl, mediaType } = getQuery(event);
 
     if (!proxyUrl) {
       throw new Error("No proxy URL provided");
@@ -34,7 +36,10 @@ export default defineEventHandler(async (event) => {
     event.node.res.setHeader("Access-Control-Allow-Origin", "*");
 
     // Set the correct Content-Type header
-    event.node.res.setHeader("Content-Type", "application/octet-stream");
+    event.node.res.setHeader(
+      "Content-Type",
+      getMimeTypeFromMediaType(mediaType as MediaType),
+    );
 
     // Convert ArrayBuffer to Buffer
     const buffer = Buffer.from(response);

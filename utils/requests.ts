@@ -31,7 +31,7 @@ export const getMedia = async (
     if (!signedUrl) {
       throw new Error("Signed URL is empty");
     }
-    const mediaBlob = await getMediaWithSignedUrl(signedUrl);
+    const mediaBlob = await getMediaWithSignedUrl(signedUrl, mediaType);
     return mediaBlob;
   } catch (error) {
     if (error instanceof Error) {
@@ -43,7 +43,10 @@ export const getMedia = async (
   }
 };
 
-const getMediaWithSignedUrl = async (signedUrl: string): Promise<Blob> => {
+const getMediaWithSignedUrl = async (
+  signedUrl: string,
+  mediaType: MediaType,
+): Promise<Blob> => {
   if (!signedUrl) {
     throw new Error("Signed URL is empty");
   }
@@ -51,7 +54,7 @@ const getMediaWithSignedUrl = async (signedUrl: string): Promise<Blob> => {
   try {
     const response = await $fetch("/api/proxy", {
       method: "GET",
-      params: { proxyUrl: signedUrl },
+      params: { proxyUrl: signedUrl, mediaType: mediaType },
       responseType: "arrayBuffer",
     });
 
