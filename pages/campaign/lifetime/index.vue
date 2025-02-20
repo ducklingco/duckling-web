@@ -1,125 +1,85 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
   <div class="absolute h-full w-full bg-duckling_beige">
-    <div class="flex h-full items-center justify-center">
-      <div
-        class="w-1/2 items-center rounded-lg border-2 border-duckling_green p-4 text-center align-middle"
-      >
-        <div class="pb-2 text-lg font-bold underline underline-offset-8">
-          Support our mission
+    <div class="flex flex-col items-center pt-6">
+      <div class="size-20">
+        <img src="/assets/img/duckling_logo_text_under.png" />
+      </div>
+    </div>
+    <div class="flex h-full justify-center pt-16">
+      <div class="w-3/4 items-center p-4 text-center align-middle">
+        <h1 class="text-7xl font-semibold">
+          You're one click away <br />
+          from making a difference
+        </h1>
+
+        <div class="pt-16">
+          <button
+            class="bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+            type="button"
+            aria-label="Support duckling with 9 DKK a month"
+            @click="onClickedSupportButton"
+          >
+            Support Duckling with 999 DKK
+          </button>
         </div>
-        <div class="p-2">
-          We're committed to protecting your privacy by keeping ads off our
-          platform.
-          <br />
-          Ads often mean tracking and data collection—we want none of that.
-          <br />
-          <br />
-          Your small donation helps us stay free and secure for everyone,
-          without compromising your data.
-          <br />
-          Join us in building a safer, ad-free space. Every contribution makes a
-          difference!
-          <br />
-          Together, we can keep this platform focused on what matters—you. Every
-          little bit helps!
+        <div class="flex items-center justify-center pt-4">
+          <input
+            id="wantToReceiveUpdates"
+            v-model="wantToReceiveUpdates"
+            type="checkbox"
+            name="wantToReceiveUpdates"
+            class="peer hidden"
+          />
+          <div
+            class="flex h-5 w-5 cursor-pointer rounded-sm border-2 border-black"
+            @click="wantToReceiveUpdates = !wantToReceiveUpdates"
+          >
+            <svg
+              v-if="wantToReceiveUpdates"
+              class="pointer-events-none h-5 w-5 self-center"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <label class="min-w-64 cursor-pointer" for="wantToReceiveUpdates">
+            Also send me news about Duckling
+          </label>
         </div>
-        <div class="flex flex-row space-x-1">
-          <div class="flex-1 rounded-lg border-2 border-duckling_green p-2">
-            <div class="py-2">
-              <div class="font-bold">Monthly Support:</div>
-              Just 9 DKK/month helps keep us running.
-            </div>
-            <button
-              class="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-duckling_white shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
-              type="button"
-              aria-label="Join the mission for 9 DKK/month"
-            >
-              Join the mission for 9 DKK/month
-            </button>
-          </div>
-          <div class="flex-1 rounded-lg border-2 border-duckling_green p-2">
-            <div class="py-2">
-              <div class="font-bold">Lifetime Premium Membership:</div>
-              With a one-time payment of 999 DKK, you'll get all future premium
-              features for life—an exclusive thank-you for early supporters.
-            </div>
-            <button
-              class="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-duckling_white shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
-              type="button"
-              aria-label="Become a lifetime supporter for 999 DKK"
-              @click="askForLifeTimeSupporterEmail = true"
-            >
-              Become a lifetime supporter for 999 DKK
-            </button>
-            <div v-if="askForLifeTimeSupporterEmail" class="py-1">
-              Please enter your email address so that we can contact you once
-              the premium features go live:
-              <br />
-              <input
-                ref="emailInput"
-                v-model="emailForLifetimeSupporter"
-                class="focus:shadow-outline min-w-48 max-w-64 appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                :style="{ width: emailInputWidth }"
-                type="email"
-              />
-              <br />
-              <div v-if="isValidEmailAddress" class="pt-2">
-                <button
-                  class="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-duckling_white shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
-                  type="button"
-                  aria-label="Become a lifetime supporter for 999 DKK"
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-1 rounded-lg border-2 border-duckling_green p-2">
-            <div class="py-2">
-              <div class="font-bold">Custom amount:</div>
-              Support us with a custom amount of your choice. And decide if you
-              want it to be monthly or a one-time donation.
-            </div>
-            <button
-              class="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-duckling_white shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
-              type="button"
-              aria-label="Support with a custom amount"
-              @click="showCustomAmount = true"
-            >
-              Support with a custom amount
-            </button>
-            <br />
-            <div v-if="showCustomAmount" class="py-2">
-              <input
-                id="custom-amount-input"
-                v-model="customAmount"
-                class="focus:shadow-outline min-w-48 max-w-4xl appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                type="number"
-                min="9"
-                placeholder="Enter custom amount"
-              />
-              <span>{{ ` DKK` }}</span> <br />
-              <div class="flex items-center justify-center py-1">
-                <input
-                  id="custom-amount-monthly-input"
-                  v-model="isCustomAmountMonthly"
-                  type="checkbox"
-                  name="monthly"
-                  class="form-checkbox h-5 w-5 text-emerald-600 transition duration-150 ease-in-out"
-                />
-                <label for="custom-amount-monthly-input" class="pl-2">
-                  Make this a monthly contribution
-                </label>
-              </div>
-              <button
-                class="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-duckling_white shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75"
-                type="button"
-                aria-label="Become a lifetime supporter for 999 DKK"
-              >
-                Continue
-              </button>
-            </div>
+        <div class="pb-4">
+          <br />
+          <div>We need your email to give you a lifetime premium account</div>
+          <input
+            ref="emailInput"
+            v-model="emailForSupporter"
+            class="focus:shadow-outline max-w- min-w-48 appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none"
+            :style="{ width: emailInputWidth }"
+            type="email"
+            placeholder="Enter your email address"
+          />
+        </div>
+        <div class="flex items-center justify-center">
+          <label class="min-w-80 cursor-pointer" for="doNotWantLifetimePremium">
+            I don't want a lifetime premium account
+          </label>
+          <input
+            id="doNotWantLifetimePremium"
+            v-model="doNotWantLifetimePremium"
+            type="checkbox"
+            name="wantToReceiveUpdates"
+            class="h-5 w-5 text-duckling_beige"
+          />
+        </div>
+        <div class="flex h-fit w-full flex-col items-center pt-16">
+          <div class="size-96">
+            <img src="/assets/img/payment_options.png" />
           </div>
         </div>
       </div>
@@ -128,33 +88,45 @@
 </template>
 
 <script setup lang="ts">
-const askForLifeTimeSupporterEmail = ref<boolean>(false);
-const emailForLifetimeSupporter = ref<string>("");
+const emailForSupporter = ref<string>("");
 const emailInput = ref<HTMLInputElement | null>(null);
-const showCustomAmount = ref<boolean>(false);
-const customAmount = ref<number>(9);
-const isCustomAmountMonthly = ref<boolean>(false);
+const wantToReceiveUpdates = ref<boolean>(false);
+const doNotWantLifetimePremium = ref<boolean>(false);
 
 const emailInputWidth = computed(() => {
-  const length = emailForLifetimeSupporter.value.length;
+  const length = emailForSupporter.value.length;
   return `${length + 3}ch`;
 });
 
 const isValidEmailAddress = computed(() => {
-  const email = emailForLifetimeSupporter.value;
+  const email = emailForSupporter.value;
   return (
     email.length > 0 &&
     email.includes("@") &&
     email.includes(".") &&
     email.replaceAll("@", "").replaceAll(".", "").length > 0 &&
     email.split("@")[0].length > 0 &&
-    email.split("@")[1].split(".")[0].length > 0
+    email.split("@")[1].split(".")[0].length > 0 &&
+    email.split("@")[1].split(".")[1].length > 0
   );
 });
+
+const onClickedSupportButton = () => {
+  if (
+    (wantToReceiveUpdates.value && !isValidEmailAddress.value) ||
+    !doNotWantLifetimePremium.value
+  ) {
+    alert("Please enter a valid email address.");
+  }
+};
 </script>
 
 <style scoped>
 .custom-amount-input {
   width: 100%;
+}
+
+* {
+  font-family: "Newsreader";
 }
 </style>
