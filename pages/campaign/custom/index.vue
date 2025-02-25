@@ -6,110 +6,244 @@
         <img src="/assets/img/duckling_logo_text_under.png" />
       </div>
     </div>
-    <div class="flex h-full justify-center pt-16">
-      <div class="w-3/4 items-center p-4 text-center align-middle">
-        <h1 class="text-7xl font-semibold">
-          You're one click away <br />
-          from making a difference
+    <div v-if="lang !== null" class="flex h-full justify-center pt-16">
+      <div class="w-84 items-center p-4 text-center align-middle">
+        <h1
+          v-if="
+            !paymentType || (customAmount ?? 0) < amountForLifetimeMembership
+          "
+          class="text-7xl font-semibold"
+        >
+          {{ lang === "en" ? "You're one click away" : "Du er ét klik væk"
+          }}<br />
+          {{
+            lang === "en"
+              ? "from making a difference"
+              : "fra at gøre en forskel"
+          }}
+        </h1>
+        <h1 v-else class="text-7xl font-semibold">
+          {{ lang === "en" ? "Thank you so much!" : "Tusinde tak!" }}<br />
+          {{
+            lang === "en"
+              ? "We added a special gift..."
+              : "Vi har tilføjet en særlig gave..."
+          }}
         </h1>
 
-        <button @click="fetchExchangeRates">fetch</button>
-
-        <div class="flex flex-col items-center pb-4 pt-24">
-          <h4 class="text-3xl font-light">
-            Donate over 149 $ <br />
-            and get a lifetime premium membership
+        <div class="flex flex-col items-center pt-24">
+          <h4
+            v-if="
+              !paymentType || (customAmount ?? 0) < amountForLifetimeMembership
+            "
+            class="text-3xl font-light"
+          >
+            {{
+              lang === "en"
+                ? `Donate over ${amountForLifetimeMembership} $ and get a`
+                : `Donér over ${amountForLifetimeMembership} DKK og få et`
+            }}<br />
+            {{
+              lang === "en"
+                ? "lifetime premium membership"
+                : "livstids premium medlemskab"
+            }}
+          </h4>
+          <h4 v-else class="text-3xl font-light">
+            {{
+              lang === "en"
+                ? "Because of your generous donation, we'd like to offer a"
+                : "På grund af din generøse donation, vil vi gerne tilbyde dig et"
+            }}<br />
+            {{
+              lang === "en"
+                ? "lifetime membership as a bonus. Enter email and activate:"
+                : "livstids medlemskab som en bonus. Indtast email og aktiver:"
+            }}
           </h4>
           <div class="w-fit py-4">
-            <div class="flex flex-row space-x-2">
-              <div class="w-fit">
+            <div v-if="!paymentType" class="flex flex-col space-y-2">
+              <div class="w-96">
                 <input
                   v-model="customAmount"
-                  :class="`focus:shadow-outline min-w-80 appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none`"
+                  :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none`"
                   type="number"
-                  min="2"
+                  :min="minimumAmount"
                   max="999999999999999"
-                  placeholder="Please enter amount in USD"
-                />
-              </div>
-              <button
-                class="bg-duckling_pink px-10 py-2 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
-                type="button"
-                aria-label="Donate"
-                @click="onClickedSupportButton"
-              >
-                Donate
-              </button>
-            </div>
-            <div
-              v-if="showMinimumAllowableAmount"
-              class="text-left text-sm text-red-500"
-            >
-              The minimum amount is 2 $
-            </div>
-
-            <div
-              v-if="customAmount != null && haveClickedDonateButton"
-              class="py-12"
-            >
-              <div>
-                <button
-                  class="max-w-72 text-ellipsis bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
-                  type="button"
-                  :aria-label="'Support Duckling with {{customAmount ?? 0}} USD'"
-                  @click="onClickedSupportButton"
-                >
-                  Support Duckling with <br />
-
-                  {{ customAmount ?? 0 }}
-                  $
-                </button>
-              </div>
-
-              <div class="py-4">
-                We need your email to activate your membership:
-              </div>
-              <input
-                v-model="emailForSupporter"
-                :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
-                type="email"
-                placeholder="Enter your email address"
-              />
-
-              <div class="flex w-fit items-center pt-4">
-                <input
-                  id="wantToReceiveUpdates"
-                  v-model="wantToReceiveUpdates"
-                  type="checkbox"
-                  name="wantToReceiveUpdates"
-                  class="peer hidden"
+                  :placeholder="
+                    lang === 'en'
+                      ? 'Please enter amount in USD'
+                      : 'Indtast venligst beløb i DKK'
+                  "
                 />
                 <div
-                  class="flex size-4 min-h-4 min-w-4 cursor-pointer rounded-sm border-2 border-black"
-                  tabindex="0"
-                  @click="wantToReceiveUpdates = !wantToReceiveUpdates"
-                  @keydown.enter="wantToReceiveUpdates = !wantToReceiveUpdates"
+                  v-if="showMinimumAllowableAmount"
+                  class="pl-2 text-left text-sm text-red-500"
                 >
-                  <svg
-                    v-if="wantToReceiveUpdates"
-                    class="pointer-events-none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
+                  {{
+                    lang === "en"
+                      ? `The minimum amount is ${minimumAmount} $`
+                      : `Minimumbeløbet er ${minimumAmount} DKK`
+                  }}
                 </div>
-                <label
-                  class="cursor-pointer pl-2 text-lg"
-                  for="wantToReceiveUpdates"
+                <div class="flex w-fit items-center pt-2">
+                  <input
+                    id="haveReadLegalTerms"
+                    v-model="haveReadLegalTerms"
+                    type="checkbox"
+                    name="haveReadLegalTerms"
+                    class="peer hidden"
+                  />
+                  <div
+                    class="flex size-4 min-h-4 min-w-4 cursor-pointer rounded-sm border-2 border-black"
+                    tabindex="0"
+                    @click="haveReadLegalTerms = !haveReadLegalTerms"
+                    @keydown.enter="haveReadLegalTerms = !haveReadLegalTerms"
+                  >
+                    <svg
+                      v-if="haveReadLegalTerms"
+                      class="pointer-events-none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <label
+                    class="cursor-pointer pl-2 pr-1 text-lg"
+                    for="haveReadLegalTerms"
+                  >
+                    {{
+                      lang === "en"
+                        ? "Please agree to our"
+                        : "Venligst accepter vores"
+                    }}
+                  </label>
+
+                  <a
+                    href="https://duckling.co/donation-terms"
+                    target="_blank"
+                    class="text-lg underline"
+                    >{{ lang === "en" ? "legal terms" : "juridiske vilkår" }}</a
+                  >
+                </div>
+              </div>
+              <div class="flex justify-stretch space-x-6">
+                <button
+                  class="flex-1 border-2 border-duckling_pink bg-transparent py-2 font-thin text-duckling_pink hover:bg-duckling_pink/10 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+                  type="button"
+                  aria-label="Donate"
+                  @click="onClickedOneTimeSupportDonationButton"
                 >
-                  Also send me news about Duckling
-                </label>
+                  {{ lang === "en" ? "One time" : "Engangs" }}
+                </button>
+                <button
+                  class="flex-1 bg-duckling_pink py-2 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+                  type="button"
+                  aria-label="Donate"
+                  @click="onClickRecurringSupportDonationButton"
+                >
+                  {{ lang === "en" ? "Every month" : "Hver måned" }}
+                </button>
+              </div>
+            </div>
+
+            <div v-if="paymentType && (customAmount ?? 0) >= minimumAmount">
+              <div class="flex flex-col space-y-2">
+                <div class="w-96">
+                  <input
+                    v-model="emailForSupporter"
+                    :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
+                    type="email"
+                    :placeholder="
+                      lang === 'en'
+                        ? 'Please enter your email address'
+                        : 'Indtast venligst din email adresse'
+                    "
+                  />
+                  <div class="flex w-fit items-center pt-2">
+                    <input
+                      id="wantToReceiveUpdates"
+                      v-model="wantToReceiveUpdates"
+                      type="checkbox"
+                      name="wantToReceiveUpdates"
+                      class="peer hidden"
+                    />
+                    <div
+                      class="flex size-4 min-h-4 min-w-4 cursor-pointer rounded-sm border-2 border-black"
+                      tabindex="0"
+                      @click="wantToReceiveUpdates = !wantToReceiveUpdates"
+                      @keydown.enter="
+                        wantToReceiveUpdates = !wantToReceiveUpdates
+                      "
+                    >
+                      <svg
+                        v-if="wantToReceiveUpdates"
+                        class="pointer-events-none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <label
+                      class="cursor-pointer pl-2 text-lg"
+                      for="wantToReceiveUpdates"
+                    >
+                      {{
+                        lang === "en"
+                          ? "Also send me news about Duckling"
+                          : "Send mig nyheder om Duckling"
+                      }}
+                    </label>
+                  </div>
+                </div>
+                <div
+                  v-if="(customAmount ?? 0) >= amountForLifetimeMembership"
+                  class="flex justify-stretch space-x-6 pt-6"
+                >
+                  <button
+                    class="flex-1 border-2 border-black bg-transparent py-2 font-thin text-black hover:bg-duckling_pink/10 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+                    type="button"
+                    aria-label="Donate"
+                    @click="onClickFinalizeDonationButton(false)"
+                  >
+                    {{ lang === "en" ? "No thanks" : "Nej tak" }}
+                  </button>
+                  <button
+                    class="flex-1 bg-duckling_pink py-2 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+                    type="button"
+                    aria-label="Donate"
+                    @click="onClickFinalizeDonationButton(true)"
+                  >
+                    <p class="-mb-2">
+                      {{ lang === "en" ? "Activate," : "Aktivér" }}
+                    </p>
+                    <p class="-mt-2">
+                      {{ lang === "en" ? "and pay" : "og betal" }}
+                    </p>
+                  </button>
+                </div>
+                <div v-else class="flex justify-center space-x-6 pt-2">
+                  <button
+                    class="min-w-24 bg-duckling_pink px-10 py-4 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+                    type="button"
+                    aria-label="Donate"
+                    @click="onClickFinalizeDonationButton(false)"
+                  >
+                    {{ lang === "en" ? "Donate" : "Donér" }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -117,7 +251,11 @@
 
         <div class="flex h-fit w-full flex-col items-center pt-16">
           <div class="size-96">
-            <img src="/assets/img/payment_options.png" />
+            <img v-if="lang === 'en'" src="/assets/img/payment_options.png" />
+            <img
+              v-else-if="lang === 'da'"
+              src="/assets/img/payment_options_da.png"
+            />
           </div>
         </div>
       </div>
@@ -126,19 +264,16 @@
 </template>
 
 <script setup lang="ts">
-import destr from "destr";
-import type { ExchangeRatesToDKK } from "~/types/Currency";
-
 const emailForSupporter = ref<string>("");
 const wantToReceiveUpdates = ref<boolean>(false);
-const haveClickedDonateButton = ref<boolean>(false);
 const customAmount = ref<number | null>(null);
 const showMinimumAllowableAmount = ref<boolean>(false);
-const exchangeRates = ref<ExchangeRatesToDKK>({
-  EUR: 2,
-  USD: 3,
-  GBP: 4,
-});
+const paymentType = ref<"one-time" | "recurring" | null>(null);
+const lang = ref<("en" | "da") | null>(null);
+const route = useRoute();
+const haveClickedDonateButton = ref<boolean>(false);
+const userWantsMembership = ref<boolean>(false);
+const haveReadLegalTerms = ref<boolean>(false);
 
 const isValidEmailAddress = computed(() => {
   const email = emailForSupporter.value;
@@ -153,6 +288,62 @@ const isValidEmailAddress = computed(() => {
   );
 });
 
+const emailInputClass = computed(() => {
+  return paymentType.value !== null &&
+    !isValidEmailAddress.value &&
+    (wantToReceiveUpdates.value || userWantsMembership.value) &&
+    haveClickedDonateButton.value
+    ? "border-red-500 border-4"
+    : "";
+});
+
+const minimumAmount = computed(() => {
+  return lang.value === "en" ? 2 : 9;
+});
+
+const amountForLifetimeMembership = computed(() => {
+  return lang.value === "en" ? 149 : 999;
+});
+
+const onClickedOneTimeSupportDonationButton = () => {
+  if (haveReadLegalTerms.value === false) {
+    alert(
+      lang.value === "en"
+        ? "Please agree to our legal terms"
+        : "Venligst accepter vores juridiske vilkår",
+    );
+    return;
+  }
+  if ((customAmount.value ?? 0) < minimumAmount.value) {
+    showMinimumAllowableAmount.value = true;
+    customAmount.value = minimumAmount.value;
+  } else {
+    paymentType.value = "one-time";
+  }
+};
+
+const onClickRecurringSupportDonationButton = () => {
+  if (haveReadLegalTerms.value === false) {
+    alert(
+      lang.value === "en"
+        ? "Please agree to our legal terms"
+        : "Venligst accepter vores juridiske vilkår",
+    );
+    return;
+  }
+  if ((customAmount.value ?? 0) < minimumAmount.value) {
+    showMinimumAllowableAmount.value = true;
+    customAmount.value = lang.value === "en" ? 2 : 9;
+  } else {
+    paymentType.value = "recurring";
+  }
+};
+
+const onClickFinalizeDonationButton = (wantsMembership: boolean) => {
+  userWantsMembership.value = wantsMembership;
+  haveClickedDonateButton.value = true;
+};
+
 watch(customAmount, (newValue) => {
   if (newValue != null) {
     if (newValue > 999999999999999) {
@@ -164,50 +355,9 @@ watch(customAmount, (newValue) => {
   }
 });
 
-const emailInputClass = computed(() => {
-  return haveClickedDonateButton.value && !isValidEmailAddress.value
-    ? "border-red-500 border-4"
-    : "";
+onMounted(() => {
+  route.query.lang === "da" ? (lang.value = "da") : (lang.value = "en");
 });
-
-const onClickedSupportButton = () => {
-  if ((customAmount.value ?? 0) < 9) {
-    showMinimumAllowableAmount.value = true;
-    customAmount.value = 9;
-  }
-  haveClickedDonateButton.value = true;
-};
-
-const danishKroneToEUR = (numberToConvert: number): number => {
-  return numberToConvert / exchangeRates.value.EUR;
-};
-const danishKroneToUSD = (numberToConvert: number): number => {
-  return numberToConvert / exchangeRates.value.USD;
-};
-
-const makeNumberIntoPretty = (number: number): string => {
-  if (number < 1000) return number.toString();
-
-  const wholeNumber = Math.floor(number);
-  return wholeNumber
-    .toLocaleString("fullwide", { useGrouping: false })
-    .split("")
-    .reverse()
-    .map((e, i) => (i > 0 && i % 3 === 0 ? `${e}.` : e))
-    .reverse()
-    .join("");
-};
-
-const fetchExchangeRates = async () => {
-  try {
-    const data = await $fetch("/api/exchange-rates", {
-      method: "GET",
-    });
-    exchangeRates.value = destr<ExchangeRatesToDKK>(data);
-  } catch (error) {
-    console.error(error);
-  }
-};
 </script>
 
 <style scoped>
