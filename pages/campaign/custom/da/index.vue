@@ -9,16 +9,14 @@
     <div class="flex h-full justify-center pt-16">
       <div class="w-3/4 items-center p-4 text-center align-middle">
         <h1 class="text-7xl font-semibold">
-          You're one click away <br />
-          from making a difference
+          Du er ét klik væk <br />
+          fra at gøre en forskel
         </h1>
-
-        <button @click="fetchExchangeRates">fetch</button>
 
         <div class="flex flex-col items-center pb-4 pt-24">
           <h4 class="text-3xl font-light">
-            Donate over 149 $ <br />
-            and get a lifetime premium membership
+            Donér over 999 DKK <br />
+            og få et livstids premium medlemskab
           </h4>
           <div class="w-fit py-4">
             <div class="flex flex-row space-x-2">
@@ -27,25 +25,25 @@
                   v-model="customAmount"
                   :class="`focus:shadow-outline min-w-80 appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none`"
                   type="number"
-                  min="2"
+                  min="9"
                   max="999999999999999"
-                  placeholder="Please enter amount in USD"
+                  placeholder="Please enter amount in Danish Kroner"
                 />
+                <div
+                  v-if="showMinimumAllowableAmount"
+                  class="text-left text-sm text-red-500"
+                >
+                  Minimumbeløbet er 9 DKK
+                </div>
               </div>
               <button
                 class="bg-duckling_pink px-10 py-2 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
                 type="button"
-                aria-label="Donate"
+                aria-label="Donér"
                 @click="onClickedSupportButton"
               >
-                Donate
+                Donér
               </button>
-            </div>
-            <div
-              v-if="showMinimumAllowableAmount"
-              class="text-left text-sm text-red-500"
-            >
-              The minimum amount is 2 $
             </div>
 
             <div
@@ -56,24 +54,23 @@
                 <button
                   class="max-w-72 text-ellipsis bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
                   type="button"
-                  :aria-label="'Support Duckling with {{customAmount ?? 0}} USD'"
+                  :aria-label="'Støt Duckling med {{ customAmount ?? 0 }} DKK'"
                   @click="onClickedSupportButton"
                 >
-                  Support Duckling with <br />
-
-                  {{ customAmount ?? 0 }}
-                  $
+                  Støt Duckling med <br />
+                  {{ makeNumberIntoPretty(customAmount ?? 0) }}
+                  DKK
                 </button>
               </div>
 
               <div class="py-4">
-                We need your email to activate your membership:
+                Vi skal bruge din email for at aktivere dit medlemskab:
               </div>
               <input
                 v-model="emailForSupporter"
                 :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Indtast din email adresse"
               />
 
               <div class="flex w-fit items-center pt-4">
@@ -108,7 +105,7 @@
                   class="cursor-pointer pl-2 text-lg"
                   for="wantToReceiveUpdates"
                 >
-                  Also send me news about Duckling
+                  Send mig nyheder om Duckling
                 </label>
               </div>
             </div>
@@ -117,7 +114,7 @@
 
         <div class="flex h-fit w-full flex-col items-center pt-16">
           <div class="size-96">
-            <img src="/assets/img/payment_options.png" />
+            <img src="/assets/img/payment_options_da.png" />
           </div>
         </div>
       </div>
@@ -126,32 +123,11 @@
 </template>
 
 <script setup lang="ts">
-import destr from "destr";
-import type { ExchangeRatesToDKK } from "~/types/Currency";
-
 const emailForSupporter = ref<string>("");
 const wantToReceiveUpdates = ref<boolean>(false);
 const haveClickedDonateButton = ref<boolean>(false);
 const customAmount = ref<number | null>(null);
 const showMinimumAllowableAmount = ref<boolean>(false);
-const exchangeRates = ref<ExchangeRatesToDKK>({
-  EUR: 2,
-  USD: 3,
-  GBP: 4,
-});
-
-const isValidEmailAddress = computed(() => {
-  const email = emailForSupporter.value;
-  return (
-    email.length > 0 &&
-    email.includes("@") &&
-    email.includes(".") &&
-    email.replaceAll("@", "").replaceAll(".", "").length > 0 &&
-    email.split("@")[0].length > 0 &&
-    email.split("@")[1].split(".")[0].length > 0 &&
-    email.split("@")[1].split(".")[1].length > 0
-  );
-});
 
 watch(customAmount, (newValue) => {
   if (newValue != null) {
@@ -165,7 +141,8 @@ watch(customAmount, (newValue) => {
 });
 
 const emailInputClass = computed(() => {
-  return haveClickedDonateButton.value && !isValidEmailAddress.value
+  return haveClickedDonateButton.value &&
+    !isValidEmailAddress(emailForSupporter.value)
     ? "border-red-500 border-4"
     : "";
 });
@@ -176,13 +153,6 @@ const onClickedSupportButton = () => {
     customAmount.value = 9;
   }
   haveClickedDonateButton.value = true;
-};
-
-const danishKroneToEUR = (numberToConvert: number): number => {
-  return numberToConvert / exchangeRates.value.EUR;
-};
-const danishKroneToUSD = (numberToConvert: number): number => {
-  return numberToConvert / exchangeRates.value.USD;
 };
 
 const makeNumberIntoPretty = (number: number): string => {
@@ -196,17 +166,6 @@ const makeNumberIntoPretty = (number: number): string => {
     .map((e, i) => (i > 0 && i % 3 === 0 ? `${e}.` : e))
     .reverse()
     .join("");
-};
-
-const fetchExchangeRates = async () => {
-  try {
-    const data = await $fetch("/api/exchange-rates", {
-      method: "GET",
-    });
-    exchangeRates.value = destr<ExchangeRatesToDKK>(data);
-  } catch (error) {
-    console.error(error);
-  }
 };
 </script>
 

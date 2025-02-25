@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
-  <div class="absolute h-full w-full bg-duckling_beige">
+  <div>
     <div class="flex flex-col items-center pt-6">
       <div class="size-20">
         <img src="/assets/img/duckling_logo_text_under.png" />
@@ -9,30 +9,36 @@
     <div class="flex h-full justify-center pt-16">
       <div class="w-3/4 items-center p-4 text-center align-middle">
         <h1 class="text-7xl font-semibold">
-          You're one click away <br />
-          from making a difference
+          Du er ét klik væk <br />
+          fra at gøre en forskel
         </h1>
 
-        <div class="pt-16">
+        <div class="py-12">
           <button
-            class="bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
+            :class="[
+              !isValidEmailAddress
+                ? 'cursor-not-allowed bg-duckling_pink/40 p-10 font-thin text-white focus:outline-none'
+                : 'bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75',
+            ]"
             type="button"
-            aria-label="Support duckling with 2 $ a month"
+            aria-label="Støt Duckling med 999 DKK"
             @click="onClickedSupportButton"
           >
-            Support Duckling with 2 $ a month
+            Støt Duckling med 999 DKK
           </button>
         </div>
 
-        <div class="flex flex-col items-center pt-4">
+        <div class="flex flex-col items-center pb-4">
           <br />
           <div class="w-fit">
+            <div class="pb-4">
+              Vi skal bruge din email for at aktivere dit medlemskab:
+            </div>
             <input
-              v-if="wantToReceiveUpdates"
               v-model="emailForSupporter"
               :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
               type="email"
-              placeholder="Enter your email address"
+              placeholder="Indtast din email adresse"
             />
             <div class="flex w-fit items-center pt-4">
               <input
@@ -66,14 +72,15 @@
                 class="cursor-pointer pl-2 text-lg"
                 for="wantToReceiveUpdates"
               >
-                Also send me news about Duckling
+                Send mig nyheder om Duckling
               </label>
             </div>
           </div>
         </div>
+
         <div class="flex h-fit w-full flex-col items-center pt-16">
           <div class="size-96">
-            <img src="/assets/img/payment_options.png" />
+            <img src="/assets/img/payment_options_da.png" />
           </div>
         </div>
       </div>
@@ -88,8 +95,7 @@ const haveClickedSupportButton = ref<boolean>(false);
 
 const emailInputClass = computed(() => {
   return haveClickedSupportButton.value &&
-    !isValidEmailAddress(emailForSupporter.value) &&
-    wantToReceiveUpdates.value
+    !isValidEmailAddress(emailForSupporter.value)
     ? "border-red-500 border-4"
     : "";
 });

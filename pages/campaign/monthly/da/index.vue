@@ -9,18 +9,18 @@
     <div class="flex h-full justify-center pt-16">
       <div class="w-3/4 items-center p-4 text-center align-middle">
         <h1 class="text-7xl font-semibold">
-          You're one click away <br />
-          from making a difference
+          Du er ét klik væk <br />
+          fra at gøre en forskel
         </h1>
 
         <div class="pt-16">
           <button
             class="bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
             type="button"
-            aria-label="Support duckling with 2 $ a month"
+            aria-label="Støt Duckling med 9 DKK om måneden"
             @click="onClickedSupportButton"
           >
-            Support Duckling with 2 $ a month
+            Støt Duckling med 9 DKK om måneden
           </button>
         </div>
 
@@ -32,7 +32,7 @@
               v-model="emailForSupporter"
               :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
               type="email"
-              placeholder="Enter your email address"
+              placeholder="Indtast din email adresse"
             />
             <div class="flex w-fit items-center pt-4">
               <input
@@ -66,14 +66,14 @@
                 class="cursor-pointer pl-2 text-lg"
                 for="wantToReceiveUpdates"
               >
-                Also send me news about Duckling
+                Send mig nyheder om Duckling
               </label>
             </div>
           </div>
         </div>
         <div class="flex h-fit w-full flex-col items-center pt-16">
           <div class="size-96">
-            <img src="/assets/img/payment_options.png" />
+            <img src="/assets/img/payment_options_da.png" />
           </div>
         </div>
       </div>
