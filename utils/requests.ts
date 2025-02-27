@@ -7,7 +7,7 @@ export const getMedia = async (
   accessToken: string,
 ): Promise<Blob> => {
   const config = useRuntimeConfig();
-  const url = `${config.public.backendURL}/media`;
+  const url = `${config.public.backendUrl}/media`;
   const params = new URLSearchParams({
     id: mediaId,
     mediaType: mediaType,
@@ -78,7 +78,7 @@ export const getAuthorDetails = async (
   accessToken: string,
 ): Promise<PublicUser> => {
   const config = useRuntimeConfig();
-  const url = `${config.public.backendURL}/user/${userId}/public`;
+  const url = `${config.public.backendUrl}/user/${userId}/public`;
 
   const options: RequestInit = {
     method: "GET",

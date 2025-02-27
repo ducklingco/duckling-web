@@ -1,15 +1,14 @@
 import { generateIdWithPrepend } from "@/utils/idHelpers";
 import { PaymentCreateSchema, type PaymentUrlObject } from "@/types/Payment";
-import { getDBClient } from "@/server/databaseClient";
+import { checkConnectionAndReturnClient } from "@/server/databaseClient";
 import type { CampaignSupporter } from "@/types/CampaignSupporter";
 import { type QuickpayEndpoints } from "@/types/Quickpay";
 import destr from "destr";
 
-const config = useRuntimeConfig();
-const authHeader = `Basic ${Buffer.from(`:${config.quickpayAPIKey}`).toString("base64")}`;
-const quickpayAPIUrl = `https://api.quickpay.net/`;
-
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig(event);
+  const authHeader = `Basic ${Buffer.from(`:${config.quickpayApiKey}`).toString("base64")}`;
+  const quickpayAPIUrl = `https://api.quickpay.net/`;
   const body = await readValidatedBody(event, (body) =>
     PaymentCreateSchema.safeParse(body),
   );
@@ -89,7 +88,7 @@ export default defineEventHandler(async (event) => {
     throw new Error("Minimum amount is 2 USD");
   }
 
-  const dbClient = getDBClient();
+  const dbClient = await checkConnectionAndReturnClient();
 
   dbClient.create("campaign_supporter", campaignSupport);
 
@@ -98,6 +97,9 @@ export default defineEventHandler(async (event) => {
       quickpayAmount,
       orderId,
       currency,
+      authHeader,
+      quickpayAPIUrl,
+      config.public.webPlayerUrl,
     );
     return paymentUrlObject;
   } catch (error) {
@@ -110,6 +112,9 @@ const createOnetimePayment = async (
   quickpayAmount: number,
   orderId: string,
   currency: "USD" | "DKK",
+  authHeader: string,
+  quickpayAPIUrl: string,
+  webPlayerUrl: string,
 ): Promise<PaymentUrlObject> => {
   const quickpayEndpoints: QuickpayEndpoints = {
     generalOptions: {
@@ -133,8 +138,8 @@ const createOnetimePayment = async (
         body: JSON.stringify({
           amount: quickpayAmount,
           auto_capture: true,
-          continue_url: `${config.public.webPlayerURL}/campaign/confirmation`,
-          callback_url: `${config.public.webPlayerURL}/api/webhook`,
+          continue_url: `${webPlayerUrl}/campaign/confirmation`,
+          callback_url: `${webPlayerUrl}/api/webhook`,
         }),
       },
     },

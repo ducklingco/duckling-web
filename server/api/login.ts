@@ -17,7 +17,7 @@ async function loginViewer() {
     }
   }
 
-  const url = `${config.public.backendURL}/login`;
+  const url = `${config.public.backendUrl}/login`;
   const options: RequestInit = {
     method: "POST",
     headers: {

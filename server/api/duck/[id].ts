@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const id = event.context.params.id;
   const { accessToken } = getQuery(event);
   // Fetch a single duck from the API
-  const url = `${config.public.backendURL}/duck/${id}`;
+  const url = `${config.public.backendUrl}/duck/${id}`;
 
   const options = {
     method: "GET",

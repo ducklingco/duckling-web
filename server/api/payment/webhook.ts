@@ -1,10 +1,10 @@
-import { getDBClient } from "@/server/databaseClient";
+import { checkConnectionAndReturnClient } from "@/server/databaseClient";
 import crypto from "crypto";
 import type { CampaignSupporter } from "@/types/CampaignSupporter";
 
 const config = useRuntimeConfig();
 export default defineEventHandler(async (event) => {
-  const quickpayAPIKey = config.quickpayAPIKey;
+  const quickpayAPIKey = config.quickpayApiKey;
   const headers = event.node.req.headers;
   const checksum = headers["quickpay-checksum-sha256"];
   const body = await readBody(event);
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     try {
       if (body.type === "Payment" && body.accepted === true) {
         const orderId = body.order_id;
-        const dbClient = getDBClient();
+        const dbClient = await checkConnectionAndReturnClient();
 
         const updatedSupporter = await dbClient.query<CampaignSupporter[]>(
           "UPDATE campaign_supporter SET paymentCaptured = true, capturedAt = $timestamp WHERE orderId = $orderId",
