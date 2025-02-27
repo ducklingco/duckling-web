@@ -153,6 +153,8 @@
 </template>
 
 <script setup lang="ts">
+import type { PaymentCreateBody } from "@/types/Payment";
+
 const emailForSupporter = ref<string>("");
 const wantToReceiveUpdates = ref<boolean>(false);
 const haveReadLegalTerms = ref<boolean>(false);
@@ -172,7 +174,8 @@ const monthlyAmount = computed(() => {
   return lang.value === "en" ? 2 : 9;
 });
 
-const onClickedSupportButton = () => {
+const onClickedSupportButton = async () => {
+  haveClickedSupportButton.value = true;
   if (haveReadLegalTerms.value === false) {
     alert(
       lang.value === "en"
@@ -181,7 +184,27 @@ const onClickedSupportButton = () => {
     );
     return;
   }
-  haveClickedSupportButton.value = true;
+  if (
+    haveClickedSupportButton.value &&
+    !isValidEmailAddress(emailForSupporter.value) &&
+    wantToReceiveUpdates.value
+  ) {
+    return;
+  }
+
+  const body: PaymentCreateBody = {
+    amount: monthlyAmount.value,
+    lang: lang.value ?? "en",
+    type: "monthly",
+    email: emailForSupporter.value,
+    wantsToReceiveUpdates: wantToReceiveUpdates.value,
+  };
+
+  const response = await $fetch<PaymentCreateBody>("/api/payment/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 };
 
 onMounted(() => {
