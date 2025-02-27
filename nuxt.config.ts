@@ -16,6 +16,7 @@ export default defineNuxtConfig({
       webPlayerUrl: "",
     },
     quickpayApiKey: "",
+    quickpayPrivateKey: "",
     campaignDbUsername: "",
     campaignDbPassword: "",
     campaignDbNamespace: "",

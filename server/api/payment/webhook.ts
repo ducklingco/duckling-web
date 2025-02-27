@@ -1,16 +1,15 @@
 import { checkConnectionAndReturnClient } from "@/server/databaseClient";
 import crypto from "crypto";
 
-/* export default defineEventHandler(async (event) => {
-  const quickpayAPIKey = config.quickpayApiKey;
-  const headers = event.node.req.headers;
-  console.log(headers);
-  const checksum = headers["quickpay-checksum-sha256"];
+export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig(event);
+  const quickpayPrivateKey = config.quickpayPrivateKey;
+  const checksum = getHeader(event, "quickpay-checksum-sha256");
   const rawBody = await readRawBody(event);
   if (rawBody) {
     const rawBodyString = rawBody.toString();
     const bodyHashed = crypto
-      .createHmac("sha256", quickpayAPIKey)
+      .createHmac("sha256", quickpayPrivateKey)
       .update(rawBodyString)
       .digest("hex");
 
@@ -22,15 +21,13 @@ import crypto from "crypto";
           const orderId = body.order_id;
           const dbClient = await checkConnectionAndReturnClient();
 
-          const updatedSupporter = await dbClient.query<CampaignSupporter[]>(
+          await dbClient.query(
             "UPDATE campaign_supporter SET paymentCaptured = true, capturedAt = $timestamp WHERE orderId = $orderId",
             {
               $timestamp: new Date().toISOString(),
               $orderId: orderId,
             },
           );
-
-          console.log(updatedSupporter[0]);
 
           // Add any additional post-payment logic here
           console.log(`Payment ${orderId} successfully captured`);
@@ -49,11 +46,11 @@ import crypto from "crypto";
     }
   }
   return new Response("No body", { status: 400 });
-}); */
+});
 
-export default defineEventHandler(async (event) => {
+/* export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
-  const quickpayApiKey = config.quickpayApiKey;
+  const quickpayPrivateKey = config.quickpayPrivateKey;
 
   try {
     const headers = getHeaders(event);
@@ -75,7 +72,7 @@ export default defineEventHandler(async (event) => {
 
     // Calculate the HMAC
     const bodyHashed = crypto
-      .createHmac("sha256", quickpayApiKey)
+      .createHmac("sha256", quickpayPrivateKey)
       .update(rawBodyString)
       .digest("hex");
 
@@ -101,7 +98,7 @@ export default defineEventHandler(async (event) => {
       const parsedBody = JSON.parse(rawBodyString);
       const restringified = JSON.stringify(parsedBody);
       const alternateHash = crypto
-        .createHmac("sha256", quickpayApiKey)
+        .createHmac("sha256", quickpayPrivateKey)
         .update(restringified)
         .digest("hex");
 
@@ -134,4 +131,4 @@ export default defineEventHandler(async (event) => {
     console.error("Webhook processing error:", error);
     return new Response("Error processing webhook", { status: 200 });
   }
-});
+}); */
