@@ -139,7 +139,7 @@ const createOnetimePayment = async (
           amount: quickpayAmount,
           auto_capture: true,
           continue_url: `${webPlayerUrl}/campaign/confirmation`,
-          callback_url: `${webPlayerUrl}/api/webhook`,
+          callback_url: `${webPlayerUrl}/api/payment/webhook`,
         }),
       },
     },
