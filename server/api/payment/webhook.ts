@@ -1,6 +1,5 @@
 import { checkConnectionAndReturnClient } from "@/server/databaseClient";
 import crypto from "crypto";
-import type { CampaignSupporter } from "@/types/CampaignSupporter";
 
 /* export default defineEventHandler(async (event) => {
   const quickpayAPIKey = config.quickpayApiKey;
@@ -54,23 +53,30 @@ import type { CampaignSupporter } from "@/types/CampaignSupporter";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
-  // Make sure this matches the environment variable name in docker-compose.yml
   const quickpayApiKey = config.quickpayApiKey;
 
-  const headers = event.node.req.headers;
-  const checksum = headers["quickpay-checksum-sha256"] as string;
-
   try {
+    const headers = getHeaders(event);
+    const checksum = headers["quickpay-checksum-sha256"] as string;
+
+    if (!checksum) {
+      console.log("❌ Checksum missing");
+      return new Response("Checksum missing", { status: 400 });
+    }
+
+    const rawBodyString = await readRawBody(event, "utf-8");
+    if (!rawBodyString) {
+      console.log("❌ Request body missing");
+      return new Response("Request body missing", { status: 400 });
+    }
+
     // First parse the body
     const body = await readBody(event);
-
-    // Then re-serialize it exactly as QuickPay expects
-    const bodyAsString = JSON.stringify(body);
 
     // Calculate the HMAC
     const bodyHashed = crypto
       .createHmac("sha256", quickpayApiKey)
-      .update(bodyAsString)
+      .update(rawBodyString)
       .digest("hex");
 
     if (checksum === bodyHashed) {
@@ -91,7 +97,35 @@ export default defineEventHandler(async (event) => {
         console.log(`Payment ${orderId} successfully captured`);
       }
     } else {
-      console.log("❌ Invalid checksum");
+      // Try another approach - parse and re-stringify
+      const parsedBody = JSON.parse(rawBodyString);
+      const restringified = JSON.stringify(parsedBody);
+      const alternateHash = crypto
+        .createHmac("sha256", quickpayApiKey)
+        .update(restringified)
+        .digest("hex");
+
+      console.log(`🔄 Alternative calculated checksum: ${alternateHash}`);
+
+      if (checksum === alternateHash) {
+        console.log("✅ Alternative checksum verified!");
+        if (body.type === "Payment" && body.accepted === true) {
+          const orderId = body.order_id;
+          const dbClient = await checkConnectionAndReturnClient();
+
+          await dbClient.query(
+            "UPDATE campaign_supporter SET paymentCaptured = true, capturedAt = $timestamp WHERE orderId = $orderId",
+            {
+              $timestamp: new Date().toISOString(),
+              $orderId: orderId,
+            },
+          );
+
+          console.log(`Payment ${orderId} successfully captured`);
+        }
+      } else {
+        console.error("❌ Checksum verification failed with both methods");
+      }
     }
 
     // Always return 200 to QuickPay

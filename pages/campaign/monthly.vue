@@ -198,9 +198,10 @@ const onClickedSupportButton = async () => {
     type: "monthly",
     email: emailForSupporter.value,
     wantsToReceiveUpdates: wantToReceiveUpdates.value,
+    recurring: true,
   };
 
-  const response = await $fetch<PaymentCreateBody>("/api/payment/create", {
+  await $fetch<PaymentCreateBody>("/api/payment/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
