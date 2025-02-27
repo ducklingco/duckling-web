@@ -6,6 +6,7 @@
         <img src="/assets/img/duckling_logo_text_under.png" />
       </div>
     </div>
+
     <div v-if="lang !== null" class="flex h-full justify-center pt-16">
       <div class="w-84 items-center p-4 text-center align-middle">
         <h1 class="text-7xl font-semibold">
@@ -186,7 +187,7 @@ const onClickedSupportButton = () => {
   if (haveReadLegalTerms.value === false) {
     alert(
       lang.value === "en"
-        ? "Please accept the legal terms"
+        ? "Please agree to our legal terms"
         : "Venligst accepter vores juridiske vilkår",
     );
     return;

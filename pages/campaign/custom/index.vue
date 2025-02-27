@@ -153,10 +153,20 @@
               </div>
             </div>
 
-            <div v-if="paymentType && (customAmount ?? 0) >= minimumAmount">
+            <div
+              v-if="
+                paymentType &&
+                customAmount !== null &&
+                customAmount >= minimumAmount
+              "
+            >
               <div class="flex flex-col space-y-2">
                 <div class="w-96">
                   <input
+                    v-if="
+                      customAmount >= amountForLifetimeMembership ||
+                      wantToReceiveUpdates
+                    "
                     v-model="emailForSupporter"
                     :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
                     type="email"
@@ -264,33 +274,22 @@
 </template>
 
 <script setup lang="ts">
+import type { PaymentCreateBody, PaymentUrlObject } from "@/types/Payment";
+
 const emailForSupporter = ref<string>("");
 const wantToReceiveUpdates = ref<boolean>(false);
 const customAmount = ref<number | null>(null);
 const showMinimumAllowableAmount = ref<boolean>(false);
-const paymentType = ref<"one-time" | "recurring" | null>(null);
+const paymentType = ref<"custom_once" | "custom_recurring" | null>(null);
 const lang = ref<("en" | "da") | null>(null);
 const route = useRoute();
 const haveClickedDonateButton = ref<boolean>(false);
 const userWantsMembership = ref<boolean>(false);
 const haveReadLegalTerms = ref<boolean>(false);
 
-const isValidEmailAddress = computed(() => {
-  const email = emailForSupporter.value;
-  return (
-    email.length > 0 &&
-    email.includes("@") &&
-    email.includes(".") &&
-    email.replaceAll("@", "").replaceAll(".", "").length > 0 &&
-    email.split("@")[0].length > 0 &&
-    email.split("@")[1].split(".")[0].length > 0 &&
-    email.split("@")[1].split(".")[1].length > 0
-  );
-});
-
 const emailInputClass = computed(() => {
   return paymentType.value !== null &&
-    !isValidEmailAddress.value &&
+    !isValidEmailAddress(emailForSupporter.value) &&
     (wantToReceiveUpdates.value || userWantsMembership.value) &&
     haveClickedDonateButton.value
     ? "border-red-500 border-4"
@@ -318,7 +317,7 @@ const onClickedOneTimeSupportDonationButton = () => {
     showMinimumAllowableAmount.value = true;
     customAmount.value = minimumAmount.value;
   } else {
-    paymentType.value = "one-time";
+    paymentType.value = "custom_once";
   }
 };
 
@@ -335,13 +334,53 @@ const onClickRecurringSupportDonationButton = () => {
     showMinimumAllowableAmount.value = true;
     customAmount.value = lang.value === "en" ? 2 : 9;
   } else {
-    paymentType.value = "recurring";
+    paymentType.value = "custom_recurring";
   }
 };
 
-const onClickFinalizeDonationButton = (wantsMembership: boolean) => {
+const onClickFinalizeDonationButton = async (wantsMembership: boolean) => {
   userWantsMembership.value = wantsMembership;
   haveClickedDonateButton.value = true;
+
+  if (
+    haveClickedDonateButton.value &&
+    !isValidEmailAddress(emailForSupporter.value) &&
+    wantsMembership
+  ) {
+    return;
+  }
+  if (
+    customAmount.value !== null &&
+    customAmount?.value >= minimumAmount.value &&
+    paymentType.value
+  ) {
+    const body: PaymentCreateBody = {
+      amount: customAmount.value,
+      lang: lang.value ?? "en",
+      type: paymentType.value,
+      email: emailForSupporter.value,
+      wantsToReceiveUpdates: wantToReceiveUpdates.value,
+      wantsLifetimePremium: wantsMembership,
+      recurring: paymentType.value === "custom_recurring",
+    };
+
+    try {
+      const paymentUrlObject = await $fetch<PaymentUrlObject>(
+        "/api/payment/create",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        },
+      );
+      if (paymentUrlObject?.url) {
+        window.open(paymentUrlObject?.url, "_blank");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again later.");
+    }
+  }
 };
 
 watch(customAmount, (newValue) => {
