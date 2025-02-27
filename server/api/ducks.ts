@@ -19,7 +19,7 @@ async function fetchDucks(filter: Filter, page = 1, accessToken: string) {
     all: "",
   };
 
-  const url = `${config.public.backendURL}/ducks?${filterMap[filter]}&page=${page}&page_size=6&sort_by=-publishedAt`;
+  const url = `${config.public.backendUrl}/ducks?${filterMap[filter]}&page=${page}&page_size=6&sort_by=-publishedAt`;
 
   const options: RequestInit = {
     method: "GET",

@@ -7,38 +7,23 @@ export const getDBClient = () => {
 };
 
 export const connectDBClient = async () => {
-  const dbURL = config.campaignDBURL;
+  const dbUrl = config.campaignDbUrl;
 
-  if (!dbURL) {
-    console.error("Missing or invalid database URL:", dbURL);
+  if (!dbUrl) {
+    console.error("Missing or invalid database URL:", dbUrl);
     throw new Error("Database URL is not configured properly");
   }
 
-  console.log("Connecting to database at:", dbURL.replace(/:[^:]*@/, ":****@")); // Hide password in logs
+  console.log("Connecting to database at:", dbUrl.replace(/:[^:]*@/, ":****@")); // Hide password in logs
 
-  // At the top of your file
-  console.log("Runtime config keys available:", Object.keys(config));
-  console.log(
-    "Runtime public config keys available:",
-    Object.keys(config.public),
-  );
-  console.log("DB URL defined:", Boolean(config.campaignDBURL));
   try {
-    /* return await dbClient.connect(dbURL, {
-      namespace: config.campaignDBNamespace,
-      database: config.campaignDBDatabase,
-      auth: {
-        username: config.campaignDBUsername,
-        password: config.campaignDBPassword,
-      },
-    }); */
-    await dbClient.connect(dbURL);
+    await dbClient.connect(dbUrl);
 
     return await dbClient.signin({
-      database: config.campaignDBDatabase,
-      namespace: config.campaignDBNamespace,
-      username: config.campaignDBUsername,
-      password: config.campaignDBPassword,
+      database: config.campaignDbDatabase,
+      namespace: config.campaignDbNamespace,
+      username: config.campaignDbUsername,
+      password: config.campaignDbPassword,
     });
   } catch (error) {
     console.error("Failed to connect to database:", error);
@@ -53,6 +38,13 @@ const checkDbConnection = async () => {
     }
     checkDbConnection();
   }, 5000);
+};
+
+export const checkConnectionAndReturnClient = async () => {
+  if (!dbClient.ready) {
+    await connectDBClient();
+  }
+  return dbClient;
 };
 
 connectDBClient().then(() => {

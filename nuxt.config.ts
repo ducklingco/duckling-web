@@ -12,15 +12,15 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      backendURL: process.env.backend_URL,
-      webPlayerURL: process.env.web_player_URL,
+      backendUrl: "",
+      webPlayerUrl: "",
     },
-    quickpayAPIKey: process.env.quickpay_api_key,
-    campaignDBUsername: process.env.campaign_db_username,
-    campaignDBPassword: process.env.campaign_db_password,
-    campaignDBNamespace: process.env.campaign_db_namespace,
-    campaignDBDatabase: process.env.campaign_db_database,
-    campaignDBURL: process.env.campaign_db_url,
+    quickpayApiKey: "",
+    campaignDbUsername: "",
+    campaignDbPassword: "",
+    campaignDbNamespace: "",
+    campaignDbDatabase: "",
+    campaignDbUrl: "",
   },
 
   modules: [
