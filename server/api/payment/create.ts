@@ -8,7 +8,7 @@ import destr from "destr";
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
   const authHeader = `Basic ${Buffer.from(`:${config.quickpayApiKey}`).toString("base64")}`;
-  const quickpayAPIUrl = `https://api.quickpay.net/`;
+  const quickpayApiUrl = `https://api.quickpay.net/`;
   const body = await readValidatedBody(event, (body) =>
     PaymentCreateSchema.safeParse(body),
   );
@@ -98,7 +98,7 @@ export default defineEventHandler(async (event) => {
       orderId,
       currency,
       authHeader,
-      quickpayAPIUrl,
+      quickpayApiUrl,
       config.public.webPlayerUrl,
     );
     return paymentUrlObject;
@@ -113,7 +113,7 @@ const createOnetimePayment = async (
   orderId: string,
   currency: "USD" | "DKK",
   authHeader: string,
-  quickpayAPIUrl: string,
+  quickpayApiUrl: string,
   webPlayerUrl: string,
 ): Promise<PaymentUrlObject> => {
   const quickpayEndpoints: QuickpayEndpoints = {
@@ -145,7 +145,7 @@ const createOnetimePayment = async (
     },
   };
   const createPaymentResponse = await fetch(
-    `${quickpayAPIUrl}${quickpayEndpoints.createPayment.url()}`,
+    `${quickpayApiUrl}${quickpayEndpoints.createPayment.url()}`,
     {
       ...quickpayEndpoints.generalOptions,
       ...quickpayEndpoints.createPayment.options,
@@ -162,7 +162,7 @@ const createOnetimePayment = async (
   const paymentData = await createPaymentResponse.json();
   const paymentId = paymentData.id; // This is the ID from QuickPay!
   const updatePaymentResponse = await fetch(
-    `${quickpayAPIUrl}${quickpayEndpoints.updatePayment.url(paymentId)}`,
+    `${quickpayApiUrl}${quickpayEndpoints.updatePayment.url(paymentId)}`,
     {
       ...quickpayEndpoints.generalOptions,
       ...quickpayEndpoints.updatePayment.options,
