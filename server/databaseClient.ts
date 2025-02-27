@@ -24,13 +24,21 @@ export const connectDBClient = async () => {
   );
   console.log("DB URL defined:", Boolean(config.campaignDBURL));
   try {
-    return await dbClient.connect(dbURL, {
+    /* return await dbClient.connect(dbURL, {
       namespace: config.campaignDBNamespace,
       database: config.campaignDBDatabase,
       auth: {
         username: config.campaignDBUsername,
         password: config.campaignDBPassword,
       },
+    }); */
+    await dbClient.connect(dbURL);
+
+    return await dbClient.signin({
+      database: config.campaignDBDatabase,
+      namespace: config.campaignDBNamespace,
+      username: config.campaignDBUsername,
+      password: config.campaignDBPassword,
     });
   } catch (error) {
     console.error("Failed to connect to database:", error);
