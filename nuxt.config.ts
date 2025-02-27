@@ -15,12 +15,12 @@ export default defineNuxtConfig({
       backendURL: process.env.backend_URL,
       webPlayerURL: process.env.web_player_URL,
     },
-    quickpayAPIKey: process.env.QUICKPAY_API_KEY,
-    campaignDBUsername: process.env.CAMPAIGN_DB_USERNAME,
-    campaignDBPassword: process.env.CAMPAIGN_DB_PASSWORD,
-    campaignDBNamespace: process.env.CAMPAIGN_DB_NAMESPACE,
-    campaignDBDatabase: process.env.CAMPAIGN_DB_DATABASE,
-    campaignDBURL: process.env.CAMPAIGN_DB_URL,
+    quickpayAPIKey: process.env.quickpay_api_key,
+    campaignDBUsername: process.env.campaign_db_username,
+    campaignDBPassword: process.env.campaign_db_password,
+    campaignDBNamespace: process.env.campaign_db_namespace,
+    campaignDBDatabase: process.env.campaign_db_database,
+    campaignDBURL: process.env.campaign_db_url,
   },
 
   modules: [
