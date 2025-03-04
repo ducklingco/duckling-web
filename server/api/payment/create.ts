@@ -62,14 +62,12 @@ export default defineEventHandler(async (event) => {
     amount: amount,
     currency,
     createdAt: new Date().toISOString(),
+    email,
     paymentCaptured: false,
     orderId: orderId,
     wantsToReceiveUpdates: wantsToReceiveUpdates,
     recurring,
   };
-  if (email !== undefined) {
-    campaignSupport.email = email;
-  }
   if (
     wantsLifetimePremium &&
     (type === "lifetime" ||
@@ -79,27 +77,20 @@ export default defineEventHandler(async (event) => {
   ) {
     campaignSupport.wantsLifetimePremium = true;
   }
-  if (email === undefined && wantsLifetimePremium) {
-    throw new Error("Email is required for lifetime premium");
-  }
   if (currency === "DKK" && amount < 9) {
     throw new Error("Minimum amount is 9 DKK");
-  } else if (currency === "USD" && amount < 2) {
-    throw new Error("Minimum amount is 2 USD");
+  } else if (currency === "USD" && amount < 1.99) {
+    throw new Error("Minimum amount is 1.99 USD");
   }
-
-  const dbClient = await checkConnectionAndReturnClient();
-
-  dbClient.create("campaign_supporter", campaignSupport);
 
   try {
     const paymentUrlObject = await createOnetimePayment(
       quickpayAmount,
-      orderId,
-      currency,
       authHeader,
       quickpayApiUrl,
       config.public.webPlayerUrl,
+      campaignSupport,
+      lang,
     );
     return paymentUrlObject;
   } catch (error) {
@@ -110,11 +101,11 @@ export default defineEventHandler(async (event) => {
 
 const createOnetimePayment = async (
   quickpayAmount: number,
-  orderId: string,
-  currency: "USD" | "DKK",
   authHeader: string,
   quickpayApiUrl: string,
   webPlayerUrl: string,
+  campaignSupport: CampaignSupporter,
+  lang: "da" | "en",
 ): Promise<PaymentUrlObject> => {
   const quickpayEndpoints: QuickpayEndpoints = {
     generalOptions: {
@@ -128,7 +119,10 @@ const createOnetimePayment = async (
       url: () => "payments",
       options: {
         method: "POST",
-        body: JSON.stringify({ currency: currency, order_id: orderId }),
+        body: JSON.stringify({
+          currency: campaignSupport.currency,
+          order_id: campaignSupport.orderId,
+        }),
       },
     },
     updatePayment: {
@@ -138,7 +132,7 @@ const createOnetimePayment = async (
         body: JSON.stringify({
           amount: quickpayAmount,
           auto_capture: true,
-          continue_url: `${webPlayerUrl}/campaign/confirmation`,
+          continue_url: `${webPlayerUrl}/campaign/confirmation?lang=${lang}`,
           callback_url: `${webPlayerUrl}/api/payment/webhook`,
         }),
       },
@@ -168,6 +162,10 @@ const createOnetimePayment = async (
       ...quickpayEndpoints.updatePayment.options,
     },
   );
+
+  campaignSupport.paymentId = paymentId;
+  const dbClient = await checkConnectionAndReturnClient();
+  dbClient.create("campaign_supporter", campaignSupport);
 
   if (!updatePaymentResponse.ok) {
     const errorData = await updatePaymentResponse.text();

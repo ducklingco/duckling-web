@@ -18,30 +18,63 @@
           }}
         </h1>
 
-        <div class="pt-16">
+        <h4 class="pt-4 text-xl">
+          <div class="flex flex-row items-center justify-center">
+            <p class="pr-1 font-bold">
+              {{ lang === "en" ? "What you get:" : "Hvad du får:" }}
+            </p>
+            {{
+              lang === "en"
+                ? "Membership of Duckling Academy, a learning space where we teach topics like"
+                : "Medlemskab af Duckling Academy, et læringsrum hvor vi underviser i emner som"
+            }}
+          </div>
+          <div class="flex flex-row items-center justify-center">
+            {{
+              lang === "en"
+                ? "storytelling, democratic skills and digital literacy - and provide a balanced worldview"
+                : "storytelling, demokratiske færdigheder og digital dannelse - og giver et afbalanceret verdensbillede"
+            }}
+          </div>
+          <div class="flex flex-row items-center justify-center">
+            {{
+              lang === "en"
+                ? "through knowledge and stories. Launching in 2025."
+                : "gennem viden og historier. Lancering i 2025."
+            }}
+          </div>
+        </h4>
+
+        <div class="py-12">
           <button
             class="bg-duckling_pink p-10 font-thin text-white hover:bg-duckling_pink/70 focus:outline-none focus:ring-2 focus:ring-duckling_grey focus:ring-opacity-75"
             type="button"
             :aria-label="
               lang === 'en'
-                ? `Support duckling with ${monthlyAmount} USD a month`
+                ? `Support duckling with $${monthlyAmount} / month`
                 : `Støt Duckling med ${monthlyAmount} DKK om måneden`
             "
             @click="onClickedSupportButton"
           >
             {{
               lang === "en"
-                ? `Support Duckling with ${monthlyAmount} $ a month`
+                ? `Support Duckling with $${monthlyAmount} / month`
                 : `Støt Duckling med ${monthlyAmount} DKK om måneden`
             }}
           </button>
         </div>
 
-        <div class="flex flex-col items-center pt-4">
+        <div class="flex flex-col items-center pb-4">
           <br />
           <div class="w-fit">
+            <div class="pb-4">
+              {{
+                lang === "en"
+                  ? "We need your email to activate your membership:"
+                  : "Vi skal bruge din email for at aktivere dit medlemskab:"
+              }}
+            </div>
             <input
-              v-if="wantToReceiveUpdates"
               v-model="emailForSupporter"
               :class="`focus:shadow-outline min-w-full appearance-none rounded border p-3 leading-tight text-gray-700 shadow focus:outline-none ${emailInputClass}`"
               type="email"
@@ -153,7 +186,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PaymentCreateBody } from "@/types/Payment";
+import type { PaymentCreateBody, PaymentUrlObject } from "@/types/Payment";
 
 const emailForSupporter = ref<string>("");
 const wantToReceiveUpdates = ref<boolean>(false);
@@ -164,31 +197,26 @@ const route = useRoute();
 
 const emailInputClass = computed(() => {
   return haveClickedSupportButton.value &&
-    !isValidEmailAddress(emailForSupporter.value) &&
-    wantToReceiveUpdates.value
+    !isValidEmailAddress(emailForSupporter.value)
     ? "border-red-500 border-4"
     : "";
 });
 
 const monthlyAmount = computed(() => {
-  return lang.value === "en" ? 2 : 9;
+  return lang.value === "en" ? 1.99 : 9;
 });
 
 const onClickedSupportButton = async () => {
   haveClickedSupportButton.value = true;
+  if (!isValidEmailAddress(emailForSupporter.value)) {
+    return;
+  }
   if (haveReadLegalTerms.value === false) {
     alert(
       lang.value === "en"
         ? "Please agree to our legal terms"
         : "Venligst accepter vores juridiske vilkår",
     );
-    return;
-  }
-  if (
-    haveClickedSupportButton.value &&
-    !isValidEmailAddress(emailForSupporter.value) &&
-    wantToReceiveUpdates.value
-  ) {
     return;
   }
 
@@ -201,11 +229,22 @@ const onClickedSupportButton = async () => {
     recurring: true,
   };
 
-  await $fetch<PaymentCreateBody>("/api/payment/create", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  try {
+    const paymentUrlObject = await $fetch<PaymentUrlObject>(
+      "/api/payment/create",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      },
+    );
+    if (paymentUrlObject?.url) {
+      window.open(paymentUrlObject?.url, "_self");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again later.");
+  }
 };
 
 onMounted(() => {

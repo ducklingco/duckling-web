@@ -19,6 +19,33 @@
           }}
         </h1>
 
+        <h4 class="pt-4 text-xl">
+          <div class="flex flex-row items-center justify-center">
+            <p class="pr-1 font-bold">
+              {{ lang === "en" ? "What you get:" : "Hvad du får:" }}
+            </p>
+            {{
+              lang === "en"
+                ? "Lifetime membership with access to all premium features that we will ever launch."
+                : "Livstidsmedlemskab med adgang til alle premium-funktioner, som vi nogensinde vil lancere."
+            }}
+          </div>
+          <div class="flex flex-row items-center justify-center">
+            {{
+              lang === "en"
+                ? "Our first paid feature is Duckling Academy, where you can learn"
+                : "Vores første betalte funktion er Duckling Academy, hvor du kan lære"
+            }}
+          </div>
+          <div class="flex flex-row items-center justify-center">
+            {{
+              lang === "en"
+                ? "storytelling, democratic skills, digital literacy and more. Launching in 2025."
+                : "storytelling, demokratiske færdigheder, digital dannelse og meget mere. Lancering i 2025."
+            }}
+          </div>
+        </h4>
+
         <div class="py-12">
           <button
             :class="[
@@ -29,14 +56,14 @@
             type="button"
             :aria-label="
               lang === 'en'
-                ? `Support duckling with ${amountForLifetimeMembership} $`
+                ? `Support duckling with $${amountForLifetimeMembership}`
                 : `Støt Duckling med ${amountForLifetimeMembership} DKK`
             "
             @click="onClickedSupportButton"
           >
             {{
               lang === "en"
-                ? `Support Duckling with ${amountForLifetimeMembership} $`
+                ? `Support Duckling with $${amountForLifetimeMembership}`
                 : `Støt Duckling med ${amountForLifetimeMembership} DKK`
             }}
           </button>
@@ -165,6 +192,8 @@
 </template>
 
 <script setup lang="ts">
+import type { PaymentCreateBody, PaymentUrlObject } from "@/types/Payment";
+
 const emailForSupporter = ref<string>("");
 const wantToReceiveUpdates = ref<boolean>(false);
 const haveReadLegalTerms = ref<boolean>(false);
@@ -183,7 +212,11 @@ const amountForLifetimeMembership = computed(() => {
   return lang.value === "en" ? 149 : 999;
 });
 
-const onClickedSupportButton = () => {
+const onClickedSupportButton = async () => {
+  haveClickedSupportButton.value = true;
+  if (!isValidEmailAddress(emailForSupporter.value)) {
+    return;
+  }
   if (haveReadLegalTerms.value === false) {
     alert(
       lang.value === "en"
@@ -192,7 +225,32 @@ const onClickedSupportButton = () => {
     );
     return;
   }
-  haveClickedSupportButton.value = true;
+
+  const body: PaymentCreateBody = {
+    amount: amountForLifetimeMembership.value,
+    lang: lang.value ?? "en",
+    type: "lifetime",
+    email: emailForSupporter.value,
+    wantsToReceiveUpdates: wantToReceiveUpdates.value,
+    recurring: false,
+    wantsLifetimePremium: true,
+  };
+  try {
+    const paymentUrlObject = await $fetch<PaymentUrlObject>(
+      "/api/payment/create",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      },
+    );
+    if (paymentUrlObject?.url) {
+      window.open(paymentUrlObject?.url, "_self");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again later.");
+  }
 };
 
 onMounted(() => {

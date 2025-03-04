@@ -14,8 +14,6 @@ export const connectDBClient = async () => {
     throw new Error("Database URL is not configured properly");
   }
 
-  console.log("Connecting to database at:", dbUrl.replace(/:[^:]*@/, ":****@")); // Hide password in logs
-
   try {
     await dbClient.connect(dbUrl);
 

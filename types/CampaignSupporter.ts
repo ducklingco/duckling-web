@@ -5,8 +5,9 @@ export type CampaignSupporter = {
   paymentCaptured: boolean;
   capturedAt?: string;
   orderId: string;
+  paymentId?: string;
   wantsToReceiveUpdates: boolean;
-  email?: string;
+  email: string;
   wantsLifetimePremium?: boolean;
   recurring: boolean;
 };

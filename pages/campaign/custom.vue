@@ -297,7 +297,7 @@ const emailInputClass = computed(() => {
 });
 
 const minimumAmount = computed(() => {
-  return lang.value === "en" ? 2 : 9;
+  return lang.value === "en" ? 1.99 : 9;
 });
 
 const amountForLifetimeMembership = computed(() => {
@@ -332,7 +332,7 @@ const onClickRecurringSupportDonationButton = () => {
   }
   if ((customAmount.value ?? 0) < minimumAmount.value) {
     showMinimumAllowableAmount.value = true;
-    customAmount.value = lang.value === "en" ? 2 : 9;
+    customAmount.value = lang.value === "en" ? 1.99 : 9;
   } else {
     paymentType.value = "custom_recurring";
   }
@@ -354,7 +354,7 @@ const onClickFinalizeDonationButton = async (wantsMembership: boolean) => {
     customAmount?.value >= minimumAmount.value &&
     paymentType.value
   ) {
-    const body: PaymentCreateBody = {
+    /*  const body: PaymentCreateBody = {
       amount: customAmount.value,
       lang: lang.value ?? "en",
       type: paymentType.value,
@@ -374,12 +374,12 @@ const onClickFinalizeDonationButton = async (wantsMembership: boolean) => {
         },
       );
       if (paymentUrlObject?.url) {
-        window.open(paymentUrlObject?.url, "_blank");
+        window.open(paymentUrlObject?.url, "_self");
       }
     } catch (error) {
       console.error(error);
       alert("Something went wrong. Please try again later.");
-    }
+    } */
   }
 };
 

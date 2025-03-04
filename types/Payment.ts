@@ -9,7 +9,7 @@ export const PaymentCreateSchema = z.object({
     z.literal("custom_recurring"),
   ]),
   amount: z.number(),
-  email: z.string().optional(),
+  email: z.string(),
   wantsToReceiveUpdates: z.boolean(),
   wantsLifetimePremium: z.boolean().optional(),
   recurring: z.boolean(),
