@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
-  <div class="absolute h-full w-full bg-duckling_beige">
+  <div>
     <div class="flex flex-col items-center pt-6">
       <div class="size-20">
         <img src="/assets/img/duckling_logo_text_under.png" />
