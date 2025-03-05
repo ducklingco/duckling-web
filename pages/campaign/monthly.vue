@@ -163,7 +163,7 @@
               </label>
 
               <a
-                href="https://duckling.co/donation-terms"
+                :href="`https://www.duckling.co/${lang === 'en' ? 'purchases' : 'handelsbetingelser'}`"
                 target="_blank"
                 class="text-lg underline"
                 >{{ lang === "en" ? "legal terms" : "juridiske vilkår" }}</a
