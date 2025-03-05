@@ -56,15 +56,15 @@
             type="button"
             :aria-label="
               lang === 'en'
-                ? `Support duckling with $${amountForLifetimeMembership}`
-                : `Støt Duckling med ${amountForLifetimeMembership} DKK`
+                ? `Buy lifetime premium for $${amountForLifetimeMembership}`
+                : `Køb livstids premium for ${amountForLifetimeMembership} DKK`
             "
             @click="onClickedSupportButton"
           >
             {{
               lang === "en"
-                ? `Support Duckling with $${amountForLifetimeMembership}`
-                : `Støt Duckling med ${amountForLifetimeMembership} DKK`
+                ? `Buy lifetime premium for $${amountForLifetimeMembership}`
+                : `Køb livstids premium for ${amountForLifetimeMembership} DKK`
             }}
           </button>
         </div>

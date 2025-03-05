@@ -51,15 +51,15 @@
             type="button"
             :aria-label="
               lang === 'en'
-                ? `Support duckling with $${monthlyAmount} / month`
-                : `Støt Duckling med ${monthlyAmount} DKK om måneden`
+                ? `Subscribe to Duckling for $${monthlyAmount} / month`
+                : `Abonner til Duckling for ${monthlyAmount} DKK om måneden`
             "
             @click="onClickedSupportButton"
           >
             {{
               lang === "en"
-                ? `Support Duckling with $${monthlyAmount} / month`
-                : `Støt Duckling med ${monthlyAmount} DKK om måneden`
+                ? `Subscribe to Duckling for $${monthlyAmount} / month`
+                : `Abonner til Duckling for ${monthlyAmount} DKK om måneden`
             }}
           </button>
         </div>
