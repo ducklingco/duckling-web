@@ -40,8 +40,15 @@
           <div class="flex flex-row items-center justify-center">
             {{
               lang === "en"
-                ? "storytelling, democratic skills, digital literacy and more. Launching in 2025."
-                : "storytelling, demokratiske færdigheder, digital dannelse og meget mere. Lancering i 2025."
+                ? "storytelling, democratic skills, digital literacy and more."
+                : "storytelling, demokratiske færdigheder, digital dannelse og meget mere."
+            }}
+          </div>
+          <div class="flex flex-row items-center justify-center">
+            {{
+              lang === "en"
+                ? "Launching September 1st, 2025."
+                : "Lancering 1. September, 2025."
             }}
           </div>
         </h4>
