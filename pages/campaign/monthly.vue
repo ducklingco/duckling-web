@@ -39,15 +39,8 @@
           <div class="flex flex-row items-center justify-center">
             {{
               lang === "en"
-                ? "through knowledge and stories"
-                : "gennem viden og historier"
-            }}
-          </div>
-          <div class="flex flex-row items-center justify-center">
-            {{
-              lang === "en"
-                ? "Launching September 1st, 2025."
-                : "Lancering 1. September, 2025."
+                ? "through knowledge and stories. Launching September 1st, 2025."
+                : "gennem viden og historier. Lancering 1. September, 2025."
             }}
           </div>
         </h4>

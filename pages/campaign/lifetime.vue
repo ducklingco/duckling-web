@@ -33,22 +33,15 @@
           <div class="flex flex-row items-center justify-center">
             {{
               lang === "en"
-                ? "Our first paid feature is Duckling Academy, where you can learn"
-                : "Vores første betalte funktion er Duckling Academy, hvor du kan lære"
+                ? "Our first paid feature is Duckling Academy, where you can learn storytelling,"
+                : "Vores første betalte funktion er Duckling Academy, hvor du kan lære storytelling,"
             }}
           </div>
           <div class="flex flex-row items-center justify-center">
             {{
               lang === "en"
-                ? "storytelling, democratic skills, digital literacy and more."
-                : "storytelling, demokratiske færdigheder, digital dannelse og meget mere."
-            }}
-          </div>
-          <div class="flex flex-row items-center justify-center">
-            {{
-              lang === "en"
-                ? "Launching September 1st, 2025."
-                : "Lancering 1. September, 2025."
+                ? "democratic skills, digital literacy and more. Launching September 1st, 2025."
+                : "demokratiske færdigheder, digital dannelse og meget mere. Lancering 1. September, 2025."
             }}
           </div>
         </h4>
