@@ -1,11 +1,19 @@
 {
   "applinks": {
-    "apps": [],
     "details": [
       {
-        "appID": "CN5XW8T7A8.com.duckling.Duckling",
-        "paths": [
-          "/duck/*"
+        "appIDs": [
+          "CN5XW8T7A8.com.duckling.Duckling"
+        ],
+        "components": [
+          {
+            "/": "/duck/*",
+            "comment": "Matches any URL with a path that starts with /duck/"
+          },
+          {
+            "/": "/invite-link",
+            "comment": "Matches exactly the /invite-link path"
+          }
         ]
       }
     ]
