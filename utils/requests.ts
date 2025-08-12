@@ -222,8 +222,8 @@ export const loginWithVerificationCodeRequest = async (
 };
 
 export const acceptNestInviteLinkRequest = async (
-  inviteLink: string,
   nestId: string,
+  inviteLink: string,
   accessToken: string,
 ): Promise<void> => {
   const config = useRuntimeConfig();
