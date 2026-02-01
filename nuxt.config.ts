@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   modules: [
     "@pinia/nuxt",
     "@stefanobartoletti/nuxt-social-share",
-    "@nuxt/eslint",
+    ...(process.env.NODE_ENV !== "production" ? ["@nuxt/eslint"] : []),
   ],
 
   socialShare: {
