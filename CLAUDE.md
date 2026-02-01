@@ -9,11 +9,11 @@ Duckling Web Player is a Nuxt 3 media presentation platform for browsing "Ducks"
 ## Commands
 
 ```bash
-npm run dev          # Start dev server at http://localhost:3000
-npm run build        # Build for production
-npm run preview      # Preview production build locally
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix linting issues
+pnpm run dev          # Start dev server at http://localhost:3000
+pnpm run build        # Build for production
+pnpm run preview      # Preview production build locally
+pnpm run lint         # Run ESLint
+pnpm run lint:fix     # Fix linting issues
 ```
 
 ## Architecture

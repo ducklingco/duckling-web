@@ -23,10 +23,3 @@ Check if the Nuxt server has proper logging configured:
 - Are API route errors properly captured?
 - Consider adding a logging library if needed (e.g., pino, consola)
 
-## Documentation
-
-### Update CLAUDE.md to use pnpm commands
-
-**Task:** Replace `npm` with `pnpm` in CLAUDE.md commands section.
-
-The project uses pnpm (has `pnpm-lock.yaml`) but the documentation shows `npm run dev`, `npm run build`, etc. This should be updated to `pnpm run dev`, `pnpm run build`, etc. to match actual usage.
