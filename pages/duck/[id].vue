@@ -62,7 +62,7 @@ const url = computed(() => {
 
 const createTitle = () => {
   const title = duck?.value?.title ? duck?.value?.title : null;
-  const author = authorDetails?.name ? ` - by ${authorDetails?.name}` : null;
+  const author = authorDetails.value?.name ? ` - by ${authorDetails.value?.name}` : null;
 
   if (title && author) return title + author;
   else if (title) return title;
