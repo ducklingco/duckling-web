@@ -12,8 +12,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      backendUrl: "",
-      webPlayerUrl: "",
+      backendUrl: "http://localhost:8443",
+      webPlayerUrl: "http://localhost:3000",
     },
     quickpayApiKey: "",
     quickpayPrivateKey: "",
