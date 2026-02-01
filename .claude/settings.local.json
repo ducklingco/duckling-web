@@ -9,7 +9,9 @@
       "Bash(npm view:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:eslint.nuxt.com)"
+      "WebFetch(domain:eslint.nuxt.com)",
+      "Bash(npx nuxt:*)",
+      "Bash(npx vue-tsc:*)"
     ]
   }
 }
