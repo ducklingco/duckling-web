@@ -165,7 +165,7 @@ const createOnetimePayment = async (
 
   campaignSupport.paymentId = paymentId;
   const dbClient = await checkConnectionAndReturnClient();
-  dbClient.create("campaign_supporter", campaignSupport);
+  await dbClient.create("campaign_supporter", campaignSupport);
 
   if (!updatePaymentResponse.ok) {
     const errorData = await updatePaymentResponse.text();

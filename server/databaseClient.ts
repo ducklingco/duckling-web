@@ -29,9 +29,11 @@ export const connectDBClient = async () => {
   }
 };
 
+const isConnected = () => dbClient.status === "connected";
+
 const checkDbConnection = async () => {
   setTimeout(async () => {
-    if (!dbClient.ready) {
+    if (!isConnected()) {
       await connectDBClient();
     }
     checkDbConnection();
@@ -39,7 +41,7 @@ const checkDbConnection = async () => {
 };
 
 export const checkConnectionAndReturnClient = async () => {
-  if (!dbClient.ready) {
+  if (!isConnected()) {
     await connectDBClient();
   }
   return dbClient;

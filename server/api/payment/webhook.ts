@@ -21,11 +21,11 @@ export default defineEventHandler(async (event) => {
           const orderId = body.order_id;
           const dbClient = await checkConnectionAndReturnClient();
 
-          dbClient.query(
+          await dbClient.query(
             "UPDATE campaign_supporter SET paymentCaptured = true, capturedAt = $timestamp WHERE orderId = $orderId;",
             {
-              $timestamp: new Date().toISOString(),
-              $orderId: orderId,
+              timestamp: new Date().toISOString(),
+              orderId: orderId,
             },
           );
 
