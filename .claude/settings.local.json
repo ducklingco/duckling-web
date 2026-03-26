@@ -11,7 +11,14 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:eslint.nuxt.com)",
       "Bash(npx nuxt:*)",
-      "Bash(npx vue-tsc:*)"
+      "Bash(npx vue-tsc:*)",
+      "Bash(grep:*)",
+      "Bash(pnpm run:*)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s http://localhost:3000/api/ducks?filter=featured)",
+      "Bash(curl -s http://localhost:8443/health)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8443/)",
+      "Bash(curl:*)"
     ]
   }
 }
