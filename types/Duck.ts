@@ -4,15 +4,15 @@ export interface Duck {
   id: string;
   title: string;
   mediaId: string;
-  author: string;
+  owner: string;
   ducklingsMediaReady: boolean;
   isBlacklisted: boolean;
   isFeatured: boolean;
-  isPublic: boolean;
+  globallyVisible: boolean;
   isPublished: boolean;
   isVerified: boolean;
   mediaReady: boolean;
-  nests: null;
+  ponds: null;
 }
 
 export interface DuckWithContent extends Duck {

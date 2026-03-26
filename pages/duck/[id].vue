@@ -43,7 +43,7 @@ onMounted(async () => {
     accessToken.value,
   );
   authorDetails.value = await getAuthorDetails(
-    duck.value.author,
+    duck.value.owner,
     accessToken.value,
   );
   document.body.style.overflow = "hidden";

@@ -83,7 +83,7 @@ onMounted(async () => {
   );
   imageLoaded.value = true;
   authorDetailsObject.value = await getAuthorDetails(
-    props.duck.author,
+    props.duck.owner,
     accessToken.value,
   );
   if (authorDetailsObject.value.imageId) {
