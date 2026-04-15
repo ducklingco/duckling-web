@@ -27,13 +27,13 @@
             alt="Profile picture"
           />
           <div v-if="authorDetails" class="flex flex-col">
-            <span class="text-md font-bold">{{ authorDetails?.name }}</span>
+            <span class="text-md font-semibold">{{ authorDetails?.name }}</span>
             <span class="text-sm">@{{ authorDetails?.username }}</span>
           </div>
         </div>
         <div class="flex w-full flex-grow flex-col items-start justify-center">
           <div class="py-3">
-            <h2 class="text font-bold" :class="titleFontClass">
+              <h2 class="text font-semibold" :class="titleFontClass">
               {{ props?.duck?.title }}
             </h2>
           </div>
