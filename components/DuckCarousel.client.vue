@@ -7,6 +7,7 @@
     :items-to-show="1"
     :mouse-drag="false"
     :transition="500"
+    @click="toggleFullscreen"
   >
     <template #slides>
       <!-- Cover slide -->
