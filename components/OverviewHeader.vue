@@ -12,7 +12,7 @@
         />
       </a>
       <div class="flex items-center">
-        <h1 class="text-lg font-bold leading-7 md:text-2xl">
+        <h1 class="text-lg font-semibold leading-7 md:text-2xl">
           Duckling is documentary stories created by the next generation of
           journalists and storytellers.
         </h1>
@@ -21,7 +21,7 @@
     <!-- Large screens -->
     <div id="grid" class="relative hidden w-full grid-cols-2 sm:grid">
       <div class="w-full">
-        <h1 class="text-lg font-bold leading-9 md:text-2xl">
+        <h1 class="text-lg font-semibold leading-9 md:text-2xl">
           Duckling is documentary stories created by the next generation of
           journalists and storytellers.
         </h1>
