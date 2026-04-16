@@ -1,23 +1,24 @@
 <template>
-  <div class="flex w-full sm:w-max">
-    <div
-      class="m-auto grid flex-auto grid-cols-2 overflow-hidden rounded-lg border-2 border-duckling_grey bg-duckling_grey"
-    >
-  
+  <div class="flex w-full flex-col items-center gap-4">
+    <div class="flex w-full max-w-xl overflow-hidden rounded-full border-2 border-duckling_grey">
       <button
-        class="bg-transparent px-4 py-0 text-duckling_white transition-colors hover:bg-duckling_white hover:text-duckling_grey"
-        :class="isSelected('verified')"
+        class="flex-1 rounded-full py-4 text-lg font-semibold transition-colors"
+        :class="isSelected('verified') ? 'bg-duckling_teal text-white' : 'bg-transparent text-duckling_black'"
         @click="onClick('verified')"
       >
         Editorial
       </button>
       <button
-        class="bg-transparent px-4 py-0 text-duckling_white transition-colors hover:bg-duckling_white hover:text-duckling_grey"
-        :class="isSelected('all')"
+        class="flex-1 rounded-full py-4 text-lg font-semibold transition-colors"
+        :class="isSelected('all') ? 'bg-duckling_teal text-white' : 'bg-transparent text-duckling_black'"
         @click="onClick('all')"
       >
         Community
       </button>
+    </div>
+    <div class="grid w-full max-w-xl grid-cols-2 text-center text-sm text-duckling_grey">
+      <p>Stories that have been polished and verified by our editors</p>
+      <p>Stories from community members. Not verified.</p>
     </div>
   </div>
 </template>
@@ -35,7 +36,7 @@ const { accessToken } = storeToRefs(userStore);
 const { setAccessToken } = userStore;
 
 const isSelected = (value: Filter) => {
-  return { selected: getFilter.value === value };
+  return getFilter.value === value;
 };
 
 onMounted(async () => {
@@ -50,9 +51,5 @@ const onClick = (value: Filter) => {
 <style scoped>
 button {
   transition: background-color 0.3s;
-}
-
-button.selected {
-  @apply bg-duckling_white text-duckling_grey;
 }
 </style>
