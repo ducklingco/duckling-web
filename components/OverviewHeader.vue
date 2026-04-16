@@ -58,8 +58,13 @@
 </template>
 
 <script setup lang="ts">
+import { useLanguageStore } from "@/stores/language";
+
+const languageStore = useLanguageStore();
+const { currentLanguage } = storeToRefs(languageStore);
+const { setLanguage } = languageStore;
+
 const showLanguageDropdown = ref(false);
-const currentLanguage = ref('en');
 
 const translations = {
   en: {
@@ -78,8 +83,8 @@ const toggleLanguage = () => {
   showLanguageDropdown.value = !showLanguageDropdown.value;
 };
 
-const setLanguage = (lang: 'en' | 'da') => {
-  currentLanguage.value = lang;
+const setLang = (lang: 'en' | 'da') => {
+  setLanguage(lang);
   showLanguageDropdown.value = false;
 };
 </script>
