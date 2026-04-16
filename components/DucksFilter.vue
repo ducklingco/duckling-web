@@ -6,34 +6,54 @@
         :class="isSelected('verified') ? 'bg-duckling_teal text-white' : 'bg-transparent text-duckling_black'"
         @click="onClick('verified')"
       >
-        Editorial
+        {{ t.editorial }}
       </button>
       <button
         class="flex-1 rounded-full py-4 text-lg font-semibold transition-colors"
         :class="isSelected('all') ? 'bg-duckling_teal text-white' : 'bg-transparent text-duckling_black'"
         @click="onClick('all')"
       >
-        Community
+        {{ t.community }}
       </button>
     </div>
     <div class="grid w-full max-w-xl grid-cols-2 text-center text-sm text-duckling_grey">
-      <p>Stories that have been edited and verified by Duckling editors.</p>
-      <p>Stories from community members. Not edited and verified by Duckling editors.</p>
+      <p>{{ t.editorialDesc }}</p>
+      <p>{{ t.communityDesc }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useDucksStore } from "@/stores/ducks";
+import { useLanguageStore } from "@/stores/language";
 import type { Filter } from "../types/Filter";
 import { useUserStore } from "~/stores/user";
 
 const ducksStore = useDucksStore();
 const userStore = useUserStore();
+const languageStore = useLanguageStore();
 const { setFilter } = ducksStore;
 const { getFilter } = storeToRefs(ducksStore);
 const { accessToken } = storeToRefs(userStore);
+const { currentLanguage } = storeToRefs(languageStore);
 const { setAccessToken } = userStore;
+
+const translations = {
+  en: {
+    editorial: 'Editorial',
+    community: 'Community',
+    editorialDesc: 'Stories that have been polished and verified by our editors',
+    communityDesc: 'Stories from community members. Not verified.',
+  },
+  da: {
+    editorial: 'Redaktionelt',
+    community: 'Community',
+    editorialDesc: 'Historier der er blevet redigeret og verificeret af Ducklings redaktører.',
+    communityDesc: 'Historier fra community medlemmer. Er endnu ikke redigeret og verificeret af Ducklings redaktører.',
+  },
+};
+
+const t = computed(() => translations[currentLanguage.value]);
 
 const isSelected = (value: Filter) => {
   return getFilter.value === value;
