@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full flex-col items-center gap-4">
-    <div class="flex w-full max-w-xl overflow-hidden rounded-full border-2 border-duckling_grey">
+    <div class="flex w-full max-w-xl overflow-hidden rounded-full border-2 border-duckling_teal">
       <button
         class="flex-1 rounded-full py-4 text-lg font-semibold transition-colors"
         :class="isSelected('verified') ? 'bg-duckling_teal text-white' : 'bg-transparent text-duckling_black'"
