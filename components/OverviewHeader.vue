@@ -6,7 +6,7 @@
       <a href="https://www.duckling.co/">
         <img
           class="h-24 object-contain"
-          src="~/assets/img/duckling_logo_text_right.png"
+          src="~/assets/img/Logo_png.webp"
           alt="Duckling logo"
         />
       </a>
@@ -25,7 +25,7 @@
       <h1 class="font-semibold leading-tight text-duckling_black" style="font-size: 5.7rem;">
         Free your story
       </h1>
-      <p class="mt-4 max-w-2xl font-semibold text-duckling_black" style="font-size: 2.8rem; line-height: 1.2;">
+        <p class="mt-4 max-w-lg font-semibold text-duckling_black" style="font-size: 2.52rem; line-height: 1.2;">
         Duckling is a home for real stories, shared by real people. Explore different perspectives and share your own.
       </p>
     </div>
