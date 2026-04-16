@@ -27,7 +27,7 @@
         Free your story
       </h1>
           <p class="mt-4 max-w-3xl font-semibold text-duckling_black" style="font-size: 1.8rem; line-height: 1.2;">
-        Duckling is a home for real stories, shared by real people. Explore different perspectives and share your own.
+        Duckling is real stories by real people. Explore different perspectives and share your own.
       </p>
     </div>
   </header>
