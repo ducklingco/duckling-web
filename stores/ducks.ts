@@ -25,7 +25,7 @@ export const useDucksStore = defineStore("ducks", {
     individualDucks: useStorage("individualDucks", {}) as RemovableRef<
       Record<string, DuckWithContentDetailed>
     >,
-    filter: useStorage("filter", "featured") as RemovableRef<
+    filter: useStorage("filter", "verified") as RemovableRef<
       "all" | "verified" | "featured"
     >,
     meta: {
