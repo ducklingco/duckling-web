@@ -20,15 +20,6 @@
     @statechanged="playerStateChanged"
   />
 
-  <div
-    v-if="!playing"
-    class="absolute left-0 top-0 flex h-full w-full items-center justify-center"
-    @click="play"
-  >
-    <button class="h-12 w-12 opacity-80">
-      <img src="~/assets/img/button-play.png" alt="" />
-    </button>
-  </div>
 </template>
 
 <script setup lang="ts">
