@@ -18,6 +18,7 @@ export default {
         duckling_grey: "#707070",
         duckling_white: "#ffffff",
         duckling_blue: "#097d94",
+        duckling_teal: "#0282C1",
         duckling_pink: "#d55698",
         duckling_light_grey: "#f2f2f2",
         "primary-50": "#009c1a",
