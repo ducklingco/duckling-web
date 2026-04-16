@@ -71,7 +71,7 @@ const onClickCard = () => {
 };
 
 const titleFontClass = computed(() => {
-  return "text-2xl sm:text-3xl md:text-4xl";
+  return "text-xl sm:text-2xl md:text-2xl";
 });
 
 onMounted(async () => {
