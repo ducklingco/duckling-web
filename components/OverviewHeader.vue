@@ -18,7 +18,7 @@
         </h1>
       </div>
     </div>
-<!-- Large screens -->
+    <!-- Large screens -->
     <div id="grid" class="relative hidden w-full sm:block">
       <div class="absolute left-0 top-0">
         <a href="https://www.duckling.co/">
