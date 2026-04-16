@@ -4,7 +4,7 @@
       <div
 type="button" class="rounded-full carousel__pagination-button hover:bg-duckling_red"
         :class="{ 'carousel__pagination-button--active': isActive(slide - 1), 'dark': dark }"
-        :aria-label="`Navigate to slide ${slide + 1}`" @click="slideTo(slide - 1)" />
+        :aria-label="`Navigate to slide ${slide + 1}`" @click.stop="slideTo(slide - 1)" />
     </div>
   </ol>
 </template>

@@ -10,7 +10,6 @@
       </div>
     </div>
   </div>
-  <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
 <script setup lang="ts">

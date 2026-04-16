@@ -15,7 +15,6 @@
     class="absolute left-0 top-0 h-full w-full bg-duckling_black bg-opacity-30"
   >
     <div class="relative grid h-full w-full grid-rows-5 overflow-hidden">
-      <card-click-areas @next="onClickNext" />
       <!-- Necessary for spacing. Could use grid template however -->
       <div />
       <div
