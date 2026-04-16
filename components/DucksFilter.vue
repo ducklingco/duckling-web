@@ -42,14 +42,14 @@ const translations = {
   en: {
     editorial: 'Editorial',
     community: 'Community',
-    editorialDesc: 'Stories that have been edited and verified by our editors',
+    editorialDesc: 'Stories that have been edited and verified by our editors.',
     communityDesc: 'Stories from community members. Not yet edited and verified.',
   },
   da: {
     editorial: 'Redaktionelt',
     community: 'Community',
     editorialDesc: 'Historier der er blevet redigeret og verificeret af vores redaktører.',
-    communityDesc: 'Historier fra community medlemmer. Er endnu ikke redigeret og verificeret',
+    communityDesc: 'Historier fra community medlemmer. Er endnu ikke redigeret og verificeret.',
   },
 };
 
