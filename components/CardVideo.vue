@@ -29,7 +29,6 @@
       <img src="~/assets/img/button-play.png" alt="" />
     </button>
   </div>
-  <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
 <script setup lang="ts">
