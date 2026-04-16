@@ -171,8 +171,12 @@
     @click.stop="prevSlide"
   >
     <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="14.5" cy="15" r="14" :stroke="navFillColor" :stroke-opacity="navFillOpacity" stroke-width="1.5" fill="none"/>
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 10l-5 5 5 5" :stroke="navFillColor" :stroke-opacity="navFillOpacity"/>
+      <path
+        d="M14.5 29C6.768 29 0.5 22.732 0.5 15C0.5 7.268 6.768 1 14.5 1C22.232 1 28.5 7.268 28.5 15C28.5 22.732 22.232 29 14.5 29ZM16 10L11 15L16 20"
+        :fill="navFillColor"
+        :fill-opacity="navFillOpacity"
+        stroke="none"
+      />
     </svg>
   </button>
   <!-- Next button -->
@@ -181,8 +185,12 @@
     @click.stop="nextSlide"
   >
     <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="14.5" cy="15" r="14" :stroke="navFillColor" :stroke-opacity="navFillOpacity" stroke-width="1.5" fill="none"/>
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10l5 5-5 5" :stroke="navFillColor" :stroke-opacity="navFillOpacity"/>
+      <path
+        d="M14.5 29C6.768 29 0.5 22.732 0.5 15C0.5 7.268 6.768 1 14.5 1C22.232 1 28.5 7.268 28.5 15C28.5 22.732 22.232 29 14.5 29ZM13 10L18 15L13 20"
+        :fill="navFillColor"
+        :fill-opacity="navFillOpacity"
+        stroke="none"
+      />
     </svg>
   </button>
 </div>
@@ -207,7 +215,7 @@
 
 <script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
+import { Carousel, Slide} from "vue3-carousel";
 import CustomPagination from "./CustomPagination.vue";
 import { useRoute } from "vue-router";
 
