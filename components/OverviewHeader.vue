@@ -71,7 +71,7 @@ const showLanguageDropdown = ref(false);
 const translations = {
   en: {
     headline: 'Free your story',
-    subheadline: 'Duckling is a home for real stories, shared by real people. Explore different perspectives and share your own.',
+    subheadline: 'Duckling is a home for real stories by real people. Explore different perspectives and share your own.',
   },
   da: {
     headline: 'Sæt din historie fri',
