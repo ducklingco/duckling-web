@@ -66,7 +66,7 @@
       </slide>
     </template>
     <template #addons>
-    
+
       <duck-cover-header
         v-if="currentSlide == 0"
         :has-close-btn="Boolean(hasCloseBtn)"
@@ -163,37 +163,40 @@
                 />
               </a>
             </div>
-<div class="flex w-full items-center justify-end gap-2 sm:gap-4">
-  <!-- Prev button -->
-  <button
-    v-if="currentSlide != 0"
-    class="flex h-10 shrink-0 items-center justify-center"
-    @click.stop="prevSlide"
-  >
-    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM16.5 9.5L10.5 14.5L16.5 19.5L16.5 9.5Z"
-        :fill="navFillColor"
-        :fill-opacity="navFillOpacity"
-      />
-    </svg>
-  </button>
-  <!-- Next button -->
-  <button
-    class="flex h-10 shrink-0 items-center justify-center"
-    @click.stop="nextSlide"
-  >
-    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM12.5 9.5L18.5 14.5L12.5 19.5L12.5 9.5Z"
-        :fill="navFillColor"
-        :fill-opacity="navFillOpacity"
-      />
-    </svg>
-  </button>
-</div>
+            <div class="flex w-full items-center justify-end gap-2 sm:gap-4">
+            </div>
           </div>
         </div>
+      </div>
+      <!-- Navigation buttons - always visible -->
+      <div class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-2 sm:pr-8">
+        <!-- Prev button -->
+        <button
+          v-if="currentSlide != 0"
+          class="flex h-10 shrink-0 items-center justify-center"
+          @click.stop="prevSlide"
+        >
+          <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM16.5 9.5L10.5 14.5L16.5 19.5L16.5 9.5Z"
+              :fill="navFillColor"
+              :fill-opacity="navFillOpacity"
+            />
+          </svg>
+        </button>
+        <!-- Next button -->
+        <button
+          class="flex h-10 shrink-0 items-center justify-center"
+          @click.stop="nextSlide"
+        >
+          <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM12.5 9.5L18.5 14.5L12.5 19.5L12.5 9.5Z"
+              :fill="navFillColor"
+              :fill-opacity="navFillOpacity"
+            />
+          </svg>
+        </button>
       </div>
       <div class="absolute bottom-0 left-0 w-full p-6">
         <div
@@ -213,7 +216,7 @@
 
 <script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide} from "vue3-carousel";
+import { Carousel, Slide } from "vue3-carousel";
 import CustomPagination from "./CustomPagination.vue";
 import { useRoute } from "vue-router";
 
@@ -284,21 +287,14 @@ const currentCard = computed(() => {
 });
 
 const currentCardVideo = computed(() => {
-  console.log("cardVideoSlides:", cardVideoSlides.value);
-  console.log("currentCard:", unref(currentCard));
-
   const found = cardVideoSlides.value?.find(
     (card) => card?.id === unref(currentCard)?.duckling?.id,
   );
-  console.log("Found card:", found);
-
   return found;
 });
 
 watch(currentCardVideo, (newCurrentCardVideo) => {
   newCurrentCardVideo?.play();
-
-  // turn off other videos
   cardVideoSlides.value.forEach((card) => {
     if (card?.id !== newCurrentCardVideo?.id) {
       card?.pause();
@@ -313,12 +309,9 @@ const navFillColor = computed(() => {
   }
   return toReturn;
 });
+
 const navFillOpacity = computed(() => {
-  let toReturn = "80%";
-  if (unref(currentCard)?.type === "textCard") {
-    toReturn = "80%";
-  }
-  return toReturn;
+  return "80%";
 });
 
 const currentCardAudio = computed(() => {
@@ -329,8 +322,6 @@ const currentCardAudio = computed(() => {
 
 watch(currentCardAudio, (newCurrentCardAudio) => {
   newCurrentCardAudio?.play();
-
-  // turn off other audios
   audioDrawerRefs.value.forEach((audioDrawer) => {
     if (audioDrawer?.id !== newCurrentCardAudio?.id) {
       audioDrawer?.pause();
