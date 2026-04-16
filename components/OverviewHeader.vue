@@ -6,7 +6,7 @@
       <a href="https://www.duckling.co/">
         <img
           class="h-24 object-contain"
-          src="~/assets/img/Logo_png.webp"
+          src="/assets/img/Logo_png.webp"
           alt="Duckling logo"
         />
       </a>
