@@ -1,7 +1,7 @@
 <template>
   <header class="w-full">
     <!-- Nav -->
-  <div class="flex w-full items-center justify-between px-8 pt-2 pb-0">
+  <div class="flex w-full items-center justify-between px-8 pt-1 pb-0">
       <div class="w-24" />
       <a href="https://www.duckling.co/">
         <img
