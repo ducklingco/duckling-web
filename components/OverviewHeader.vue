@@ -15,9 +15,11 @@
           class="flex items-center gap-2 text-sm font-semibold text-duckling_teal"
           @click="toggleLanguage"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
-          </svg>
+         
+<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0c-1.657 0-3 4.03-3 9s1.343 9 3 9m0-18c1.657 0 3 4.03 3 9s-1.343 9-3 9M2 12h20" />
+</svg>
+          
           <span>{{ currentLanguage === 'en' ? 'English' : 'Dansk' }}</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -26,8 +28,8 @@
 <!-- Dropdown -->
 <div
   v-if="showLanguageDropdown"
-  class="absolute right-0 top-8 z-50 overflow-hidden rounded-lg border border-duckling_teal bg-white shadow-lg"
->
+  class="absolute right-0 top-8 z-50 overflow-hidden rounded-lg"
+>  
   <button
     class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
     :class="currentLanguage === 'en' ? 'text-duckling_teal' : 'text-duckling_teal'"
