@@ -66,67 +66,7 @@
       </slide>
     </template>
     <template #addons>
-      <navigation>
-        <template #prev>
-          <div
-            v-if="currentSlide != 0"
-            class="absolute left-0 top-1/2 h-20 w-10 -translate-y-1/2 transform overflow-hidden"
-            @click.stop
-          >
-            <div
-              class="absolute right-0 top-0 h-20 w-20 rounded-full bg-duckling_black opacity-50 hover:cursor-pointer"
-              @click.stop
-            >
-              <!-- Chevron prev icon -->
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="white"
-                class="absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-y-1/2 transform"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </div>
-          </div>
-        </template>
-        <template #next>
-          <div
-            class="absolute right-0 top-1/2 h-20 w-10 -translate-y-1/2 transform overflow-hidden"
-          >
-            <div
-              class="absolute left-0 top-0 h-20 w-20 rounded-full hover:cursor-pointer"
-              :class="{
-                'opacity-50': currentSlide != 0,
-                'bg-duckling_black': currentSlide != 0,
-                'bg-duckling_green': currentSlide == 0,
-              }"
-            >
-              <!-- Chevron next icon -->
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="white"
-                class="absolute right-1/2 top-1/2 h-1/2 w-1/2 -translate-y-1/2 transform"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </div>
-          </div>
-        </template>
-      </navigation>
-     
+    
       <duck-cover-header
         v-if="currentSlide == 0"
         :has-close-btn="Boolean(hasCloseBtn)"
@@ -223,8 +163,29 @@
                 />
               </a>
             </div>
-            <div class="flex w-full items-center justify-end gap-2 sm:gap-4">
-            </div>
+<div class="flex w-full items-center justify-end gap-2 sm:gap-4">
+  <!-- Prev button -->
+  <button
+    v-if="currentSlide != 0"
+    class="flex h-10 w-10 shrink-0 items-center justify-center"
+    @click.stop="prevSlide"
+  >
+    <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14.5" cy="15" r="14" :stroke="navFillColor" :stroke-opacity="navFillOpacity" stroke-width="1.5" fill="none"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 10l-5 5 5 5" :stroke="navFillColor" :stroke-opacity="navFillOpacity"/>
+    </svg>
+  </button>
+  <!-- Next button -->
+  <button
+    class="flex h-10 w-10 shrink-0 items-center justify-center"
+    @click.stop="nextSlide"
+  >
+    <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14.5" cy="15" r="14" :stroke="navFillColor" :stroke-opacity="navFillOpacity" stroke-width="1.5" fill="none"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10l5 5-5 5" :stroke="navFillColor" :stroke-opacity="navFillOpacity"/>
+    </svg>
+  </button>
+</div>
           </div>
         </div>
       </div>
