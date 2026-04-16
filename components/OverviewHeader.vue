@@ -1,40 +1,33 @@
 <template>
-  <header class="overview-header relative w-full">
-    <!-- Small screens -->
-    <div
-      class="flex w-full flex-col justify-between gap-4 sm:hidden md:gap-10 lg:flex-row lg:items-center"
-    >
+  <header class="w-full">
+    <!-- Nav -->
+    <div class="flex w-full items-center justify-between px-8 py-6">
+      <div class="w-24" />
       <a href="https://www.duckling.co/">
         <img
-          class="m-auto w-32 md:w-56"
+          class="h-24 object-contain"
           src="~/assets/img/duckling_logo_text_right.png"
-          alt="duckling logo with text"
+          alt="Duckling logo"
         />
       </a>
-      <div class="flex items-center">
-        <h1 class="text-lg font-semibold leading-7 md:text-2xl">
-          Duckling is documentary stories created by the next generation of
-          journalists and storytellers.
-        </h1>
+      <div class="flex items-center gap-2 text-sm font-semibold text-duckling_grey">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
+        </svg>
+        <span>English</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
       </div>
     </div>
-    <!-- Large screens 2 -->
-    <div id="grid" class="relative hidden w-full sm:block">
-      <div class="absolute left-0 top-0">
-        <a href="https://www.duckling.co/">
-          <img
-            class="w-56 object-contain"
-            src="~/assets/img/duckling_logo_text_right.png"
-            alt="duckling logo with text"
-          />
-        </a>
-      </div>
-      <div class="w-1/2 pt-28">
-        <h1 class="text-lg font-semibold leading-9 md:text-2xl">
-          Duckling is documentary stories created by the next generation of
-          journalists and storytellers.
-        </h1>
-      </div>
+    <!-- Hero -->
+    <div class="flex w-full flex-col items-center px-8 pb-10 pt-6 text-center">
+      <h1 class="font-semibold leading-tight text-duckling_black" style="font-size: 5.7rem;">
+        Free your story
+      </h1>
+      <p class="mt-4 max-w-2xl font-semibold text-duckling_black" style="font-size: 2.8rem; line-height: 1.2;">
+        Duckling is a home for real stories, shared by real people. Explore different perspectives and share your own.
+      </p>
     </div>
   </header>
 </template>
