@@ -167,7 +167,7 @@
         </div>
       </div>
       <!-- Navigation buttons - always visible -->
-      <div class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-2 sm:pr-8">
+      <div class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
         <!-- Prev button -->
         <button
           v-if="currentSlide != 0"
