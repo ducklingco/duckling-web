@@ -167,29 +167,27 @@
   <!-- Prev button -->
   <button
     v-if="currentSlide != 0"
-    class="flex h-10 w-10 shrink-0 items-center justify-center"
+    class="flex h-10 shrink-0 items-center justify-center"
     @click.stop="prevSlide"
   >
-    <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M14.5 29C6.768 29 0.5 22.732 0.5 15C0.5 7.268 6.768 1 14.5 1C22.232 1 28.5 7.268 28.5 15C28.5 22.732 22.232 29 14.5 29ZM16 10L11 15L16 20"
+        d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM16.5 9.5L10.5 14.5L16.5 19.5L16.5 9.5Z"
         :fill="navFillColor"
         :fill-opacity="navFillOpacity"
-        stroke="none"
       />
     </svg>
   </button>
   <!-- Next button -->
   <button
-    class="flex h-10 w-10 shrink-0 items-center justify-center"
+    class="flex h-10 shrink-0 items-center justify-center"
     @click.stop="nextSlide"
   >
-    <svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M14.5 29C6.768 29 0.5 22.732 0.5 15C0.5 7.268 6.768 1 14.5 1C22.232 1 28.5 7.268 28.5 15C28.5 22.732 22.232 29 14.5 29ZM13 10L18 15L13 20"
+        d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM12.5 9.5L18.5 14.5L12.5 19.5L12.5 9.5Z"
         :fill="navFillColor"
         :fill-opacity="navFillOpacity"
-        stroke="none"
       />
     </svg>
   </button>
