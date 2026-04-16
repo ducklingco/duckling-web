@@ -23,26 +23,26 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-        <!-- Dropdown -->
-        <div
-          v-if="showLanguageDropdown"
-          class="absolute right-0 top-8 z-50 overflow-hidden rounded-lg border border-duckling_teal bg-white shadow-lg"
-        >
-          <button
-            class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
-            :class="currentLanguage === 'en' ? 'text-duckling_teal' : 'text-duckling_black'"
-            @click="setLanguage('en')"
-          >
-            🇬🇧 English
-          </button>
-          <button
-            class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
-            :class="currentLanguage === 'da' ? 'text-duckling_teal' : 'text-duckling_black'"
-            @click="setLanguage('da')"
-          >
-            🇩🇰 Dansk
-          </button>
-        </div>
+<!-- Dropdown -->
+<div
+  v-if="showLanguageDropdown"
+  class="absolute right-0 top-8 z-50 overflow-hidden rounded-lg border border-duckling_teal bg-white shadow-lg"
+>
+  <button
+    class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
+    :class="currentLanguage === 'en' ? 'text-duckling_teal' : 'text-duckling_black'"
+    @click="setLang('en')"
+  >
+    🇬🇧 English
+  </button>
+  <button
+    class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
+    :class="currentLanguage === 'da' ? 'text-duckling_teal' : 'text-duckling_black'"
+    @click="setLang('da')"
+  >
+    🇩🇰 Dansk
+  </button>
+</div>
       </div>
     </div>
     <!-- Hero -->
