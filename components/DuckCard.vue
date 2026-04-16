@@ -33,9 +33,9 @@
         </div>
         <div class="flex w-full flex-grow flex-col items-start justify-center">
           <div class="py-3">
-              <h2 class="text font-semibold" :class="titleFontClass">
+              <h2 class="text font-semibold line-clamp-4" :class="titleFontClass">
               {{ props?.duck?.title }}
-            </h2>
+            </h2>            
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ const onClickCard = () => {
 };
 
 const titleFontClass = computed(() => {
-  return "text-base sm:text-lg md:text-xl";
+  return "text-sm sm:text-base md:text-lg";
 });
 
 onMounted(async () => {
