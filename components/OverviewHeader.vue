@@ -23,7 +23,7 @@
     </div>
     <!-- Hero -->
     <div class="flex w-full flex-col items-center px-8 pb-10 pt-6 text-center">
-      <h1 class="font-semibold leading-tight text-duckling_black" style="font-size: 5.7rem;">
+      <h1 class="font-semibold leading-none text-duckling_black" style="font-size: 5.7rem;">
         Free your story
       </h1>
           <p class="mt-4 max-w-3xl font-semibold text-duckling_black" style="font-size: 1.8rem; line-height: 1.2;">
