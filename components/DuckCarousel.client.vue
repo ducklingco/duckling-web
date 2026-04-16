@@ -5,7 +5,7 @@
     v-model="currentSlide"
     class="relative h-full w-full bg-duckling_black"
     :items-to-show="1"
-    :mouse-drag="false"
+    :mouse-drag="true"
     :transition="500"
     @click="toggleFullscreen"
   >
@@ -261,6 +261,11 @@ onMounted(async () => {
       accessToken.value,
     );
   }
+  window.addEventListener('keydown', handleKeyDown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown);
 });
 
 const authorImage = computed((): string => {
@@ -350,6 +355,11 @@ const hasCloseBtn = computed(() => {
 
 const showShareDialog = ref(false);
 
+const handleKeyDown = (e: KeyboardEvent) => {
+  if (e.key === 'ArrowRight') nextSlide();
+  if (e.key === 'ArrowLeft') prevSlide();
+};  
+  
 const prevSlide = () => {
   carouselRef.value?.prev();
 };
