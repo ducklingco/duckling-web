@@ -29,7 +29,7 @@
           />
         </a>
       </div>
-      <div class="w-1/2 pt-20">
+      <div class="w-1/2 pt-28">
         <h1 class="text-lg font-semibold leading-9 md:text-2xl">
           Duckling is documentary stories created by the next generation of
           journalists and storytellers.
