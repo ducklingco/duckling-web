@@ -17,7 +17,7 @@
       </button>
     </div>
     <div class="grid w-full max-w-xl grid-cols-2 text-center text-sm text-duckling_grey">
-      <p>Stories that have been polished and verified by our editors</p>
+      <p>Stories that have been edited and verified by Duckling editors.</p>
       <p>Stories from community members. Not edited and verified by Duckling editors.</p>
     </div>
   </div>
