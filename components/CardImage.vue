@@ -5,13 +5,6 @@
     class="h-full w-full"
     :class="imageCoverFitClass"
   />
-  <div
-    class="pointer-events-none absolute left-0 top-0 grid h-full w-full grid-cols-3 opacity-50"
-  >
-    <div class="pointer-events-auto h-full w-full" @click="onClickPrev" />
-    <div class="pointer-events-none h-full w-full" />
-    <div class="pointer-events-auto h-full w-full" @click="onClickNext" />
-  </div>
 
   <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
