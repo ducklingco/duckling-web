@@ -30,17 +30,17 @@
 >
   <button
     class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
-    :class="currentLanguage === 'en' ? 'text-duckling_teal' : 'text-duckling_black'"
+    :class="currentLanguage === 'en' ? 'text-duckling_teal' : 'text-duckling_teal'"
     @click="setLang('en')"
   >
-    🇬🇧 English
+    English
   </button>
   <button
     class="flex w-full items-center gap-3 px-6 py-3 text-sm font-semibold hover:bg-duckling_beige"
-    :class="currentLanguage === 'da' ? 'text-duckling_teal' : 'text-duckling_black'"
+    :class="currentLanguage === 'da' ? 'text-duckling_teal' : 'text-duckling_teal'"
     @click="setLang('da')"
   >
-    🇩🇰 Dansk
+    Dansk
   </button>
 </div>
       </div>
