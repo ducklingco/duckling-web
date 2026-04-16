@@ -163,8 +163,6 @@
                 />
               </a>
             </div>
-            <div class="flex w-full items-center justify-end gap-2 sm:gap-4">
-            </div>
           </div>
         </div>
       </div>
