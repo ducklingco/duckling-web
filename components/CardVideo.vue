@@ -28,7 +28,7 @@ import type VideoPlayer from "../types/VideoPlayer";
 import type { DucklingVideo } from "~/types/Duckling";
 import { MediaType } from "~/types/MediaType";
 
-const props = defineProps<{ card: DucklingVideo; time: number }>();
+  const props = defineProps<{ card: DucklingVideo; time: number; isActive: boolean }>();
 
 const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
