@@ -14,7 +14,7 @@ useSeoMeta({
   ogTitle: 'Stories - Duckling — Free your story',
   description: 'Duckling is a home for real stories, shared by real people. Explore different perspectives and share your own.',
   ogDescription: 'Duckling is a home for real stories, shared by real people. Explore different perspectives and share your own.',
-  ogImage: 'https://web.duckling.co/assets/img/linkpreview.png',
+  ogImage: 'https://web.duckling.co/linkpreview.png',
   ogUrl: 'https://web.duckling.co',
   ogType: 'website',
   ogSiteName: 'Duckling',
