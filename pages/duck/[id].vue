@@ -70,11 +70,8 @@ const createTitle = () => {
   else return "Duckling";
 };
 
-const coverImage = computed((): string | undefined => {
-  if (coverImageBlob.value) {
-    return URL.createObjectURL(coverImageBlob.value);
-  }
-  return undefined;
+  const coverImageUrl = computed((): string => {
+  return `https://web.duckling.co/api/og-image/${id}`;
 });
 
 useSeoMeta({
