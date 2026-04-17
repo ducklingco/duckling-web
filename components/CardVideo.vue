@@ -16,7 +16,7 @@
     @playing="onPlayerPlaying"
     @timeupdate="onPlayerTimeupdate"
     @canplay="onPlayerCanplay"
-    @canplaythrough="onPlayerCanplaythrough"
+    @canplaythrough="onCanPlayThrough"
     @statechanged="playerStateChanged"
   />
 </template>
@@ -70,6 +70,13 @@ const {
   onPlayerCanplaythrough,
   playerStateChanged,
 } = usePlayer(props.time);
+
+const onCanPlayThrough = ({ event }: { event: any }) => {
+  if (props.isActive) {
+    event.target.muted = false;
+    event.target.play();
+  }
+};
 
 const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
 
