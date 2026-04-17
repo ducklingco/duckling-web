@@ -265,6 +265,9 @@ onMounted(async () => {
   window.addEventListener('wheel', handleWheel, { capture: true, passive: false });
 });
 
+
+  
+
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
   window.removeEventListener('wheel', handleWheel, { capture: true });
@@ -342,14 +345,6 @@ const toggleVisualMode = () => {
   visualMode.value = !visualMode.value;
 };
 
-const toggleFullscreen = () => {
-  if (Date.now() - lastWheelTime.value < 500) return;
-  emit("toggle-fullscreen");
-  nextTick(() => {
-    carouselRef.value?.updateSlideWidth();
-  });
-};
-
 const carouselRef = ref<CarouselType | null>(null);
 
 const hasCloseBtn = computed(() => {
@@ -364,16 +359,28 @@ const handleKeyDown = (e: KeyboardEvent) => {
 };
 
 const lastWheelTime = ref(0);
+const isSwiping = ref(false);
 
 const handleWheel = (e: WheelEvent) => {
-  if (Math.abs(e.deltaX) <= 5) return;
+  if (Math.abs(e.deltaX) <= 20) return;
   e.preventDefault();
   const now = Date.now();
-  if (now - lastWheelTime.value < 500) return;
+  if (now - lastWheelTime.value < 600) return;
   lastWheelTime.value = now;
+  isSwiping.value = true;
+  setTimeout(() => { isSwiping.value = false; }, 600);
   if (e.deltaX > 0) nextSlide();
   else prevSlide();
-};  
+};
+
+const toggleFullscreen = () => {
+  if (isSwiping.value) return;
+  if (Date.now() - lastWheelTime.value < 600) return;
+  emit("toggle-fullscreen");
+  nextTick(() => {
+    carouselRef.value?.updateSlideWidth();
+  });
+};
   
 const prevSlide = () => {
   carouselRef.value?.prev();
