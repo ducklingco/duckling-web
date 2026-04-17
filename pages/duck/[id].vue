@@ -4,12 +4,13 @@
       v-if="!duck && !authorDetails"
       class="t-0 l-0 absolute h-full w-full animate-pulse bg-duckling_grey"
     />
-    <duck-carousel
-      v-if="duck && authorDetails"
-      :duck="duck"
-      :author-details="authorDetails"
-      @toggle-fullscreen="toggle"
-    />
+<duck-carousel
+  v-if="duck && authorDetails"
+  :duck="duck"
+  :author-details="authorDetails"
+  :is-fullscreen="isFullscreen"
+  @toggle-fullscreen="toggle"
+/>
   </div>
 </template>
 
@@ -21,7 +22,7 @@ import type { PublicUser } from "~/types/User";
 import type { DuckWithContentDetailed } from "~/types/Duck";
 import { MediaType } from "~/types/MediaType";
 
-const { toggle } = useFullscreen();
+const { toggle, isFullscreen } = useFullscreen();
 const route = useRoute();
 const id: string = route.params.id as string;
 const authorDetails = ref<PublicUser | undefined>();
