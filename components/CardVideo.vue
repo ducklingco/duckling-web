@@ -4,7 +4,7 @@
     ref="videoPlayerRef"
     class="h-full w-full"
     :src="video ?? ''"
-    :muted="false"
+    :muted="true"
     :autoplay="false"
     :controls="false"
     :loop="false"
