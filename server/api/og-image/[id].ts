@@ -24,7 +24,10 @@ export default defineEventHandler(async (event) => {
     `${config.public.backendUrl}/media?id=${duck.mediaId}&mediaType=cover-image`,
     { headers: { Authorization: `Bearer ${accessToken}` } },
   );
-  const signedUrl = await mediaResponse.text();
+  
+  // Parse the signed URL - it may be JSON encoded or plain text
+  const mediaText = await mediaResponse.text();
+  const signedUrl = mediaText.startsWith('"') ? JSON.parse(mediaText) : mediaText;
 
   // Fetch the actual image from the signed URL
   const imageResponse = await fetch(signedUrl);
