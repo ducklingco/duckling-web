@@ -94,14 +94,26 @@ const createTitle = () => {
 };
 
 useSeoMeta({
-  title: createTitle,
-  ogTitle: createTitle,
-  ogDescription: () => duck?.value?.title ?? duckSsr?.value?.duck?.title ?? "A story on Duckling",
+  title: () => {
+    const title = duck?.value?.title ?? duckSsr?.value?.duck?.title ?? null;
+    const author = authorDetails.value?.name ?? duckSsr?.value?.author?.name ?? null;
+    const authorStr = author ? ` - by ${author}` : null;
+    if (title && authorStr) return title + authorStr;
+    else if (title) return title;
+    else return "Duckling";
+  },
+  ogTitle: duckSsr?.value?.duck?.title 
+    ? `${duckSsr.value.duck.title}${duckSsr.value.author?.name ? ` - by ${duckSsr.value.author.name}` : ''}`
+    : "Duckling",
+  ogDescription: duckSsr?.value?.duck?.title ?? "A story on Duckling",
   ogImage: `https://web.duckling.co/api/og-image/${id}`,
-  ogUrl: () => url.value,
+  ogUrl: `https://web.duckling.co/duck/${id}`,
   ogType: "website",
   ogSiteName: "Duckling",
   ogLocale: "en_US",
   twitterCard: "summary_large_image",
 });
+
+
+  
 </script>
