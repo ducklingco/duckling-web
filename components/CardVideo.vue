@@ -19,7 +19,6 @@
     @canplaythrough="onPlayerCanplaythrough"
     @statechanged="playerStateChanged"
   />
-
 </template>
 
 <script setup lang="ts">
@@ -73,6 +72,14 @@ const {
 } = usePlayer(props.time);
 
 const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
+
+watch(video, (newVideo) => {
+  if (newVideo) {
+    setTimeout(() => {
+      videoPlayerRef.value?.play();
+    }, 300);
+  }
+});
 
 function togglePlay() {
   videoPlayerRef.value!.togglePlay();
