@@ -64,10 +64,14 @@ useSeoMeta({
   ogTitle: 'Duckling — Free your story',
   ogDescription: 'Duckling is a home for real stories, shared by real people. Explore different perspectives and discover documentary stories from the next generation of journalists and storytellers.',
   ogImage: `https://web.duckling.co/api/og-image/${id}`,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: 'image/jpeg',
   ogUrl: `https://web.duckling.co/duck/${id}`,
   ogType: "website",
   ogSiteName: "Duckling",
   ogLocale: "en_US",
   twitterCard: "summary_large_image",
+  twitterImage: `https://web.duckling.co/api/og-image/${id}`,
 });
 </script>
