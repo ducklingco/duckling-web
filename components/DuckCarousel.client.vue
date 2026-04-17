@@ -69,14 +69,14 @@
     <template #addons>
 
       <duck-cover-header
-        v-if="currentSlide == 0"
-        :has-close-btn="Boolean(hasCloseBtn)"
-        :card="currentCard"
-      />
+  v-if="currentSlide == 0 && !props.isFullscreen"
+  :has-close-btn="Boolean(hasCloseBtn)"
+  :card="currentCard"
+/>
       <div
-        v-if="!visualMode && currentSlide != 0"
-        class="header absolute left-0 top-0 flex w-full flex-col items-center justify-around gap-2 px-3 pt-2 sm:gap-4 sm:px-8"
-      >
+  v-if="!visualMode && currentSlide != 0 && !props.isFullscreen"
+  class="header absolute left-0 top-0 flex w-full flex-col items-center justify-around gap-2 px-3 pt-2 sm:gap-4 sm:px-8"
+>
         <custom-pagination :dark="currentCard?.type === 'textCard'" />
         <div class="w-full">
           <div class="grid h-full grid-cols-3">
@@ -167,8 +167,8 @@
           </div>
         </div>
       </div>
-      <!-- Navigation buttons - always visible -->
-      <div class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
+     <!-- Navigation buttons - always visible -->
+<div v-if="!props.isFullscreen" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
         <!-- Prev button -->
         <button
           v-if="currentSlide != 0"
