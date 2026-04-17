@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
+  <div class="h-full w-full" @wheel.prevent="handleWheel">
   <carousel
     ref="carouselRef"
     v-model="currentSlide"
@@ -212,6 +213,7 @@
       </div>
     </template>
   </carousel>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -262,12 +264,10 @@ onMounted(async () => {
     );
   }
   window.addEventListener('keydown', handleKeyDown);
-  window.addEventListener('wheel', handleWheel, { passive: true });
 });
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
-  window.removeEventListener('wheel', handleWheel);
 });
 
 const authorImage = computed((): string => {
@@ -365,8 +365,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 const lastWheelTime = ref(0);
 
 const handleWheel = (e: WheelEvent) => {
-  if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
-  if (Math.abs(e.deltaX) < 30) return;
+  if (Math.abs(e.deltaX) <= 5) return;
   const now = Date.now();
   if (now - lastWheelTime.value < 500) return;
   lastWheelTime.value = now;
