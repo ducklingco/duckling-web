@@ -382,6 +382,13 @@ const toggleFullscreen = () => {
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
+    // Resume video if it was playing
+    const currentVideo = cardVideoSlides.value?.find(
+      (card) => card?.id === unref(currentCard)?.duckling?.id,
+    );
+    if (currentVideo) {
+      setTimeout(() => { currentVideo.play(); }, 300);
+    }
   });
 };
   
