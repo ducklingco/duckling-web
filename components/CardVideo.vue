@@ -78,6 +78,16 @@ const onCanPlayThrough = ({ event }: { event: any }) => {
   }
 };
 
+  watch(() => props.isActive, (active) => {
+  if (active) {
+    setTimeout(() => {
+      if (videoPlayerRef.value) {
+        videoPlayerRef.value.play();
+      }
+    }, 200);
+  }
+});
+
 const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
 
 watch(video, (newVideo) => {
