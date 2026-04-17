@@ -25,7 +25,6 @@ const { toggle } = useFullscreen();
 const route = useRoute();
 const id: string = route.params.id as string;
 const authorDetails = ref<PublicUser | undefined>();
-
 const duck = ref<DuckWithContentDetailed | undefined>();
 const coverImageBlob = ref<Blob | null>(null);
 
@@ -54,7 +53,7 @@ onUnmounted(() => {
 });
 
 const url = computed(() => {
-  if (window === undefined) return;
+  if (typeof window === "undefined") return `https://web.duckling.co/duck/${id}`;
   const baseUrl = window.location.origin;
   const fullUrl = `${baseUrl}${route.path}`;
   return fullUrl;
@@ -63,28 +62,21 @@ const url = computed(() => {
 const createTitle = () => {
   const title = duck?.value?.title ? duck?.value?.title : null;
   const author = authorDetails.value?.name ? ` - by ${authorDetails.value?.name}` : null;
-
   if (title && author) return title + author;
   else if (title) return title;
   else if (author) return "Duck" + author;
   else return "Duckling";
 };
 
-  const coverImageUrl = computed((): string => {
-  return `https://web.duckling.co/api/og-image/${id}`;
-});
-
 useSeoMeta({
   title: createTitle,
   ogTitle: createTitle,
-  ogDescription: () => duck?.value?.title,
-  ogImage: () => `https://web.duckling.co/api/og-image/${id}`,
+  ogDescription: () => duck?.value?.title ?? "A story on Duckling",
+  ogImage: `https://web.duckling.co/api/og-image/${id}`,
   ogUrl: () => url.value,
   ogType: "website",
   ogSiteName: "Duckling",
   ogLocale: "en_US",
   twitterCard: "summary_large_image",
 });
-
-  
 </script>
