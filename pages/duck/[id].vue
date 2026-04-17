@@ -61,8 +61,8 @@ const url = computed(() => {
 
 useSeoMeta({
   title: 'Duckling',
-  ogTitle: 'Duckling',
-  ogDescription: 'A story on Duckling',
+  ogTitle: 'Duckling — Free your story',
+  ogDescription: 'Duckling is a home for real stories, shared by real people. Explore different perspectives and discover documentary stories from the next generation of journalists and storytellers.',
   ogImage: `https://web.duckling.co/api/og-image/${id}`,
   ogUrl: `https://web.duckling.co/duck/${id}`,
   ogType: "website",
