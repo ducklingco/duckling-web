@@ -33,6 +33,30 @@ const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
 const { setAccessToken } = userStore;
 
+const { data: duckSsr } = await useAsyncData(`duck-${id}`, async () => {
+  const loginResponse = await fetch(`${useRuntimeConfig().public.backendUrl}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: 'WebplayerViewUser',
+      password: 'Saturate3-Slum7-Acorn4-Putdown8',
+    }),
+  });
+  const { accessToken: token } = await loginResponse.json();
+
+  const duckResponse = await fetch(`${useRuntimeConfig().public.backendUrl}/duck/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const duckData = await duckResponse.json();
+
+  const authorResponse = await fetch(`${useRuntimeConfig().public.backendUrl}/user/${duckData.owner}/public`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const authorData = await authorResponse.json();
+
+  return { duck: duckData, author: authorData };
+});
+
 onMounted(async () => {
   await setAccessToken();
   duck.value = await getDuck(id, accessToken.value);
@@ -60,18 +84,19 @@ const url = computed(() => {
 });
 
 const createTitle = () => {
-  const title = duck?.value?.title ? duck?.value?.title : null;
-  const author = authorDetails.value?.name ? ` - by ${authorDetails.value?.name}` : null;
-  if (title && author) return title + author;
+  const title = duck?.value?.title ?? duckSsr?.value?.duck?.title ?? null;
+  const author = authorDetails.value?.name ?? duckSsr?.value?.author?.name ?? null;
+  const authorStr = author ? ` - by ${author}` : null;
+  if (title && authorStr) return title + authorStr;
   else if (title) return title;
-  else if (author) return "Duck" + author;
+  else if (authorStr) return "Duck" + authorStr;
   else return "Duckling";
 };
 
 useSeoMeta({
   title: createTitle,
   ogTitle: createTitle,
-  ogDescription: () => duck?.value?.title ?? "A story on Duckling",
+  ogDescription: () => duck?.value?.title ?? duckSsr?.value?.duck?.title ?? "A story on Duckling",
   ogImage: `https://web.duckling.co/api/og-image/${id}`,
   ogUrl: () => url.value,
   ogType: "website",
