@@ -1,14 +1,15 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
-  <carousel
-    ref="carouselRef"
-    v-model="currentSlide"
-    class="relative h-full w-full bg-duckling_black"
-    :items-to-show="1"
-    :mouse-drag="true"
-    :transition="500"
-    @click="toggleFullscreen"
-  >
+ <carousel
+  ref="carouselRef"
+  v-model="currentSlide"
+  class="relative h-full w-full bg-duckling_black"
+  style="overscroll-behavior-x: none; touch-action: pan-y;"
+  :items-to-show="1"
+  :mouse-drag="true"
+  :transition="500"
+  @click="toggleFullscreen"
+>
     <template #slides>
       <!-- Cover slide -->
       <slide key="cover" class="relative grid h-full w-full">
@@ -392,34 +393,30 @@ const nextSlide = () => {
 <style deep lang="css">
 .carousel__viewport {
   height: 100%;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
 }
-
 .carousel__track {
   height: 100%;
 }
-
 .carousel__prev,
 .carousel__next {
   margin: 0;
 }
-
 .videoplayer-controls {
   display: flex;
   font: 0.8em sans-serif;
   width: 100%;
 }
-
 .videoplayer-controls-toggleplay,
 .videoplayer-controls-togglemute {
   flex: 1;
 }
-
 .videoplayer-controls-time {
   flex: 2;
   text-align: center;
   line-height: 2;
 }
-
 .videoplayer-controls-track {
   flex: 5;
   line-height: 2;
