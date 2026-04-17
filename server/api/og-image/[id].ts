@@ -19,14 +19,17 @@ export default defineEventHandler(async (event) => {
   });
   const duck = await duckResponse.json();
 
-  // Fetch the cover image
+  // Get the signed URL from the media endpoint
   const mediaResponse = await fetch(
     `${config.public.backendUrl}/media?id=${duck.mediaId}&mediaType=cover-image`,
     { headers: { Authorization: `Bearer ${accessToken}` } },
   );
+  const signedUrl = await mediaResponse.text();
 
-  const buffer = await mediaResponse.arrayBuffer();
-  const contentType = mediaResponse.headers.get('content-type') || 'image/jpeg';
+  // Fetch the actual image from the signed URL
+  const imageResponse = await fetch(signedUrl);
+  const buffer = await imageResponse.arrayBuffer();
+  const contentType = imageResponse.headers.get('content-type') || 'image/jpeg';
 
   setHeader(event, 'Content-Type', contentType);
   setHeader(event, 'Cache-Control', 'public, max-age=3600');
