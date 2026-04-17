@@ -45,9 +45,7 @@ const onPlayerLoadeddata = (_: EventParams) => {
   const onPlayerCanplay = (_: EventParams) => {
   };
 
-  const onPlayerCanplaythrough = ({ event }: EventParams) => {
-  event.target.muted = false;
-  event.target.play();
+  const onPlayerCanplaythrough = (_: EventParams) => {
 };
   
   const playerStateChanged = (_: EventParams) => {
