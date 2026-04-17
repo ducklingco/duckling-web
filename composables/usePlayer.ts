@@ -27,9 +27,10 @@ export default function usePlayer(startTime = 0) {
   const onPlayerEnded = ({ event, player }: EventPlayerParams) => {
     player.setPlaying(false);
   };
-  
-  const onPlayerLoadeddata = (_: EventParams) => {
-  };
+
+  const onPlayerLoadeddata = ({ event }: EventParams) => {
+  event.target.play();
+};
   
   const onPlayerWaiting = (_: EventParams) => {
   };
