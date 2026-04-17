@@ -28,8 +28,7 @@ export default function usePlayer(startTime = 0) {
     player.setPlaying(false);
   };
 
-  const onPlayerLoadeddata = ({ event }: EventParams) => {
-  event.target.play();
+const onPlayerLoadeddata = (_: EventParams) => {
 };
   
   const onPlayerWaiting = (_: EventParams) => {
@@ -44,9 +43,10 @@ export default function usePlayer(startTime = 0) {
   
   const onPlayerCanplay = (_: EventParams) => {
   };
-  
-  const onPlayerCanplaythrough = (_: EventParams) => {
-  };
+
+  const onPlayerCanplaythrough = ({ event }: EventParams) => {
+  event.target.play();
+};
   
   const playerStateChanged = (_: EventParams) => {
   };
