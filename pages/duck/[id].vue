@@ -68,7 +68,7 @@ const ogTitle = meta.value?.title
 useSeoMeta({
   title: ogTitle,
   ogTitle: ogTitle,
-  ogDescription: meta.value?.title ?? 'Duckling is a home for real stories, shared by real people. Explore different perspectives and discover documentary stories from the next generation of journalists and storytellers.',
+  ogDescription: meta.value?.title ?? 'Duckling is a home for real stories, shared by real people. Share your own stories, and discover documentaries from the next generation of journalists and storytellers.',
   ogImage: `https://web.duckling.co/api/og-image/${id}`,
   ogImageWidth: 1200,
   ogImageHeight: 630,
