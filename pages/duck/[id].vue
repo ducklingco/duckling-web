@@ -78,11 +78,13 @@ useSeoMeta({
   title: createTitle,
   ogTitle: createTitle,
   ogDescription: () => duck?.value?.title,
-  ogImage: () => coverImage.value,
+  ogImage: () => `https://web.duckling.co/api/og-image/${id}`,
   ogUrl: () => url.value,
   ogType: "website",
   ogSiteName: "Duckling",
   ogLocale: "en_US",
   twitterCard: "summary_large_image",
 });
+
+  
 </script>
