@@ -262,10 +262,12 @@ onMounted(async () => {
     );
   }
   window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('wheel', handleWheel, { passive: true });
 });
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
+  window.removeEventListener('wheel', handleWheel);
 });
 
 const authorImage = computed((): string => {
@@ -358,6 +360,18 @@ const showShareDialog = ref(false);
 const handleKeyDown = (e: KeyboardEvent) => {
   if (e.key === 'ArrowRight') nextSlide();
   if (e.key === 'ArrowLeft') prevSlide();
+};
+
+const lastWheelTime = ref(0);
+
+const handleWheel = (e: WheelEvent) => {
+  if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
+  if (Math.abs(e.deltaX) < 30) return;
+  const now = Date.now();
+  if (now - lastWheelTime.value < 500) return;
+  lastWheelTime.value = now;
+  if (e.deltaX > 0) nextSlide();
+  else prevSlide();
 };  
   
 const prevSlide = () => {
