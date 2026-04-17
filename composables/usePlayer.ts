@@ -15,9 +15,10 @@ export default function usePlayer(startTime = 0) {
   const time = ref(unref(startTime));
   const playing = ref(false);
   const onPlayerPlay = ({ event, player }: {event: any, player: any}) => {
-    player.setPlaying(true);
-    playing.value = true;
-  };
+  event.target.muted = false;
+  player.setPlaying(true);
+  playing.value = true;
+};
   
   const onPlayerPause = ({ event, player }: EventPlayerParams) => {
     player.setPlaying(false);
