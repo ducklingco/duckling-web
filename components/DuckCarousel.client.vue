@@ -36,7 +36,7 @@
             class="flex h-full w-full items-center justify-center bg-cover bg-center"
           >
      
-          <card-video
+<card-video
   v-if="ducklingCard?.type == 'videoCard'"
   ref="cardVideoSlides"
   :key="ducklingCard?.duckling.id"
@@ -46,6 +46,7 @@
   @prev="prevSlide"
   @next="nextSlide"
 />
+           
             <Component
               :is="cardComponents[ducklingCard.type]"
               v-else
