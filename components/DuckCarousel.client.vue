@@ -365,17 +365,17 @@ const handleWheel = (e: WheelEvent) => {
   if (Math.abs(e.deltaX) <= 20) return;
   e.preventDefault();
   const now = Date.now();
-  if (now - lastWheelTime.value < 800) return;
+  if (now - lastWheelTime.value < 1000) return;
   lastWheelTime.value = now;
   isSwiping.value = true;
-  setTimeout(() => { isSwiping.value = false; }, 800);
+  setTimeout(() => { isSwiping.value = false; }, 1000);
   if (e.deltaX > 0) nextSlide();
   else prevSlide();
 };
 
 const toggleFullscreen = () => {
   if (isSwiping.value) return;
-  if (Date.now() - lastWheelTime.value < 800) return;
+  if (Date.now() - lastWheelTime.value < 1000) return;
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
