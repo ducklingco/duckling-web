@@ -235,8 +235,9 @@ const route = useRoute();
 const props = defineProps<{
   duck: DuckWithContentDetailed;
   authorDetails: PublicUser;
+  isFullscreen: boolean;
 }>();
-
+ 
 const emit = defineEmits(["toggle-fullscreen"]);
 
 const cardVideoSlides = ref([]);
