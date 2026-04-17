@@ -263,14 +263,13 @@ onMounted(async () => {
   }
   window.addEventListener('keydown', handleKeyDown);
   window.addEventListener('wheel', handleWheel, { capture: true, passive: false });
+  document.documentElement.style.overscrollBehaviorX = 'none';
 });
-
-
-  
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
   window.removeEventListener('wheel', handleWheel, { capture: true });
+  document.documentElement.style.overscrollBehaviorX = '';
 });
 
 const authorImage = computed((): string => {
