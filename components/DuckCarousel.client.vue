@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
-  <div class="h-full w-full" @wheel.prevent="handleWheel">
   <carousel
     ref="carouselRef"
     v-model="currentSlide"
@@ -213,7 +212,6 @@
       </div>
     </template>
   </carousel>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -264,10 +262,12 @@ onMounted(async () => {
     );
   }
   window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('wheel', handleWheel, { capture: true, passive: false });
 });
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
+  window.removeEventListener('wheel', handleWheel, { capture: true });
 });
 
 const authorImage = computed((): string => {
@@ -343,6 +343,7 @@ const toggleVisualMode = () => {
 };
 
 const toggleFullscreen = () => {
+  if (Date.now() - lastWheelTime.value < 500) return;
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
@@ -366,6 +367,7 @@ const lastWheelTime = ref(0);
 
 const handleWheel = (e: WheelEvent) => {
   if (Math.abs(e.deltaX) <= 5) return;
+  e.preventDefault();
   const now = Date.now();
   if (now - lastWheelTime.value < 500) return;
   lastWheelTime.value = now;
