@@ -68,13 +68,13 @@
     </template>
     <template #addons>
 
-      <duck-cover-header
-  v-if="currentSlide == 0 && !props.isFullscreen"
+     <duck-cover-header
+  v-if="currentSlide == 0 && !isFullscreenLocal"
   :has-close-btn="Boolean(hasCloseBtn)"
   :card="currentCard"
-/>
+/>     
       <div
-  v-if="!visualMode && currentSlide != 0 && !props.isFullscreen"
+v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
   class="header absolute left-0 top-0 flex w-full flex-col items-center justify-around gap-2 px-3 pt-2 sm:gap-4 sm:px-8"
 >
         <custom-pagination :dark="currentCard?.type === 'textCard'" />
@@ -168,10 +168,10 @@
         </div>
       </div>
      <!-- Navigation buttons - always visible -->
-<div v-if="!props.isFullscreen" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
+<div v-if="!isFullscreenLocal" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
         <!-- Prev button -->
-        <button
-          v-if="currentSlide != 0"
+<button
+  v-if="currentSlide != 0"
           class="flex h-10 shrink-0 items-center justify-center"
           @click.stop="prevSlide"
         >
@@ -373,10 +373,12 @@ const handleWheel = (e: WheelEvent) => {
   if (e.deltaX > 0) nextSlide();
   else prevSlide();
 };
+const isFullscreenLocal = ref(false);
 
 const toggleFullscreen = () => {
   if (isSwiping.value) return;
   if (Date.now() - lastWheelTime.value < 1000) return;
+  isFullscreenLocal.value = !isFullscreenLocal.value;
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
