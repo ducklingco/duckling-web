@@ -32,7 +32,9 @@ const { getDuck } = useDucksStore();
 const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
 const { setAccessToken } = userStore;
-
+  const { data: meta } = await useAsyncData(`meta-${id}`, () =>
+  $fetch(`/api/og-meta/${id}`)
+);
 onMounted(async () => {
   await setAccessToken();
   duck.value = await getDuck(id, accessToken.value);
