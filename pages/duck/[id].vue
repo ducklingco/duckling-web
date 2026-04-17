@@ -61,10 +61,14 @@ const url = computed(() => {
   return fullUrl;
 });
 
+const ogTitle = meta.value?.title
+  ? `${meta.value.title}${meta.value.authorName ? ` - by ${meta.value.authorName}` : ''}`
+  : 'Duckling — Free your story';
+
 useSeoMeta({
-  title: 'Duckling',
-  ogTitle: 'Duckling — Free your story',
-  ogDescription: 'Duckling is a home for real stories, shared by real people. Explore different perspectives and discover documentary stories from the next generation of journalists and storytellers.',
+  title: ogTitle,
+  ogTitle: ogTitle,
+  ogDescription: meta.value?.title ?? 'Duckling is a home for real stories, shared by real people. Explore different perspectives and discover documentary stories from the next generation of journalists and storytellers.',
   ogImage: `https://web.duckling.co/api/og-image/${id}`,
   ogImageWidth: 1200,
   ogImageHeight: 630,
