@@ -35,15 +35,17 @@
           <div
             class="flex h-full w-full items-center justify-center bg-cover bg-center"
           >
-            <card-video
-              v-if="ducklingCard?.type == 'videoCard'"
-              ref="cardVideoSlides"
-              :key="ducklingCard?.duckling.id"
-              :card="ducklingCard.duckling"
-              :time="0"
-              @prev="prevSlide"
-              @next="nextSlide"
-            />
+     
+          <card-video
+  v-if="ducklingCard?.type == 'videoCard'"
+  ref="cardVideoSlides"
+  :key="ducklingCard?.duckling.id"
+  :card="ducklingCard.duckling"
+  :is-active="currentSlide === ducklings.indexOf(ducklingCard) + 1"
+  :time="0"
+  @prev="prevSlide"
+  @next="nextSlide"
+/>
             <Component
               :is="cardComponents[ducklingCard.type]"
               v-else
