@@ -91,6 +91,15 @@ function pause() {
   videoPlayerRef.value!.pause();
 }
 
+function unmute() {
+  if (videoPlayerRef.value) {
+    const video = videoPlayerRef.value as any;
+    if (video.$el) {
+      video.$el.muted = false;
+    }
+  }
+}
+
 const percentagePlayed = computed(() => {
   return videoPlayerRef.value!.percentagePlayed;
 });
@@ -127,6 +136,7 @@ defineExpose({
   togglePlay,
   play,
   pause,
+  unmute,
   convertTimeToDuration,
   toggleMute,
 });
