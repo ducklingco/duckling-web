@@ -72,14 +72,15 @@ const {
   playerStateChanged,
 } = usePlayer(props.time);
 
-const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
-
 const onCanPlayThrough = () => {
+  onPlayerCanplaythrough();
   if (!isReady.value) {
     isReady.value = true;
     emit('ready');
   }
 };
+
+const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
 
 function togglePlay() {
   videoPlayerRef.value!.togglePlay();

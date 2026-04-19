@@ -18,17 +18,18 @@ import type { VNodeRef } from "vue";
 import type { DucklingText } from "~/types/Duckling";
 
 const props = defineProps<{ card: DucklingText }>();
+
 const emit = defineEmits(["prev", "next", "ready"]);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
 
-const isReady = ref(true); // text is always ready immediately
+const isReady = ref(true);
 
 const textElement = ref<VNodeRef | null>(null);
 const parent = ref<VNodeRef | null>(null);
 const fontSize = ref(1);
 
 onMounted(() => {
-  emit('ready'); // emit immediately since text needs no loading
+  emit('ready');
   const observer = new ResizeObserver(() => {
     adjustFontSize();
   });

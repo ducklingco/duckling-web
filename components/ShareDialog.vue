@@ -30,15 +30,8 @@
                                                     :fill="didCopy ? '#009C1A' : '#000'" />
                                             </svg>
                                         </button>
-                                        <input v-model="url" type="text" readonly
-                                            class="min-w-0 p-1 text-sm rounded-md sm:text-base md:p-2 md:text-lg text grow">
-                                    </div>
-                                    <div
-                                        class="relative max-w-full w-full h-full pointer-events-auto pb-[100%] object-contain mb-8">
-
-                                        <div class="absolute top-0 left-0 object-contain w-full h-full aspect-square">
-                                            <QRCode :key="url" class="relative w-full h-full" :data="url" />
-                                        </div>
+                                        <input v-model="embedCode" type="text" readonly
+                                            class="min-w-0 p-1 text-sm rounded-md sm:text-base md:p-2 md:text-lg text grow font-mono">
                                     </div>
                                 </div>
                             </div>
@@ -71,32 +64,34 @@ const url = computed(() => {
 });
 const coverImg = computed(() => props.card?.cover_image?.path);
 
+const shareText = 'I am enjoying this Duckling story';
+
 const socialShares = [
     {
         network: 'facebook',
         url: url.value,
-        title: title.value,
+        title: shareText,
         hashtags: 'duckling,duck',
         image: coverImg.value,
     },
     {
         network: 'twitter',
         url: url.value,
-        title: title.value,
+        title: shareText,
         hashtags: 'duckling,duck',
         image: coverImg.value,
     },
     {
         network: 'linkedin',
         url: url.value,
-        title: title.value,
+        title: shareText,
         hashtags: 'duckling,duck',
         image: coverImg.value,
     },
     {
         network: 'reddit',
         url: url.value,
-        title: title.value,
+        title: shareText,
         hashtags: 'duckling,duck',
         image: coverImg.value,
     },
@@ -104,13 +99,16 @@ const socialShares = [
 
 socialShares.map((social => useSocialShare(social)));
 
-const didCopy = ref(false)
+const embedCode = computed(() =>
+    `<iframe src="${url.value}" width="400" height="711" frameborder="0" allowfullscreen></iframe>`
+);
+
+const didCopy = ref(false);
 const onClickCopy = () => {
-    navigator.clipboard.writeText(url.value).then(() => {
+    navigator.clipboard.writeText(embedCode.value).then(() => {
         didCopy.value = true;
     }).catch(() => {
         console.error('Failed to copy');
     });
-
 };
 </script>
