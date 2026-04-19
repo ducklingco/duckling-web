@@ -28,7 +28,7 @@ import type VideoPlayer from "../types/VideoPlayer";
 import type { DucklingVideo } from "~/types/Duckling";
 import { MediaType } from "~/types/MediaType";
 
-  const props = defineProps<{ card: DucklingVideo; time: number; isActive: boolean }>();
+const props = defineProps<{ card: DucklingVideo; time: number; isActive: boolean }>();
 
 const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
@@ -71,32 +71,13 @@ const {
   playerStateChanged,
 } = usePlayer(props.time);
 
-const onCanPlayThrough = ({ event }: { event: any }) => {
-  if (props.isActive) {
-    event.target.muted = false;
-    event.target.play();
-  }
-};
-
-  watch(() => props.isActive, (active) => {
-  if (active) {
-    setTimeout(() => {
-      if (videoPlayerRef.value) {
-        videoPlayerRef.value.play();
-      }
-    }, 200);
-  }
-});
-
 const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
 
-watch(video, (newVideo) => {
-  if (newVideo) {
-    setTimeout(() => {
-      videoPlayerRef.value?.play();
-    }, 300);
-  }
-});
+const isLoaded = ref(false);
+
+const onCanPlayThrough = ({ event }: { event: any }) => {
+  isLoaded.value = true;
+};
 
 function togglePlay() {
   videoPlayerRef.value!.togglePlay();
@@ -136,6 +117,7 @@ const toggleMute = () => {
 
 defineExpose({
   id: props.card.id,
+  isLoaded,
   time: time,
   playing,
   percentagePlayed,
