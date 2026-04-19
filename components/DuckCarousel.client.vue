@@ -400,7 +400,6 @@ const handleWheel = (e: WheelEvent) => {
   else prevSlide();
 };
 const isFullscreenLocal = ref(false);
-
 const toggleFullscreen = () => {
   if (isSwiping.value) return;
   if (Date.now() - lastWheelTime.value < 1000) return;
@@ -413,7 +412,10 @@ const toggleFullscreen = () => {
       (card) => card?.id === unref(currentCard)?.duckling?.id,
     );
     if (currentVideo) {
-      setTimeout(() => { currentVideo.play(); }, 300);
+      setTimeout(() => {
+        currentVideo.play();
+        currentVideo.unmute();
+      }, 300);
     }
   });
 };
