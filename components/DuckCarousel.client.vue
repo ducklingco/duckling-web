@@ -308,13 +308,36 @@ const currentCardVideo = computed(() => {
 });
 
 watch(currentCardVideo, (newCurrentCardVideo) => {
-  newCurrentCardVideo?.play();
+  // Pause all other videos
   cardVideoSlides.value.forEach((card) => {
     if (card?.id !== newCurrentCardVideo?.id) {
       card?.pause();
     }
   });
+
+  if (!newCurrentCardVideo) return;
+
+  // If already loaded, play immediately
+  if (newCurrentCardVideo.isLoaded) {
+    newCurrentCardVideo.play();
+    newCurrentCardVideo.unmute();
+    return;
+  }
+
+  // Otherwise poll until loaded
+  const interval = setInterval(() => {
+    if (newCurrentCardVideo.isLoaded) {
+      newCurrentCardVideo.play();
+      newCurrentCardVideo.unmute();
+      clearInterval(interval);
+    }
+  }, 200);
+
+  // Give up after 30 seconds
+  setTimeout(() => clearInterval(interval), 30000);
 });
+
+ 
 
 const navFillColor = computed(() => {
   let toReturn = "#ffffff";
