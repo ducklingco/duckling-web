@@ -437,6 +437,7 @@ const nextSlide = () => {
 .carousel__prev,
 .carousel__next {
   margin: 0;
+  display: none !important;
 }
 .videoplayer-controls {
   display: flex;
