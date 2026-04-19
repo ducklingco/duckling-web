@@ -18,35 +18,32 @@ import type { VNodeRef } from "vue";
 import type { DucklingText } from "~/types/Duckling";
 
 const props = defineProps<{ card: DucklingText }>();
-
-const emit = defineEmits(["prev", "next"]);
+const emit = defineEmits(["prev", "next", "ready"]);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
+
+const isReady = ref(true); // text is always ready immediately
 
 const textElement = ref<VNodeRef | null>(null);
 const parent = ref<VNodeRef | null>(null);
 const fontSize = ref(1);
 
 onMounted(() => {
-  console.log(props.card);
+  emit('ready'); // emit immediately since text needs no loading
   const observer = new ResizeObserver(() => {
     adjustFontSize();
   });
   observer.observe(parent.value);
-
   onUnmounted(() => {
     observer.disconnect();
   });
 });
 
 const adjustFontSize = async () => {
-  fontSize.value = 1; // Reset to the initial small font size
-  const maxFontSize = 100; // Set a maximum limit for the font size (down from a former value of 500)
-
-  // Increase font size until the text no longer fits or the maximum limit is reached
+  fontSize.value = 1;
+  const maxFontSize = 100;
   while (fontSize.value < maxFontSize) {
     fontSize.value++;
     await nextTick();
-
     if (
       textElement.value.offsetWidth > parent.value.offsetWidth ||
       textElement.value.offsetHeight > parent.value.offsetHeight
@@ -54,8 +51,11 @@ const adjustFontSize = async () => {
       break;
     }
   }
-
-  // Decrease font size by one step to ensure the text fits
   fontSize.value--;
 };
+
+defineExpose({
+  id: props.card.id,
+  isReady,
+});
 </script>
