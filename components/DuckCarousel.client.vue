@@ -308,10 +308,12 @@ const currentCardVideo = computed(() => {
 });
 
 // Track which cards are ready
-const readyCards = ref<Set<string>>(new Set());
+ const readyCards = ref<string[]>([]);
 
 const onCardReady = (id: string) => {
-  readyCards.value = new Set(readyCards.value).add(id);
+  if (!readyCards.value.includes(id)) {
+    readyCards.value = [...readyCards.value, id];
+  }
 };
 
 const nextCard = computed(() => {
@@ -320,7 +322,7 @@ const nextCard = computed(() => {
 
 const nextCardIsReady = computed(() => {
   if (!nextCard.value) return false;
-  return readyCards.value.has(nextCard.value.duckling.id);
+  return readyCards.value.includes(nextCard.value.duckling.id);
 });
 
 // Pause video when navigating away
