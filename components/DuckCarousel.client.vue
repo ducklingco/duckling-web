@@ -35,26 +35,24 @@
           <div
             class="flex h-full w-full items-center justify-center bg-cover bg-center"
           >
-     
-<card-video
-  v-if="ducklingCard?.type == 'videoCard'"
-  ref="cardVideoSlides"
-  :key="ducklingCard?.duckling.id"
-  :card="ducklingCard.duckling"
-  :is-active="currentSlide === ducklings.indexOf(ducklingCard) + 1"
-  :time="0"
-  @prev="prevSlide"
-  @next="nextSlide"
-/>
-           
+            <card-video
+              v-if="ducklingCard?.type == 'videoCard'"
+              ref="cardVideoSlides"
+              :key="ducklingCard?.duckling.id"
+              :card="ducklingCard.duckling"
+              :time="0"
+              @prev="prevSlide"
+              @next="nextSlide"
+              @ready="onCardReady(ducklingCard.duckling.id)"
+            />
             <Component
               :is="cardComponents[ducklingCard.type]"
               v-else
               :card="ducklingCard.duckling"
               @prev="prevSlide"
               @next="nextSlide"
+              @ready="onCardReady(ducklingCard.duckling.id)"
             />
-
             <carousel-drawer
               v-if="
                 ducklingCard.type === 'imageCard' &&
@@ -70,16 +68,15 @@
       </slide>
     </template>
     <template #addons>
-
-     <duck-cover-header
-  v-if="currentSlide == 0 && !isFullscreenLocal"
-  :has-close-btn="Boolean(hasCloseBtn)"
-  :card="currentCard"
-/>     
+      <duck-cover-header
+        v-if="currentSlide == 0 && !isFullscreenLocal"
+        :has-close-btn="Boolean(hasCloseBtn)"
+        :card="currentCard"
+      />
       <div
-v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
-  class="header absolute left-0 top-0 flex w-full flex-col items-center justify-around gap-2 px-3 pt-2 sm:gap-4 sm:px-8"
->
+        v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
+        class="header absolute left-0 top-0 flex w-full flex-col items-center justify-around gap-2 px-3 pt-2 sm:gap-4 sm:px-8"
+      >
         <custom-pagination :dark="currentCard?.type === 'textCard'" />
         <div class="w-full">
           <div class="grid h-full grid-cols-3">
@@ -117,7 +114,7 @@ v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M14.5 28.3945C12.5762 28.3945 10.7695 28.0283 9.08008 27.2959C7.39062 26.5635 5.90137 25.5527 4.6123 24.2637C3.32324 22.9746 2.30762 21.4854 1.56543 19.7959C0.833008 18.0967 0.466797 16.2852 0.466797 14.3613C0.466797 12.4473 0.833008 10.6455 1.56543 8.95605C2.29785 7.25684 3.30859 5.7627 4.59766 4.47363C5.89648 3.1748 7.39062 2.15918 9.08008 1.42676C10.7695 0.694336 12.5713 0.328125 14.4854 0.328125C16.4092 0.328125 18.2158 0.694336 19.9053 1.42676C21.5947 2.15918 23.084 3.1748 24.373 4.47363C25.6719 5.7627 26.6875 7.25684 27.4199 8.95605C28.1621 10.6455 28.5332 12.4473 28.5332 14.3613C28.5332 16.2852 28.167 18.0967 27.4346 19.7959C26.7021 21.4854 25.6865 22.9746 24.3877 24.2637C23.0986 25.5527 21.6094 26.5635 19.9199 27.2959C18.2305 28.0283 16.4238 28.3945 14.5 28.3945ZM10.2812 21.334H18.3818C19.1338 21.334 19.71 21.1436 20.1104 20.7627C20.5107 20.3721 20.7109 19.7959 20.7109 19.0342V11.9297C20.7109 11.168 20.5107 10.5967 20.1104 10.2158C19.7197 9.8252 19.1436 9.62988 18.3818 9.62988L16.2432 9.64453V10.9922H18.3672C19.0215 10.9922 19.3486 11.3242 19.3486 11.9883V18.9902C19.3486 19.6641 19.0215 20.001 18.3672 20.001H10.2959C9.63184 20.001 9.2998 19.6641 9.2998 18.9902V11.9883C9.2998 11.3242 9.63184 10.9922 10.2959 10.9922H12.4346V9.64453L10.2812 9.62988C9.51953 9.62988 8.94336 9.8252 8.55273 10.2158C8.16211 10.6064 7.9668 11.1777 7.9668 11.9297V19.0342C7.9668 19.7861 8.16211 20.3574 8.55273 20.748C8.94336 21.1387 9.51953 21.334 10.2812 21.334ZM14.3242 15.7236C14.5098 15.7236 14.666 15.6602 14.793 15.5332C14.9297 15.4062 14.998 15.25 14.998 15.0645V7.71094L14.9688 7.03711L15.584 7.71094L16.3311 8.4873C16.458 8.62402 16.6143 8.69238 16.7998 8.69238C16.9854 8.69238 17.1367 8.63867 17.2539 8.53125C17.3711 8.41406 17.4297 8.26758 17.4297 8.0918C17.4297 8.00391 17.415 7.92578 17.3857 7.85742C17.3564 7.7793 17.2979 7.71094 17.21 7.65234L14.793 5.2793C14.6465 5.13281 14.4902 5.05957 14.3242 5.05957C14.1484 5.05957 13.9922 5.13281 13.8555 5.2793L11.4238 7.65234C11.2969 7.75977 11.2334 7.90625 11.2334 8.0918C11.2334 8.26758 11.2871 8.40918 11.3945 8.5166C11.5117 8.62402 11.6582 8.67773 11.834 8.67773C12.0293 8.67773 12.1855 8.61426 12.3027 8.4873L13.0498 7.71094L13.6797 7.03711V7.71094V15.0645C13.6797 15.25 13.7432 15.4062 13.8701 15.5332C13.9971 15.6602 14.1484 15.7236 14.3242 15.7236Z"
+                    d="M14.5 28.3945C12.5762 28.3945 10.7695 28.0283 9.08008 27.2959C7.39062 26.5635 5.90137 25.5527 4.6123 24.2637C3.32324 22.9746 2.30762 21.4854 1.56543 19.7959C0.833008 18.0967 0.466797 16.2852 0.466797 14.3613C0.466797 12.4473 0.833008 10.6455 1.56543 8.95605C2.29785 7.25684 3.30859 5.7627 4.59766 4.47363C5.89648 3.1748 7.39062 2.15918 9.08008 1.42676C10.7695 0.694336 12.5713 0.328125 14.4854 0.328125C16.4092 0.328125 18.2158 0.694336 19.9053 1.42676C21.5947 2.15918 23.084 3.1748 24.373 4.47363C25.6719 5.7627 26.6875 7.25684 27.4199 8.95605C28.1621 10.6455 28.5332 12.4473 28.5332 14.3613C28.5332 16.2852 28.167 18.0967 27.4346 19.7959C26.7021 21.4854 25.6865 22.9746 24.3877 24.2637ura 23.0986 25.5527 21.6094 26.5635 19.9199 27.2959C18.2305 28.0283 16.4238 28.3945 14.5 28.3945ZM10.2812 21.334H18.3818C19.1338 21.334 19.71 21.1436 20.1104 20.7627C20.5107 20.3721 20.7109 19.7959 20.7109 19.0342V11.9297C20.7109 11.168 20.5107 10.5967 20.1104 10.2158C19.7197 9.8252 19.1436 9.62988 18.3818 9.62988L16.2432 9.64453V10.9922H18.3672C19.0215 10.9922 19.3486 11.3242 19.3486 11.9883V18.9902C19.3486 19.6641 19.0215 20.001 18.3672 20.001H10.2959C9.63184 20.001 9.2998 19.6641 9.2998 18.9902V11.9883C9.2998 11.3242 9.63184 10.9922 10.2959 10.9922H12.4346V9.64453L10.2812 9.62988C9.51953 9.62988 8.94336 9.8252 8.55273 10.2158C8.16211 10.6064 7.9668 11.1777 7.9668 11.9297V19.0342C7.9668 19.7861 8.16211 20.3574 8.55273 20.748C8.94336 21.1387 9.51953 21.334 10.2812 21.334ZM14.3242 15.7236C14.5098 15.7236 14.666 15.6602 14.793 15.5332C14.9297 15.4062 14.998 15.25 14.998 15.0645V7.71094L14.9688 7.03711L15.584 7.71094L16.3311 8.4873C16.458 8.62402 16.6143 8.69238 16.7998 8.69238C16.9854 8.69238 17.1367 8.63867 17.2539 8.53125C17.3711 8.41406 17.4297 8.26758 17.4297 8.0918C17.4297 8.00391 17.415 7.92578 17.3857 7.85742C17.3564 7.7793 17.2979 7.71094 17.21 7.65234L14.793 5.2793C14.6465 5.13281 14.4902 5.05957 14.3242 5.05957C14.1484 5.05957 13.9922 5.13281 13.8555 5.2793L11.4238 7.65234C11.2969 7.75977 11.2334 7.90625 11.2334 8.0918C11.2334 8.26758 11.2871 8.40918 11.3945 8.5166C11.5117 8.62402 11.6582 8.67773 11.834 8.67773C12.0293 8.67773 12.1855 8.61426 12.3027 8.4873L13.0498 7.71094L13.6797 7.03711V7.71094V15.0645C13.6797 15.25 13.7432 15.4062 13.8701 15.5332C13.9971 15.6602 14.1484 15.7236 14.3242 15.7236Z"
                     :fill="navFillColor"
                     :fill-opacity="navFillOpacity"
                   />
@@ -145,9 +142,7 @@ v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
                   v-if="authorDetails.name"
                   class="hidden flex-col items-start opacity-80 sm:flex"
                 >
-                  <span class="text-md font-bold">{{
-                    authorDetails.name
-                  }}</span>
+                  <span class="text-md font-bold">{{ authorDetails.name }}</span>
                   <span class="text-sm">@{{ authorDetails.username }}</span>
                 </div>
               </div>
@@ -170,11 +165,11 @@ v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
           </div>
         </div>
       </div>
-     <!-- Navigation buttons - always visible -->
-<div v-if="!isFullscreenLocal" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
+      <!-- Navigation buttons -->
+      <div v-if="!isFullscreenLocal" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
         <!-- Prev button -->
-<button
-  v-if="currentSlide != 0"
+        <button
+          v-if="currentSlide != 0"
           class="flex h-10 shrink-0 items-center justify-center"
           @click.stop="prevSlide"
         >
@@ -188,18 +183,23 @@ v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
         </button>
         <!-- Next button -->
         <button
+          v-if="nextCard"
           class="flex h-10 shrink-0 items-center justify-center"
           @click.stop="nextSlide"
         >
-         <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path
-    fill-rule="evenodd"
-    clip-rule="evenodd"
-    d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM12.5 9.5L18.5 14.5L12.5 19.5L12.5 9.5Z"
-    :fill="navFillColor"
-    fill-opacity="0.8"
-  />
-</svg>
+          <svg v-if="nextCardIsReady" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM12.5 9.5L18.5 14.5L12.5 19.5L12.5 9.5Z"
+              :fill="navFillColor"
+              fill-opacity="0.8"
+            />
+          </svg>
+          <svg v-else class="animate-spin" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14.5" cy="14.5" r="12" stroke="white" stroke-opacity="0.3" stroke-width="2.5"/>
+            <path d="M14.5 2.5C21 2.5 26.5 8 26.5 14.5" stroke="white" stroke-opacity="0.8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
         </button>
       </div>
       <div class="absolute bottom-0 left-0 w-full p-6">
@@ -240,7 +240,7 @@ const props = defineProps<{
   authorDetails: PublicUser;
   isFullscreen: boolean;
 }>();
- 
+
 const emit = defineEmits(["toggle-fullscreen"]);
 
 const cardVideoSlides = ref([]);
@@ -307,37 +307,31 @@ const currentCardVideo = computed(() => {
   return found;
 });
 
-watch(currentCardVideo, (newCurrentCardVideo) => {
-  // Pause all other videos
-  cardVideoSlides.value.forEach((card) => {
-    if (card?.id !== newCurrentCardVideo?.id) {
-      card?.pause();
-    }
-  });
+// Track which cards are ready
+const readyCards = ref<Set<string>>(new Set());
 
-  if (!newCurrentCardVideo) return;
+const onCardReady = (id: string) => {
+  readyCards.value = new Set(readyCards.value).add(id);
+};
 
-  // If already loaded, play immediately
-  if (newCurrentCardVideo.isLoaded) {
-    newCurrentCardVideo.play();
-    newCurrentCardVideo.unmute();
-    return;
-  }
-
-  // Otherwise poll until loaded
-  const interval = setInterval(() => {
-    if (newCurrentCardVideo.isLoaded) {
-      newCurrentCardVideo.play();
-      newCurrentCardVideo.unmute();
-      clearInterval(interval);
-    }
-  }, 200);
-
-  // Give up after 30 seconds
-  setTimeout(() => clearInterval(interval), 30000);
+const nextCard = computed(() => {
+  return ducklings.value[unref(currentSlide)];
 });
 
- 
+const nextCardIsReady = computed(() => {
+  if (!nextCard.value) return false;
+  return readyCards.value.has(nextCard.value.duckling.id);
+});
+
+// Pause video when navigating away
+watch(currentCard, (newCard, oldCard) => {
+  if (oldCard?.type === 'videoCard') {
+    const oldVideo = cardVideoSlides.value?.find(
+      (card) => card?.id === oldCard?.duckling?.id,
+    );
+    if (oldVideo) oldVideo.pause();
+  }
+});
 
 const navFillColor = computed(() => {
   let toReturn = "#ffffff";
@@ -399,7 +393,9 @@ const handleWheel = (e: WheelEvent) => {
   if (e.deltaX > 0) nextSlide();
   else prevSlide();
 };
+
 const isFullscreenLocal = ref(false);
+
 const toggleFullscreen = () => {
   if (isSwiping.value) return;
   if (Date.now() - lastWheelTime.value < 1000) return;
@@ -407,24 +403,25 @@ const toggleFullscreen = () => {
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
-    // Resume video if it was playing
-    const currentVideo = cardVideoSlides.value?.find(
-      (card) => card?.id === unref(currentCard)?.duckling?.id,
-    );
-    if (currentVideo) {
-      setTimeout(() => {
-        currentVideo.play();
-        currentVideo.unmute();
-      }, 300);
-    }
   });
 };
-  
+
 const prevSlide = () => {
   carouselRef.value?.prev();
 };
+
 const nextSlide = () => {
+  if (!nextCardIsReady.value) return;
+  const upcoming = nextCard.value;
   carouselRef.value?.next();
+  nextTick(() => {
+    if (upcoming?.type === 'videoCard') {
+      const video = cardVideoSlides.value?.find(
+        (card) => card?.id === upcoming?.duckling?.id,
+      );
+      if (video) video.play();
+    }
+  });
 };
 </script>
 

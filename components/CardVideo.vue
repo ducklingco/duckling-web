@@ -4,7 +4,7 @@
     ref="videoPlayerRef"
     class="h-full w-full"
     :src="video ?? ''"
-    :muted="true"
+    :muted="false"
     :autoplay="false"
     :controls="false"
     :loop="false"
@@ -28,19 +28,20 @@ import type VideoPlayer from "../types/VideoPlayer";
 import type { DucklingVideo } from "~/types/Duckling";
 import { MediaType } from "~/types/MediaType";
 
-const props = defineProps<{ card: DucklingVideo; time: number; isActive: boolean }>();
+const props = defineProps<{ card: DucklingVideo; time: number }>();
 
 const userStore = useUserStore();
 const { accessToken } = storeToRefs(userStore);
 const { setAccessToken } = userStore;
 
-const emit = defineEmits(["prev", "next"]);
+const emit = defineEmits(["prev", "next", "ready"]);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(
   emit,
   "video",
 );
 
 const videoBlob = ref<Blob | null>(null);
+const isReady = ref(false);
 
 onMounted(async () => {
   await setAccessToken();
@@ -73,10 +74,11 @@ const {
 
 const videoPlayerRef: Ref<VideoPlayer | null> = ref(null);
 
-const isLoaded = ref(false);
-
-const onCanPlayThrough = ({ event }: { event: any }) => {
-  isLoaded.value = true;
+const onCanPlayThrough = () => {
+  if (!isReady.value) {
+    isReady.value = true;
+    emit('ready');
+  }
 };
 
 function togglePlay() {
@@ -89,15 +91,6 @@ function play() {
 
 function pause() {
   videoPlayerRef.value!.pause();
-}
-
-function unmute() {
-  if (videoPlayerRef.value) {
-    const video = videoPlayerRef.value as any;
-    if (video.$el) {
-      video.$el.muted = false;
-    }
-  }
 }
 
 const percentagePlayed = computed(() => {
@@ -126,8 +119,8 @@ const toggleMute = () => {
 
 defineExpose({
   id: props.card.id,
-  isLoaded,
-  time: time,
+  isReady,
+  time,
   playing,
   percentagePlayed,
   seekToPercentage,
@@ -136,7 +129,6 @@ defineExpose({
   togglePlay,
   play,
   pause,
-  unmute,
   convertTimeToDuration,
   toggleMute,
 });

@@ -4,8 +4,8 @@
     alt="Card image"
     class="h-full w-full"
     :class="imageCoverFitClass"
+    @load="onImageLoad"
   />
-
   <card-click-areas @prev="onClickPrev" @next="onClickNext" />
 </template>
 
@@ -23,6 +23,9 @@ const { accessToken } = storeToRefs(userStore);
 const { setAccessToken } = userStore;
 
 const imageBlob = ref<Blob | null>(null);
+const isReady = ref(false);
+
+const emit = defineEmits(["prev", "next", "ready"]);
 
 onMounted(async () => {
   await setAccessToken();
@@ -33,12 +36,17 @@ onMounted(async () => {
   );
 });
 
-const emit = defineEmits(["prev", "next"]);
-
 const image = computed((): string | undefined => {
   if (!imageBlob.value) return undefined;
   return URL.createObjectURL(imageBlob.value);
 });
+
+const onImageLoad = () => {
+  if (!isReady.value) {
+    isReady.value = true;
+    emit('ready');
+  }
+};
 
 const imageCoverFit = computed(() => {
   return props?.card?.imageCoverFit;
@@ -49,4 +57,9 @@ const imageCoverFitClass = computed(() => {
 });
 
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
+
+defineExpose({
+  id: props.card.id,
+  isReady,
+});
 </script>
