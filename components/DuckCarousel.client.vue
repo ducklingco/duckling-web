@@ -72,6 +72,8 @@
         v-if="currentSlide == 0 && !isFullscreenLocal"
         :has-close-btn="Boolean(hasCloseBtn)"
         :card="currentCard"
+        :is-ready="nextCardIsReady"
+        @next="nextSlide"
       />
       <div
         v-if="!visualMode && currentSlide != 0 && !isFullscreenLocal"
@@ -151,7 +153,7 @@
         </button>
         <!-- Next button -->
         <button
-          v-if="nextCard"
+          v-if="nextCard && currentSlide != 0"
           class="flex h-10 shrink-0 items-center justify-center"
           @click.stop="nextSlide"
         >
