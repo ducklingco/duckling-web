@@ -403,6 +403,15 @@ const toggleFullscreen = () => {
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
+    // Resume video if on a video card
+    if (currentCard.value?.type === 'videoCard') {
+      const video = cardVideoSlides.value?.find(
+        (card) => card?.id === unref(currentCard)?.duckling?.id,
+      );
+      if (video) {
+        setTimeout(() => { video.play(); }, 300);
+      }
+    }
   });
 };
 
