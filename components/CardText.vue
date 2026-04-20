@@ -41,7 +41,7 @@ onMounted(() => {
 
 const adjustFontSize = async () => {
   fontSize.value = 1;
-  const maxFontSize = 60;
+  const maxFontSize = 40;
   while (fontSize.value < maxFontSize) {
     fontSize.value++;
     await nextTick();
