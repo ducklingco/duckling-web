@@ -103,8 +103,8 @@ const socialShares = [
 
 socialShares.map((social => useSocialShare(social)));
 
-const embedCode = computed(() =>
-    `<iframe src="${url.value}" width="400" height="711" frameborder="0" allowfullscreen></iframe>`
+    const embedCode = computed(() =>
+    `<div style="position:relative;width:100%;max-width:800px;aspect-ratio:4/3;"><iframe src="${url.value}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div>`
 );
 
 const didCopy = ref(false);
