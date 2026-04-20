@@ -1,8 +1,8 @@
 <template>
-    <div class="absolute top-0 left-0 grid w-full grid-cols-3 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
+    <div class="absolute top-0 left-0 grid w-full grid-cols-2 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
         <div class="flex grid-cols-1 gap-2 sm:gap-4">
             <button
-v-if="hasCloseBtn" class="flex items-center justify-center h-10 pointer-events-auto shrink-0"
+                v-if="hasCloseBtn" class="flex items-center justify-center h-10 pointer-events-auto shrink-0"
                 @click.stop="onClickClose">
                 <svg width="30" height="29" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -12,7 +12,7 @@ v-if="hasCloseBtn" class="flex items-center justify-center h-10 pointer-events-a
             </button>
             <!-- Share button -->
             <button
-class="relative flex items-center justify-center h-10 pointer-events-auto shrink-0"
+                class="relative flex items-center justify-center h-10 pointer-events-auto shrink-0"
                 @click.stop="() => showShareDialog = true">
                 <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -22,22 +22,13 @@ class="relative flex items-center justify-center h-10 pointer-events-auto shrink
                 <share-dialog v-if="showShareDialog" :card="card" @close="() => showShareDialog = false" />
             </button>
         </div>
-        <div class="flex items-start justify-center grid-cols-2 pointer-events-auto">
-            <a href="https://duckling.co" @click.stop>
-                <DucklingLogo class="object-contain h-8 sm:h-12" fill="#ffffff" fill-opacity="80%" text-right />
-            </a>
-        </div>
-
         <div class="grid-cols-1 pointer-events-none" />
     </div>
 </template>
 
 <script setup lang="ts">
-import DucklingLogo from './DucklingLogo.vue';
-
 defineProps<{ hasCloseBtn: boolean, card: unknown }>();
 const onClickClose = () => {
-    // Navigate to index
     navigateTo({ name: "index" });
 };
 const showShareDialog = ref(false);
