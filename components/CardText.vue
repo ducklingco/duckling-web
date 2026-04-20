@@ -18,21 +18,17 @@ import type { VNodeRef } from "vue";
 import type { DucklingText } from "~/types/Duckling";
 
 const props = defineProps<{ card: DucklingText }>();
-
 const emit = defineEmits(["prev", "next", "ready"]);
 const { onClickPrev, onClickNext, CardClickAreas } = useCardNavigation(emit);
 
 const isReady = ref(true);
-
 const textElement = ref<VNodeRef | null>(null);
 const parent = ref<VNodeRef | null>(null);
 const fontSize = ref(1);
 
-  onMounted(() => {
+onMounted(() => {
   emit('ready');
   setTimeout(() => {
-    console.log('parent dimensions:', parent.value?.offsetWidth, parent.value?.offsetHeight);
-    console.log('textElement dimensions:', textElement.value?.offsetWidth, textElement.value?.offsetHeight);
     adjustFontSize();
   }, 500);
   window.addEventListener('resize', adjustFontSize);
@@ -48,8 +44,8 @@ const adjustFontSize = async () => {
     fontSize.value++;
     await nextTick();
     if (
-      textElement.value.offsetWidth > parent.value.offsetWidth ||
-      textElement.value.offsetHeight > parent.value.offsetHeight
+      textElement.value.scrollWidth > parent.value.offsetWidth ||
+      textElement.value.scrollHeight > parent.value.offsetHeight
     ) {
       break;
     }
