@@ -41,7 +41,7 @@
           <div class="row-span-3 flex items-center py-3 text-left">
           <h2
   ref="titleElement"
-  class="text font-bold leading-tight"
+  class="text font-bold leading-none"
   :style="{ fontSize: `${fontSize}px` }"
 >
               {{ duck?.title }}
