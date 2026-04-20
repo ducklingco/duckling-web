@@ -125,27 +125,7 @@
                   @close="() => (showShareDialog = false)"
                 />
               </button>
-              <div
-                id="profile"
-                class="row-span-1 flex shrink-0 items-center gap-2"
-                :class="{
-                  'text-duckling_white': currentCard?.type != 'textCard',
-                  'text-duckling_black': currentCard?.type == 'textCard',
-                }"
-              >
-                <img
-                  class="h-10 w-10 rounded-full object-cover hover:cursor-pointer"
-                  :src="authorImage"
-                  alt="Profile picture"
-                />
-                <div
-                  v-if="authorDetails.name"
-                  class="hidden flex-col items-start opacity-80 sm:flex"
-                >
-                  <span class="text-md font-bold">{{ authorDetails.name }}</span>
-                  <span class="text-sm">@{{ authorDetails.username }}</span>
-                </div>
-              </div>
+              
             </div>
             <div class="flex items-center justify-center">
               <a href="https://duckling.co">
