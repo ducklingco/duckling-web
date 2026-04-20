@@ -1,5 +1,6 @@
 <template>
-    <div class="absolute top-0 left-0 grid w-full grid-cols-2 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
+    <div class="absolute top-0 left-0 grid w-full grid-cols-3 row-span-1 gap-8 p-6 pointer-events-none lg:grid-rows-1">
+        <!-- Left: close + share -->
         <div class="flex grid-cols-1 gap-2 sm:gap-4">
             <button
                 v-if="hasCloseBtn" class="flex items-center justify-center h-10 pointer-events-auto shrink-0"
@@ -22,14 +23,50 @@
                 <share-dialog v-if="showShareDialog" :card="card" @close="() => showShareDialog = false" />
             </button>
         </div>
+
+        <!-- Center: next button + loading text -->
+        <div class="flex flex-col items-center justify-start gap-1 pointer-events-auto">
+            <button
+                class="flex items-center justify-center h-10 w-10 shrink-0 transition-opacity"
+                :style="{ opacity: isReady ? '1' : '0.5' }"
+                @click.stop="onClickNext"
+            >
+                <svg width="40" height="40" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M14.5 28.5C6.768 28.5 0.5 22.232 0.5 14.5C0.5 6.768 6.768 0.5 14.5 0.5C22.232 0.5 28.5 6.768 28.5 14.5C28.5 22.232 22.232 28.5 14.5 28.5ZM12.5 9.5L18.5 14.5L12.5 19.5L12.5 9.5Z"
+                        fill="#FFFFFF"
+                    />
+                </svg>
+            </button>
+            <span class="text-white text-sm text-center leading-tight">
+                <template v-if="!isReady">Loading story</template>
+                <template v-else>Press next<br>Or use arrow keys or trackpad</template>
+            </span>
+        </div>
+
+        <!-- Right: empty spacer -->
         <div class="grid-cols-1 pointer-events-none" />
     </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{ hasCloseBtn: boolean, card: unknown }>();
+const props = defineProps<{
+    hasCloseBtn: boolean;
+    card: unknown;
+    isReady: boolean;
+}>();
+
+const emit = defineEmits(['next']);
+
 const onClickClose = () => {
     navigateTo({ name: "index" });
 };
+
+const onClickNext = () => {
+    if (props.isReady) emit('next');
+};
+
 const showShareDialog = ref(false);
 </script>
