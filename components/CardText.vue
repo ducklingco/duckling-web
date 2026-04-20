@@ -30,7 +30,11 @@ const fontSize = ref(1);
 
   onMounted(() => {
   emit('ready');
-  adjustFontSize();
+  setTimeout(() => {
+    console.log('parent dimensions:', parent.value?.offsetWidth, parent.value?.offsetHeight);
+    console.log('textElement dimensions:', textElement.value?.offsetWidth, textElement.value?.offsetHeight);
+    adjustFontSize();
+  }, 500);
   window.addEventListener('resize', adjustFontSize);
   onUnmounted(() => {
     window.removeEventListener('resize', adjustFontSize);
