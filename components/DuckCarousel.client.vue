@@ -79,7 +79,7 @@
       >
         <custom-pagination :dark="currentCard?.type === 'textCard'" />
         <div class="w-full">
-          <div class="grid h-full grid-cols-3">
+          <div class="grid h-full grid-cols-2">
             <div class="flex w-full items-center justify-start gap-2 sm:gap-4">
               <!-- Close button -->
               <button
@@ -125,28 +125,16 @@
                   @close="() => (showShareDialog = false)"
                 />
               </button>
-              
-            </div>
-            <div class="flex items-center justify-center">
-              <a href="https://duckling.co">
-                <duckling-logo
-                  class="h-10 object-contain md:hidden"
-                  :fill="navFillColor"
-                  :fill-opacity="navFillOpacity"
-                />
-                <duckling-logo
-                  class="hidden h-10 object-contain md:block"
-                  :fill="navFillColor"
-                  :fill-opacity="navFillOpacity"
-                  text-right
-                />
-              </a>
             </div>
           </div>
         </div>
       </div>
-      <!-- Navigation buttons -->
-      <div v-if="!isFullscreenLocal" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-8 sm:pr-8">
+      <!-- Navigation buttons + logo top right (all slides) -->
+      <div v-if="!isFullscreenLocal" class="absolute right-0 top-0 flex items-center gap-2 pr-3 pt-2 sm:pr-8 sm:pt-2">
+        <!-- Logo -->
+        <a href="https://duckling.co" @click.stop>
+          <img src="/duckling-logo.svg" class="h-8 w-auto object-contain" alt="Duckling" />
+        </a>
         <!-- Prev button -->
         <button
           v-if="currentSlide != 0"
@@ -383,7 +371,6 @@ const toggleFullscreen = () => {
   emit("toggle-fullscreen");
   nextTick(() => {
     carouselRef.value?.updateSlideWidth();
-    // Resume video if on a video card
     if (currentCard.value?.type === 'videoCard') {
       const video = cardVideoSlides.value?.find(
         (card) => card?.id === unref(currentCard)?.duckling?.id,
