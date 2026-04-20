@@ -28,14 +28,12 @@ const textElement = ref<VNodeRef | null>(null);
 const parent = ref<VNodeRef | null>(null);
 const fontSize = ref(1);
 
-onMounted(() => {
+  onMounted(() => {
   emit('ready');
-  const observer = new ResizeObserver(() => {
-    adjustFontSize();
-  });
-  observer.observe(parent.value);
+  adjustFontSize();
+  window.addEventListener('resize', adjustFontSize);
   onUnmounted(() => {
-    observer.disconnect();
+    window.removeEventListener('resize', adjustFontSize);
   });
 });
 
