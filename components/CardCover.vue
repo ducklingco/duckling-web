@@ -10,14 +10,13 @@
     :src="coverImage"
     alt="Duck image"
   />
-
   <div
     class="absolute left-0 top-0 h-full w-full bg-duckling_black bg-opacity-30"
   >
     <div class="relative grid h-full w-full grid-rows-5 overflow-hidden">
-      <!-- Necessary for spacing. Could use grid template however -->
       <div />
       <div
+        ref="parent"
         class="row-span-3 flex h-full items-center justify-center px-3 md:px-14 lg:px-20 xl:p-40"
       >
         <div
@@ -40,7 +39,11 @@
             </div>
           </div>
           <div class="row-span-3 flex items-center py-3 text-left">
-            <h2 class="text text-6xl font-bold xl:text-8xl">
+            <h2
+              ref="titleElement"
+              class="text font-bold"
+              :style="{ fontSize: `${fontSize}px` }"
+            >
               {{ duck?.title }}
             </h2>
           </div>
@@ -48,9 +51,6 @@
             id="tags"
             class="md:text-md row-span-1 flex flex-wrap justify-start gap-2 align-baseline text-sm lg:text-lg"
           >
-            <!--  <div v-for="topic of duck?.latest_topics" :key="topic?.id">
-              <Tag>{{ topic?.name }}</Tag>
-            </div> -->
           </div>
         </div>
       </div>
@@ -75,6 +75,9 @@ const { setAccessToken } = userStore;
 
 const profilePictureBlob = ref<Blob | null>(null);
 const coverImageBlob = ref<Blob | null>(null);
+const titleElement = ref<HTMLElement | null>(null);
+const parent = ref<HTMLElement | null>(null);
+const fontSize = ref(16);
 
 onMounted(async () => {
   await setAccessToken();
@@ -91,10 +94,33 @@ onMounted(async () => {
     accessToken.value,
   );
   imageLoaded.value = true;
+  setTimeout(() => {
+    adjustFontSize();
+  }, 100);
+  window.addEventListener('resize', adjustFontSize);
+  onUnmounted(() => {
+    window.removeEventListener('resize', adjustFontSize);
+  });
 });
 
-const emit = defineEmits(["prev", "next"]);
+const adjustFontSize = async () => {
+  if (!titleElement.value || !parent.value) return;
+  fontSize.value = 16;
+  const maxFontSize = 80;
+  while (fontSize.value < maxFontSize) {
+    fontSize.value++;
+    await nextTick();
+    if (
+      titleElement.value.scrollWidth > parent.value.offsetWidth ||
+      titleElement.value.scrollHeight > parent.value.offsetHeight
+    ) {
+      break;
+    }
+  }
+  fontSize.value--;
+};
 
+const emit = defineEmits(["prev", "next"]);
 const imageLoaded = ref(false);
 
 const profilePicture = computed(() => {
