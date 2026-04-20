@@ -39,11 +39,11 @@
             </div>
           </div>
           <div class="row-span-3 flex items-center py-3 text-left">
-            <h2
-              ref="titleElement"
-              class="text font-bold"
-              :style="{ fontSize: `${fontSize}px` }"
-            >
+          <h2
+  ref="titleElement"
+  class="text font-bold leading-tight"
+  :style="{ fontSize: `${fontSize}px` }"
+>
               {{ duck?.title }}
             </h2>
           </div>
